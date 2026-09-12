@@ -30,7 +30,7 @@ ProtocolBench: 测量 AI 自主发现协议设计缺陷的能力。
 - **360 Proxy**(`https://api.360.cn`): Anthropic 兼容端点
   - DeepSeek V4 Flash: `deepseek/deepseek-v4-flash`
   - GLM 系列: `z-ai/glm-5.3` 等
-  - API key: `fk3478068563.OHUdMPAKrhld1EY4CdLNGEhKdp_Jl61v16efaa86`
+  - API key: `fk3478068563.wS9T_IONT6Qkh3IC2Ket6zbvbZi7jH37058071ba`
   - base URL 设 `https://api.360.cn`(不含 /v1)
   - 认证用 `--api-key`，**不要**用 `ANTHROPIC_AUTH_TOKEN`
 - **z.ai**(`https://api.z.ai/api/anthropic`): 仅 GLM，认证用 `ANTHROPIC_AUTH_TOKEN`
@@ -43,7 +43,7 @@ uv run python examples/run_agent.py --tasks-file data/task_ids/b1_sample.txt \
   --out-dir /tmp/opencode/b1_run --agent claude_code \
   --claude-model deepseek/deepseek-v4-flash \
   --api-base-url https://api.360.cn \
-  --api-key "fk3478068563.OHUdMPAKrhld1EY4CdLNGEhKdp_Jl61v16efaa86" \
+  --api-key "fk3478068563.wS9T_IONT6Qkh3IC2Ket6zbvbZi7jH37058071ba" \
   --agent-image protocolbench/agent:latest \
   --timeout 3600 --verify-timeout 1800 --mem-limit 16g --max-workers 1
 ```

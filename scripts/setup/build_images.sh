@@ -4,11 +4,14 @@ set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 TAG="${TAMARIN_IMAGE_TAG:-1.12.0}"
+AGENT_TAG="${AGENT_IMAGE_TAG:-latest}"
 
-for img in agent verifier; do
-    docker build -f "${REPO_ROOT}/docker/${img}.Dockerfile" \
-        -t "tamaringym/${img}:${TAG}" \
-        "${REPO_ROOT}/docker"
-done
+docker build -f "${REPO_ROOT}/docker/agent.Dockerfile" \
+    -t "protocolbench/agent:${AGENT_TAG}" \
+    "${REPO_ROOT}/docker"
 
-echo "Built tamaringym/agent:${TAG} and tamaringym/verifier:${TAG}"
+docker build -f "${REPO_ROOT}/docker/verifier.Dockerfile" \
+    -t "tamaringym/verifier:${TAG}" \
+    "${REPO_ROOT}/docker"
+
+echo "Built protocolbench/agent:${AGENT_TAG} and tamaringym/verifier:${TAG}"

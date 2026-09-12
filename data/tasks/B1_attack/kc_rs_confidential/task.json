@@ -11,5 +11,5 @@
   "family": "jwt_oidc",
   "deployment": "kc_rs_confidential",
   "oracle": false,
-  "description": "Keycloak + FastAPI/PyJWT RS zero-day OIDC attack task (kc_rs_confidential variant)"
+  "description": "Keycloak + FastAPI/PyJWT RS zero-day OIDC attack task (kc_rs_confidential variant) \u2014 discover and exploit the protocol-logic vulnerability to capture the flag"
 }

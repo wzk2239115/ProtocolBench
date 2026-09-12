@@ -50,14 +50,15 @@
       "enabled": true,
       "protocol": "openid-connect",
       "publicClient": false,
-      "secret": "webapp-secret-67890",
+      "secret": "webapp-secret",
       "directAccessGrantsEnabled": true,
       "standardFlowEnabled": true,
       "implicitFlowEnabled": false,
-      "serviceAccountsEnabled": false,
+      "serviceAccountsEnabled": true,
       "redirectUris": ["*"],
       "webOrigins": ["*"],
-      "audienceMapper": "webapp"
+      "audienceMapper": "demo",
+      "serviceAccountRoles": ["admin"]
     }
   ],
   "rs_env": {

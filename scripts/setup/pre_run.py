@@ -160,7 +160,7 @@ def main() -> int:
     ap.add_argument("--no-proxy", action="store_true")
     ap.add_argument("--no-firewall", action="store_true")
     ap.add_argument("--proxy-port", type=int, default=4000)
-    ap.add_argument("--agent-image", default="tamaringym/agent:1.12.0")
+    ap.add_argument("--agent-image", default="protocolbench/agent:latest")
     ap.add_argument("--verifier-image", default="tamaringym/verifier:1.12.0")
     args = ap.parse_args()
 

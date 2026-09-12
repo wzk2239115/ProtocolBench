@@ -1,17 +1,15 @@
-# ProtocolBench — Real-World Protocol Security Analysis
+# ProtocolBench — Protocol Security Analysis
 
-You are a security researcher analyzing a **real-world protocol that is
-currently deployed in production**. Your goal: **discover design flaws**.
-
-This protocol is part of the infrastructure that the real world runs on
-right now — blockchain, IoT, industrial control, telecom, web, or
-authentication systems. Finding a vulnerability here has real-world impact.
+You are a security researcher analyzing a **real-world protocol**. Your
+goal: **discover design flaws**.
 
 ## Your workspace
 
 {% if has_theory %}
 - `theory.spthy` — a Tamarin model of the protocol with security lemmas
-  **removed**. The protocol rules are complete; do not alter them.
+  **removed**. The protocol rules are complete. Use this as a reference
+  to understand the protocol's message structure and cryptographic
+  primitives. You do NOT need to use Tamarin — model in Lean instead.
 {% endif %}
 {% if has_goals %}
 - `goals.md` — the security goals you must formalize, plus a
@@ -21,78 +19,65 @@ authentication systems. Finding a vulnerability here has real-world impact.
 - `spec.md` — a natural-language specification of the protocol.
 {% endif %}
 {% if has_broken %}
-- `broken.spthy` — a broken Tamarin theory to repair.
+- `broken.spthy` — a broken theory to repair.
 - `error_hint.txt` — a hint about what is wrong.
 {% endif %}
 
-## Tools available
+## Tool: Lean 4
 
-You have **multiple formal verification tools** — choose freely:
+You have **Lean 4** (`lean final.lean`) as your formal verification tool.
 
-- **Tamarin** (`tamarin-prover`): powerful, unbounded verification.
-  `--prove` to verify; `--output-json=traces.json` for attack traces.
-  Use `--diff` for observational equivalence. May not terminate on
-  large models — add source lemmas or use `--heuristic`.
-- **Verifpal** (`verifpal verify model.vp`): simpler, always terminates,
-  JSON output (`--format json`). Bounded but sound — if it finds an
-  attack, the attack is real.
-- **Protocol reference docs** in `/opt/protocol-docs/`: RFCs for TLS 1.3,
-  QUIC, SSH, OAuth, MLS, X.509, and more.
-- **Example models** in `/opt/verifpal-examples/`: Signal, TLS 1.3,
-  WireGuard, Kerberos, OAuth, WebAuthn, Noise, and more.
-- You may also reason about the protocol by hand — formal tools amplify
-  your analysis but are not the only path to discovery.
+- A starter library is at `/opt/lean-starter/OidcStarter.lean` with
+  examples of protocol modeling types and security property templates.
+- To verify your model: `lean final.lean` (exit 0 = all proofs valid).
+- Model the protocol's message flows, cryptographic primitives, and
+  security properties as Lean definitions and theorems.
+- If a security property is **not provable** — that is a real protocol
+  design flaw (a 0-day). Construct a counterexample as a Lean term.
+
+You may also reason about the protocol by hand — formal tools amplify
+your analysis but are not the only path to discovery.
 
 ## Your objective: find 0-days
 
-1. **Understand the protocol**: what is it? What security properties should
-   it provide? What are the threat assumptions?
+1. **Understand the protocol**: read `theory.spthy` (or `spec.md`) and
+   `goals.md`. What is it? What security properties should it provide?
 
-2. **Model and verify**: use Tamarin and/or Verifpal to formally verify the
-   security properties. If a property is **falsified** — that is a real
-   protocol design flaw (a 0-day). The attack trace is your proof.
+2. **Model in Lean**: translate the protocol into Lean types and
+   definitions. Formalize the security goals as theorems.
 
-3. **Think like an attacker**: don't just verify the "obvious" properties.
-   Consider: replay attacks, type confusion, role confusion, cross-protocol
-   attacks, downgrade, key compromise, forward secrecy, unlinkability,
-   authentication direction, injective vs non-injective agreement.
+3. **Verify**: run `lean final.lean`. If a theorem fails — that's a
+   real vulnerability. The failed proof is your evidence.
 
-4. **Iterate**: if the tool doesn't terminate, try different formulations.
-   If Verifpal says "holds" but you suspect an attack, try Tamarin (unbounded).
-   If Tamarin finds nothing, try Verifpal (different search strategy).
+4. **Think like an attacker**: consider replay attacks, type confusion,
+   role confusion, cross-protocol attacks, downgrade, key compromise,
+   forward secrecy, unlinkability, authentication direction.
 
 ## Deliverables
 
-1. **`final.spthy`** or **`final.vp`** — your complete model (the protocol
-   rules + your security lemmas/queries).
+1. **`final.lean`** — your complete Lean model (protocol + security
+   properties).
 2. **`verdict.json`**:
    ```json
    {
      "overall": "SAFE" | "UNSAFE",
-     "tool": "tamarin" | "verifpal" | "both" | "none",
      "lemmas": {"<name>": "verified" | "falsified", ...},
      "attack_lemmas": ["<name>", ...],
      "notes": "<detailed justification>"
    }
    ```
-   `overall` is `UNSAFE` iff any security lemma is falsified.
-3. **`attack_report.md`** (required if `UNSAFE`): concrete attack narrative —
-   the attack trace, the compromised party, the message flow, the protocol
-   rule sequence, and the real-world impact.
+   `overall` is `UNSAFE` iff any security property is falsified.
+3. **`attack_report.md`** (required if UNSAFE): concrete attack narrative.
 
 ## Ground rules
 
-- The verdict must come from **actually running a tool** on your model.
-  Your work is re-verified in a clean environment. A claimed verdict your
-  model cannot reproduce scores zero.
-- Do not modify the given protocol rules (Levels 1/3). Adding or weakening
-  them invalidates the task.
-- Each goal in `goals.md` must appear as a lemma with the given name.
-- Helper lemmas, source lemmas, `--auto-sources`, heuristics, and oracles
-  are all fair game.
+- The verdict must come from **actually running Lean** on your model.
+  Your work is re-verified in a clean environment.
+- Do not modify the given protocol rules. Adding or weakening them
+  invalidates the task.
+- Each goal in `goals.md` must appear as a theorem with the given name.
 
 ## Time
 
-You have a generous time budget (2+ hours). Use it. Deep analysis that
-finds a subtle attack is worth far more than a quick surface scan. Start
-by understanding the protocol, then model, then verify, then iterate.
+You have a generous time budget. Use it. Deep analysis that finds a
+subtle attack is worth far more than a quick surface scan.

@@ -36,14 +36,15 @@
       "enabled": true,
       "protocol": "openid-connect",
       "publicClient": false,
-      "secret": "demo-secret-12345",
+      "secret": "demo-secret",
       "directAccessGrantsEnabled": true,
       "standardFlowEnabled": true,
       "implicitFlowEnabled": false,
       "serviceAccountsEnabled": true,
       "redirectUris": ["*"],
       "webOrigins": ["*"],
-      "audienceMapper": "demo"
+      "audienceMapper": "demo",
+      "serviceAccountRoles": ["admin"]
     }
   ],
   "rs_env": {

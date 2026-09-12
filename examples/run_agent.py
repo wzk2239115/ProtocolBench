@@ -91,7 +91,7 @@ def run_one_task(task_id: str, args_dict: dict) -> dict:
         task_id=task_id,
         out_dir=out_dir,
         verifier_image=args_dict.get("verifier_image") or "tamaringym/verifier:1.12.0",
-        agent_image=args_dict.get("agent_image") or "tamaringym/agent:1.12.0",
+        agent_image=args_dict.get("agent_image") or "protocolbench/agent:latest",
         agent_timeout_seconds=args_dict["timeout"],
         verify_timeout_seconds=args_dict.get("verify_timeout", 600),
         agent_extra_kwargs=agent_kwargs,
@@ -202,7 +202,7 @@ def main() -> None:
     ap.add_argument("--credential-path", type=Path, default=None)
     ap.add_argument("--mem-limit", default="8g")
     ap.add_argument("--nano-cpus", type=int, default=4_000_000_000)
-    ap.add_argument("--agent-image", default="tamaringym/agent:1.12.0")
+    ap.add_argument("--agent-image", default="protocolbench/agent:latest")
     ap.add_argument("--verifier-image", default="tamaringym/verifier:1.12.0")
     ap.add_argument(
         "--tool-config",

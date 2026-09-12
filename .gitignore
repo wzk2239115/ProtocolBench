@@ -28,3 +28,4 @@ data/runtime/
 
 # Docker build context caches
 docker/bin/*.extracted/
+docker/bin/lean-minimal.tar.gz

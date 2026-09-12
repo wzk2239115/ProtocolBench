@@ -256,22 +256,13 @@ class FirewallProxyManager:
     def host_gateway(self) -> str:
         """Address of the proxy as seen from agent containers.
 
-        Containers on the internal network resolve the proxy container's
-        name via docker's embedded DNS, so the stable choice is the
-        container name; fall back to the container's IP on that network.
+        Agent containers live on the internal network and resolve the proxy
+        container's name via docker's embedded DNS, so the container name is
+        the stable address. The proxy is attached to that network in
+        ``start()``; this property is deliberately docker-free so callers can
+        compose env vars without a running daemon.
         """
-        try:
-            network = self.client.networks.get(self.network_name)
-            container = self.client.containers.get(self.container_name)
-            # ensure the proxy is attached to its network
-            members = network.attrs.get("Containers", {})
-            if container.id not in members:
-                network.connect(container)
-                network.reload()
-            return self.container_name
-        except Exception:  # noqa: BLE001
-            network = self.client.networks.get(self.network_name)
-            return network.attrs["IPAM"]["Config"][0]["Gateway"]
+        return self.container_name
 
     @property
     def proxy_url(self) -> str:

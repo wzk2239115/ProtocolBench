@@ -16,7 +16,7 @@ class EvalConfig(BaseModel):
     task_id: str  # "L1:NSPK3"
     out_dir: Path
     verifier_image: str = "tamaringym/verifier:1.12.0"
-    agent_image: str = "tamaringym/agent:1.12.0"
+    agent_image: str = "protocolbench/agent:latest"
     runtime_dir: Path = DATA_DIR / "runtime"
     runtime_dir_in_container: str = "/data"
     workspace_dir_in_container: str = "/workspace"

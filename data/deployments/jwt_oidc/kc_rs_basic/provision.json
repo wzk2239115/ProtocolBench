@@ -42,7 +42,8 @@
       "serviceAccountsEnabled": false,
       "redirectUris": ["*"],
       "webOrigins": ["*"],
-      "audienceMapper": "demo"
+      "audienceMapper": "demo",
+      "hardcodedRoles": ["admin"]
     }
   ],
   "rs_env": {
