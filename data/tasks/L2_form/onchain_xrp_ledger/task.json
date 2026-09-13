@@ -1,0 +1,22 @@
+{
+  "task_id": "L2:onchain_xrp_ledger",
+  "level": "L2_form",
+  "name": "onchain_xrp_ledger",
+  "protocol": "XRP Ledger",
+  "source_file": "XRP Ledger",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "safety",
+    "liveness",
+    "fork_choice_correctness",
+    "no_double_spend"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "XRP Ledger is a production on-chain consensus protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; "
+}

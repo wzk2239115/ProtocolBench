@@ -1,0 +1,22 @@
+{
+  "task_id": "L2:onchain_longest_chain_rule",
+  "level": "L2_form",
+  "name": "onchain_longest_chain_rule",
+  "protocol": "Longest Chain Rule",
+  "source_file": "Longest Chain Rule",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "safety",
+    "liveness",
+    "fork_choice_correctness",
+    "no_double_spend"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Longest Chain Rule is a production on-chain consensus protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for thi"
+}

@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_api3",
+  "level": "L2_form",
+  "name": "onchain_api3",
+  "protocol": "API3",
+  "source_file": "API3",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "feed_authenticity",
+    "freshness",
+    "manipulation_resistance"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "API3 is a production on-chain oracle protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; consult t"
+}

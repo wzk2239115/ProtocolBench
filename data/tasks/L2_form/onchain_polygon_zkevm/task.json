@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_polygon_zkevm",
+  "level": "L2_form",
+  "name": "onchain_polygon_zkevm",
+  "protocol": "Polygon zkEVM",
+  "source_file": "Polygon zkEVM",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "batch_validity",
+    "forced_batch_liveness",
+    "emergency_state_consistency"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "A zkEVM rollup with a verification contract, a trusted sequencer, and forced-batch/emergency mechanisms."
+}

@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_leo",
+  "level": "L2_form",
+  "name": "onchain_leo",
+  "protocol": "Leo",
+  "source_file": "Leo",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "soundness",
+    "knowledge_soundness",
+    "setup_integrity"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Leo is a production on-chain zk protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; consult the pr"
+}

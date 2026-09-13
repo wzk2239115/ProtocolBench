@@ -1,0 +1,30 @@
+{
+  "protocol": "EIP-712 Typed Structured Data Hashing",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "domain_separation",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "struct_binding",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "no_replay",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

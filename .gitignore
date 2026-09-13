@@ -13,6 +13,7 @@ dist/
 out/
 logs/
 tmp/
+tmp.txt
 
 # Rebuildable agent runtime (static node + claude-code CLI, ~500MB)
 # -> bash scripts/setup/setup_runtime.sh

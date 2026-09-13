@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_eoracle",
+  "level": "L2_form",
+  "name": "onchain_eoracle",
+  "protocol": "eOracle",
+  "source_file": "eOracle",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "feed_authenticity",
+    "freshness",
+    "manipulation_resistance"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "eOracle is a production on-chain oracle protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; consul"
+}

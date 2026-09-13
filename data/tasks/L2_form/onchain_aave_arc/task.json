@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_aave_arc",
+  "level": "L2_form",
+  "name": "onchain_aave_arc",
+  "protocol": "Aave Arc",
+  "source_file": "Aave Arc",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "solvency_invariant",
+    "liquidation_correctness",
+    "oracle_soundness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Aave Arc is a production on-chain lending protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; cons"
+}

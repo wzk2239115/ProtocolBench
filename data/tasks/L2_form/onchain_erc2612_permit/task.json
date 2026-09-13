@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_erc2612_permit",
+  "level": "L2_form",
+  "name": "onchain_erc2612_permit",
+  "protocol": "ERC-2612 Permit (gasless approvals)",
+  "source_file": "ERC-2612 Permit (gasless approvals)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "permit_signature_binding",
+    "permit_no_replay",
+    "permit_nonce_monotonicity"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "ERC-2612 adds an EIP-712 signature-based approval to ERC-20: a spender submits permit(owner, spender, value, deadline, v, r, s) and the token contract sets allo"
+}

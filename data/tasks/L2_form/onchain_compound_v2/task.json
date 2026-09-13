@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_compound_v2",
+  "level": "L2_form",
+  "name": "onchain_compound_v2",
+  "protocol": "Compound V2",
+  "source_file": "Compound V2",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "solvency_invariant",
+    "liquidation_correctness",
+    "oracle_soundness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Compound V2 is a production on-chain lending protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; c"
+}

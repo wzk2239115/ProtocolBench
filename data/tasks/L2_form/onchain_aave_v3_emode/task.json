@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_aave_v3_emode",
+  "level": "L2_form",
+  "name": "onchain_aave_v3_emode",
+  "protocol": "Aave V3 E-Mode and Isolation Mode",
+  "source_file": "Aave V3 E-Mode and Isolation Mode",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "emode_soundness",
+    "debt_ceiling_enforcement",
+    "oracle_consistency"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Aave V3 adds efficiency mode (higher LTV within correlated assets) and isolation mode (new assets can only be borrowed up to a debt ceiling, with limited collat"
+}

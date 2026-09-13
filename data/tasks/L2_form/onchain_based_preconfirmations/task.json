@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_based_preconfirmations",
+  "level": "L2_form",
+  "name": "onchain_based_preconfirmations",
+  "protocol": "Based Preconfirmations",
+  "source_file": "Based Preconfirmations",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "ordering_fairness",
+    "censorship_resistance",
+    "bid_authenticity"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Based Preconfirmations is a production on-chain mev protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this "
+}

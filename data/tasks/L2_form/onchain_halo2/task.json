@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_halo2",
+  "level": "L2_form",
+  "name": "onchain_halo2",
+  "protocol": "Halo2 / Recursive Proofs",
+  "source_file": "Halo2 / Recursive Proofs",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "soundness",
+    "commitment_binding",
+    "transcript_binding"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Halo2 uses an inner-product polynomial commitment with no trusted setup and supports recursive proof composition, used in Zcash Orchard and zkEVMs."
+}

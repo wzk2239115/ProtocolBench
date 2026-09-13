@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_validium_da",
+  "level": "L2_form",
+  "name": "onchain_validium_da",
+  "protocol": "Validium (off-chain data availability)",
+  "source_file": "Validium (off-chain data availability)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "validity_soundness",
+    "data_availability"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "A validity proof system where transaction data is kept off-chain (by a committee/DA layer) while only the state root and proof go on-chain."
+}

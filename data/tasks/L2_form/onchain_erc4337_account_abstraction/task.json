@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_erc4337_account_abstraction",
+  "level": "L2_form",
+  "name": "onchain_erc4337_account_abstraction",
+  "protocol": "ERC-4337 Account Abstraction",
+  "source_file": "ERC-4337 Account Abstraction",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "userop_authentication",
+    "paymaster_safety",
+    "validation_storage_isolation"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "ERC-4337 introduces UserOperations processed by an EntryPoint contract: validation calls the account's validateUserOp (and optionally a paymaster's validatePaym"
+}

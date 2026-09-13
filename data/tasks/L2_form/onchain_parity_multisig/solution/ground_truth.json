@@ -1,0 +1,30 @@
+{
+  "protocol": "Parity Multisig Wallet (2017)",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "owner_initialization_once",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "access_control",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "library_protection",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

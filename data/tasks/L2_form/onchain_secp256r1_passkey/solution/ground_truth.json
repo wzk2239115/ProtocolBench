@@ -1,0 +1,30 @@
+{
+  "protocol": "secp256r1 / Passkey Smart Accounts",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "key_binding",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "domain_binding",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "verifier_soundness",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

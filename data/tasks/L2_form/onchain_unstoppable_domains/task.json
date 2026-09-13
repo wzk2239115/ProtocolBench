@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_unstoppable_domains",
+  "level": "L2_form",
+  "name": "onchain_unstoppable_domains",
+  "protocol": "Unstoppable Domains",
+  "source_file": "Unstoppable Domains",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "name_ownership",
+    "resolver_authorization",
+    "commit_reveal_fairness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Unstoppable Domains is a production on-chain identity protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for thi"
+}

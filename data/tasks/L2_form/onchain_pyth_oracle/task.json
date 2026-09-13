@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_pyth_oracle",
+  "level": "L2_form",
+  "name": "onchain_pyth_oracle",
+  "protocol": "Pyth Network Price Oracle",
+  "source_file": "Pyth Network Price Oracle",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "publisher_quorum",
+    "staleness_detection",
+    "confidence_bounds"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Pyth aggregates first-party publisher price feeds off-chain and posts them on-chain with signed updates (price, confidence, publish time); consumers pay to upda"
+}

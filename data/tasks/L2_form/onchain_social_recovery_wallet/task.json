@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_social_recovery_wallet",
+  "level": "L2_form",
+  "name": "onchain_social_recovery_wallet",
+  "protocol": "Social Recovery Wallet",
+  "source_file": "Social Recovery Wallet",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "recovery_authorization",
+    "owner_veto",
+    "guardian_set_integrity"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "A smart wallet where guardians can replace a lost signer key after a delay; the owner can cancel a pending recovery."
+}

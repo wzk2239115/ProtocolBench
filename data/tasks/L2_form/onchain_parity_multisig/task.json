@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_parity_multisig",
+  "level": "L2_form",
+  "name": "onchain_parity_multisig",
+  "protocol": "Parity Multisig Wallet (2017)",
+  "source_file": "Parity Multisig Wallet (2017)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "owner_initialization_once",
+    "access_control",
+    "library_protection"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "The Parity multisig used a library contract containing the wallet logic plus a tiny proxy per wallet; wallets were created by delegatecall to the library's init"
+}

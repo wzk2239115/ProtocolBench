@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_rhea_finance",
+  "level": "L2_form",
+  "name": "onchain_rhea_finance",
+  "protocol": "Rhea Finance",
+  "source_file": "Rhea Finance",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "invariant_non_decrease",
+    "no_price_manipulation",
+    "lp_solvency"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Rhea Finance is a production on-chain dex protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; cons"
+}

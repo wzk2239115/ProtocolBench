@@ -1,0 +1,30 @@
+{
+  "protocol": "Tornado Cash Mixer",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "withdrawal_once",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "anonymity_set",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "deposit_withdraw_consistency",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

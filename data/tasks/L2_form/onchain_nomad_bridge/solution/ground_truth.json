@@ -1,0 +1,15 @@
+{
+  "protocol": "Nomad Token Bridge",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {"name": "only_confirmed_messages", "quantifier": "all-traces", "verdict": "falsified"},
+    {"name": "no_replay", "quantifier": "all-traces", "verdict": "falsified"},
+    {"name": "value_conservation", "quantifier": "all-traces", "verdict": "falsified"}
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

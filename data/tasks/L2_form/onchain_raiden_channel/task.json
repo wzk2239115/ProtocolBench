@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_raiden_channel",
+  "level": "L2_form",
+  "name": "onchain_raiden_channel",
+  "protocol": "Raiden Network",
+  "source_file": "Raiden Network",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "settlement_at_agreed_balance",
+    "lock_uniqueness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Raiden is an Ethereum payment-channel network using balance proofs, a monitoring service, and a one-time-use lock (secret) for transfers; channels are settled o"
+}

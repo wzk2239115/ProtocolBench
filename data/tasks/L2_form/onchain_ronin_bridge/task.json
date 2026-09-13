@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_ronin_bridge",
+  "level": "L2_form",
+  "name": "onchain_ronin_bridge",
+  "protocol": "Ronin Bridge (threshold validators)",
+  "source_file": "Ronin Bridge (threshold validators)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "withdrawal_quorum",
+    "key_independence"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "The Ronin bridge used a 5-of-9 validator multisig to approve cross-chain withdrawals; validators included Axie-related nodes and one third-party (Axie DAO) node"
+}

@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_ens_name_registry",
+  "level": "L2_form",
+  "name": "onchain_ens_name_registry",
+  "protocol": "ENS Name Registry",
+  "source_file": "ENS Name Registry",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "name_ownership_uniqueness",
+    "commit_reveal_fairness",
+    "resolver_authorization"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "ENS assigns names via a registrar that commits/reveals to prevent front-running; a registry maps names to owners/resolvers, and a resolver records addresses."
+}

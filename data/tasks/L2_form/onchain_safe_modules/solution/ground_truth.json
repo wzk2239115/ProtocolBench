@@ -1,0 +1,30 @@
+{
+  "protocol": "Gnosis Safe Modules and Guards",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "module_authorization",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "threshold_not_bypassed",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "guard_completeness",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_plasma_exit",
+  "level": "L2_form",
+  "name": "onchain_plasma_exit",
+  "protocol": "Plasma (exit game)",
+  "source_file": "Plasma (exit game)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "exit_soundness",
+    "mass_exit_safety",
+    "challenge_liveness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Plasma chains commit block roots to a parent chain; users exit by a proof and a challenge period during which other users can challenge invalid exits."
+}

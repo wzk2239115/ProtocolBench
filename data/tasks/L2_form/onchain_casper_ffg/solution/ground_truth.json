@@ -1,0 +1,30 @@
+{
+  "protocol": "Casper FFG (Ethereum finality)",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "safety",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "accountable_safety",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "slashing_completeness",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

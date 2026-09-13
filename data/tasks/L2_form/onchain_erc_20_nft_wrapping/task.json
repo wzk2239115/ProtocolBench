@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_erc_20_nft_wrapping",
+  "level": "L2_form",
+  "name": "onchain_erc_20_nft_wrapping",
+  "protocol": "ERC-20 NFT wrapping",
+  "source_file": "ERC-20 NFT wrapping",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "ownership_integrity",
+    "approval_authorization",
+    "no_reentrancy"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "ERC-20 NFT wrapping is a production on-chain nft protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this tas"
+}

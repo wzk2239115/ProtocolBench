@@ -1,0 +1,22 @@
+{
+  "task_id": "L2:onchain_coinbase_smart_wallet",
+  "level": "L2_form",
+  "name": "onchain_coinbase_smart_wallet",
+  "protocol": "Coinbase Smart Wallet",
+  "source_file": "Coinbase Smart Wallet",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "userop_authentication",
+    "no_replay",
+    "module_authorization",
+    "paymaster_safety"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Coinbase Smart Wallet is a production on-chain account_abstraction protocol. Its deployed interfaces, message/transaction formats and parameters are the ground "
+}

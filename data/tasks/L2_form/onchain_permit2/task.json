@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_permit2",
+  "level": "L2_form",
+  "name": "onchain_permit2",
+  "protocol": "Permit2",
+  "source_file": "Permit2",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "balance_integrity",
+    "allowance_correctness",
+    "transfer_authorization"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Permit2 is a production on-chain token protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; consult"
+}

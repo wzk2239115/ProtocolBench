@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_merkle_airdrop",
+  "level": "L2_form",
+  "name": "onchain_merkle_airdrop",
+  "protocol": "Merkle-Proof Token Airdrop",
+  "source_file": "Merkle-Proof Token Airdrop",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "claim_exactly_once",
+    "claim_binding",
+    "no_proof_forgery"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "An airdrop distributor commits to a Merkle root of (index, account, amount) leaves; each account claims by submitting a proof; claims are marked per index."
+}

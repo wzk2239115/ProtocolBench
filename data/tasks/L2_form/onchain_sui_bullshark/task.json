@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_sui_bullshark",
+  "level": "L2_form",
+  "name": "onchain_sui_bullshark",
+  "protocol": "Sui Narwhal/Bullshark",
+  "source_file": "Sui Narwhal/Bullshark",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "safety",
+    "liveness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Sui separates data dissemination (Narwhal mempool DAG) from ordering (Bullshark BFT), giving high throughput with causal-order certificates."
+}

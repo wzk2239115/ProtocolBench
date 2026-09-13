@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_gmx_perpetuals",
+  "level": "L2_form",
+  "name": "onchain_gmx_perpetuals",
+  "protocol": "GMX Perpetual Exchange",
+  "source_file": "GMX Perpetual Exchange",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "oracle_price_integrity",
+    "pool_solvency",
+    "liquidation_correctness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "GMX is a pooled-liquidity perpetual DEX: traders open leveraged positions against a GLP/GM pool, pricing comes from an oracle, and liquidators/keepers close pos"
+}

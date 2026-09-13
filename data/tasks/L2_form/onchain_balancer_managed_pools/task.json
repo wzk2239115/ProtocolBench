@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_balancer_managed_pools",
+  "level": "L2_form",
+  "name": "onchain_balancer_managed_pools",
+  "protocol": "Balancer Managed Pools",
+  "source_file": "Balancer Managed Pools",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "share_price_integrity",
+    "strategy_authorization",
+    "no_inflation_theft"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Balancer Managed Pools is a production on-chain yield protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for thi"
+}

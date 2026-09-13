@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_erc721a",
+  "level": "L2_form",
+  "name": "onchain_erc721a",
+  "protocol": "ERC-721A (batch minting)",
+  "source_file": "ERC-721A (batch minting)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "ownership_correctness",
+    "no_transfer_bypass"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "ERC-721A reduces gas for sequential batch mints by tracking an ownership slot's begin timestamp; ownerOf derives ownership from the packed slot."
+}

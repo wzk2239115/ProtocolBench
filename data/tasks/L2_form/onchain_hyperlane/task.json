@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_hyperlane",
+  "level": "L2_form",
+  "name": "onchain_hyperlane",
+  "protocol": "Hyperlane Interchain Messaging",
+  "source_file": "Hyperlane Interchain Messaging",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "ism_verification",
+    "ism_authorization",
+    "message_uniqueness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Hyperlane is permissionless: any chain can be connected by deploying Mailbox/ISM contracts; security is provided by a configurable Interchain Security Module (I"
+}

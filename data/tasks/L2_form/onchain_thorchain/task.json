@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_thorchain",
+  "level": "L2_form",
+  "name": "onchain_thorchain",
+  "protocol": "THORChain (cross-chain swaps)",
+  "source_file": "THORChain (cross-chain swaps)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "inbound_outbound_consistency",
+    "pool_value_soundness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "THORChain uses a rotating validator set (vaults) to custody assets and uses continuous liquidity pools with a slip-based fee; inbound/outbound observations driv"
+}

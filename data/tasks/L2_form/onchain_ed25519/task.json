@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_ed25519",
+  "level": "L2_form",
+  "name": "onchain_ed25519",
+  "protocol": "ed25519",
+  "source_file": "ed25519",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "unforgeability",
+    "domain_binding",
+    "no_replay"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "ed25519 is a production on-chain signature protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; con"
+}

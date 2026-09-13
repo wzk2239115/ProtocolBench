@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_cream_finance_reentrancy",
+  "level": "L2_form",
+  "name": "onchain_cream_finance_reentrancy",
+  "protocol": "Cream Finance (ERC-777 reentrancy)",
+  "source_file": "Cream Finance (ERC-777 reentrancy)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "collateral_value_consistency",
+    "no_reentrancy_on_borrow"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Cream is a Compound fork lending market accepting many ERC-20s, including ERC-777 tokens with transfer hooks, as collateral."
+}

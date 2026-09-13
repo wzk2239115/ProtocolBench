@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_algorand_ba_star",
+  "level": "L2_form",
+  "name": "onchain_algorand_ba_star",
+  "protocol": "Algorand BA*",
+  "source_file": "Algorand BA*",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "safety",
+    "liveness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Algorand uses cryptographic sortition to select committees per step and a BA* protocol with graded consensus and a binary agreement, giving probabilistic finali"
+}

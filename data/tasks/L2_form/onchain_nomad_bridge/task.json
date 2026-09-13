@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_nomad_bridge",
+  "level": "L2_form",
+  "name": "onchain_nomad_bridge",
+  "protocol": "Nomad Token Bridge",
+  "source_file": "Nomad Replica (2022)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "only_confirmed_messages",
+    "no_replay",
+    "value_conservation"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Model a lock-and-mint cross-chain bridge with an optimistic root whitelist and determine whether forged messages can be minted."
+}

@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_manta_network",
+  "level": "L2_form",
+  "name": "onchain_manta_network",
+  "protocol": "Manta Network",
+  "source_file": "Manta Network",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "anonymity",
+    "double_spend_prevention",
+    "unlinkability"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Manta Network is a production on-chain privacy protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task;"
+}

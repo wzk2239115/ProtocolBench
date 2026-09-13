@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_risc_zero_zkvm",
+  "level": "L2_form",
+  "name": "onchain_risc_zero_zkvm",
+  "protocol": "RISC Zero zkVM",
+  "source_file": "RISC Zero zkVM",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "execution_soundness",
+    "image_journal_binding",
+    "no_forged_receipt"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "A general-purpose zkVM that proves execution of RISC-V programs and issues a receipt bound to an image id and journal (public outputs)."
+}

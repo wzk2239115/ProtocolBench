@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_tendermint",
+  "level": "L2_form",
+  "name": "onchain_tendermint",
+  "protocol": "Tendermint / CometBFT Consensus",
+  "source_file": "Tendermint / CometBFT Consensus",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "safety",
+    "locking_correctness",
+    "liveness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Tendermint is a BFT consensus with proposer/prevote/precommit rounds; a block is committed when >2/3 of validators precommit. Locking prevents conflicting commi"
+}

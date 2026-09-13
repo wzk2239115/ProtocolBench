@@ -1,0 +1,30 @@
+{
+  "protocol": "UMA Optimistic Oracle",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "assertion_correctness",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "dispute_liveness",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "dvm_soundness",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

@@ -1,0 +1,24 @@
+{
+  "protocol": "Uniswap V2 TWAP Oracle",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "twap_manipulation_resistance",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "accumulator_overflow_safety",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_euler_flashloan",
+  "level": "L2_form",
+  "name": "onchain_euler_flashloan",
+  "protocol": "Euler Finance (donate / health check)",
+  "source_file": "Euler Finance (donate / health check)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "health_score_soundness",
+    "reserve_accounting"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Euler is a permissionless lending protocol; users supply/borrow, and a health score based on collateral and debt gates actions. It supports flash loans and a do"
+}

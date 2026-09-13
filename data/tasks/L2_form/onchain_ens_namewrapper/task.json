@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_ens_namewrapper",
+  "level": "L2_form",
+  "name": "onchain_ens_namewrapper",
+  "protocol": "ENS NameWrapper",
+  "source_file": "ENS NameWrapper",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "name_ownership",
+    "resolver_authorization",
+    "commit_reveal_fairness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "ENS NameWrapper is a production on-chain identity protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this ta"
+}

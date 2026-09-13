@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_trader_joe_v2",
+  "level": "L2_form",
+  "name": "onchain_trader_joe_v2",
+  "protocol": "Trader Joe V2",
+  "source_file": "Trader Joe V2",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "invariant_non_decrease",
+    "no_price_manipulation",
+    "lp_solvency"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Trader Joe V2 is a production on-chain dex protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; con"
+}

@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_casper_ffg",
+  "level": "L2_form",
+  "name": "onchain_casper_ffg",
+  "protocol": "Casper FFG (Ethereum finality)",
+  "source_file": "Casper FFG (Ethereum finality)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "safety",
+    "accountable_safety",
+    "slashing_completeness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Casper FFG overlays BFT finality on the chain: validators vote on checkpoint source/target pairs; two-thirds of stake finalizes a checkpoint. Slashing condition"
+}

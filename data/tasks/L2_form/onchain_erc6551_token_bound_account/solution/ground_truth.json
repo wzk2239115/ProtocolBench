@@ -1,0 +1,30 @@
+{
+  "protocol": "ERC-6551 Token-Bound Accounts",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "owner_control",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "account_uniqueness",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "no_cross_account_control",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

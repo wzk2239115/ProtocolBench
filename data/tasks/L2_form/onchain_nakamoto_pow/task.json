@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_nakamoto_pow",
+  "level": "L2_form",
+  "name": "onchain_nakamoto_pow",
+  "protocol": "Nakamoto Consensus (Proof of Work)",
+  "source_file": "Nakamoto Consensus (Proof of Work)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "common_prefix",
+    "no_double_spend",
+    "selfish_mining_resistance"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Nodes extend the heaviest (most-work) chain; the longest-chain rule plus proof-of-work gives eventual consistency. Transactions have probabilistic finality afte"
+}

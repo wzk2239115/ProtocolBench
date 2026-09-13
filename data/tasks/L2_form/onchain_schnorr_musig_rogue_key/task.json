@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_schnorr_musig_rogue_key",
+  "level": "L2_form",
+  "name": "onchain_schnorr_musig_rogue_key",
+  "protocol": "Schnorr Multisig (rogue-key / MuSig)",
+  "source_file": "Schnorr Multisig (rogue-key / MuSig)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "unforgeability",
+    "key_aggregation_binding"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Naive Schnorr multisig aggregates public keys as the sum of participants' keys and asks for the sum signature. MuSig hardens this with per-session key coefficie"
+}

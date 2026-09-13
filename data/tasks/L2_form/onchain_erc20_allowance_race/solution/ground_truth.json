@@ -1,0 +1,15 @@
+{
+  "protocol": "ERC-20 Allowance",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {"name": "allowance_upper_bound", "quantifier": "all-traces", "verdict": "falsified"},
+    {"name": "approval_atomicity", "quantifier": "all-traces", "verdict": "falsified"},
+    {"name": "no_unauthorized_transfer", "quantifier": "all-traces", "verdict": "verified"}
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

@@ -1,0 +1,30 @@
+{
+  "protocol": "Lightning Network Payment Channel",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "close_at_agreed_balance",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "revoked_state_penalty",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "no_htlc_theft",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

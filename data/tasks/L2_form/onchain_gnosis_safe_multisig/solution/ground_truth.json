@@ -1,0 +1,30 @@
+{
+  "protocol": "Gnosis Safe (smart-contract multisig)",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "threshold_approval",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "nonce_no_replay",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "no_signature_reuse",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

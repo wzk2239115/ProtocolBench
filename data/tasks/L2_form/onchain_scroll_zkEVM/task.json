@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_scroll_zkEVM",
+  "level": "L2_form",
+  "name": "onchain_scroll_zkEVM",
+  "protocol": "Scroll zkEVM",
+  "source_file": "Scroll zkEVM",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "batch_proof_soundness",
+    "message_queue_safety"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "A bytecode-level zkEVM rollup with a proof verifier on L1 and a commit/finalize pipeline."
+}

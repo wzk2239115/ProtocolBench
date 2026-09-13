@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_weth_wrap_unwrap",
+  "level": "L2_form",
+  "name": "onchain_weth_wrap_unwrap",
+  "protocol": "Wrapped Ether (WETH)",
+  "source_file": "Wrapped Ether (WETH)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "one_to_one_backing",
+    "no_double_withdraw"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "WETH escrows ETH 1:1 and issues an ERC-20 balance: deposit() is payable and mints WETH, withdraw(amount) burns WETH and sends ETH."
+}

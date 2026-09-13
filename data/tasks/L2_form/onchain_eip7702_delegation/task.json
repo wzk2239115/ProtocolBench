@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_eip7702_delegation",
+  "level": "L2_form",
+  "name": "onchain_eip7702_delegation",
+  "protocol": "EIP-7702 Set-Code Delegation",
+  "source_file": "EIP-7702 Set-Code Delegation",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "delegation_authorization",
+    "no_replay",
+    "storage_isolation"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "EIP-7702 lets an EOA set code (a delegation indicator) to a contract, temporarily giving the EOA smart-account behavior while retaining its key."
+}

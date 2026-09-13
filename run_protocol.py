@@ -100,6 +100,7 @@ def run_one_task(task_id: str, args_dict: dict) -> dict:
         credential_path=args_dict.get("credential_path"),
         container_mem_limit=args_dict.get("mem_limit", DEFAULT_MEM_LIMIT),
         container_nano_cpus=args_dict.get("nano_cpus", DEFAULT_NANO_CPUS),
+        disable_web_search=args_dict.get("disable_web_search", False),
     )
     if args_dict["agent"].startswith("mock_"):
         cfg.credential_path = Path("/dev/null")
@@ -193,6 +194,9 @@ def main() -> None:
     ap.add_argument("--agent", default="claude_code",
                     choices=["claude_code", "mock_perfect", "mock_lazy"])
     ap.add_argument("--reasoning-effort", default=None)
+    ap.add_argument("--disable-web-search", action="store_true",
+                    help="disallow the CLI's WebSearch/WebFetch tools "
+                         "(default: enabled — agents fetch specs/RFCs themselves)")
 
     # timing
     ap.add_argument("--timeout", type=_parse_duration, default="1h",
@@ -259,6 +263,7 @@ def main() -> None:
         "claude_model": args.model,
         "reasoning_effort": args.reasoning_effort,
         "tool_config": args.tool_config,
+        "disable_web_search": args.disable_web_search,
     }
 
     stagger = max(10, 5 * args.concurrency)

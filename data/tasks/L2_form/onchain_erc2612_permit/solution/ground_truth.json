@@ -1,0 +1,30 @@
+{
+  "protocol": "ERC-2612 Permit (gasless approvals)",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "permit_signature_binding",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "permit_no_replay",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "permit_nonce_monotonicity",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

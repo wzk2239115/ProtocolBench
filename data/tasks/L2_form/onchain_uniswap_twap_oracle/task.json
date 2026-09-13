@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_uniswap_twap_oracle",
+  "level": "L2_form",
+  "name": "onchain_uniswap_twap_oracle",
+  "protocol": "Uniswap V2 TWAP Oracle",
+  "source_file": "Uniswap V2 TWAP Oracle",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "twap_manipulation_resistance",
+    "accumulator_overflow_safety"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Uniswap V2 pairs expose cumulative price accumulators (price0CumulativeLast, price1CumulativeLast); a consumer samples them over a window to obtain a time-weigh"
+}

@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_uniswap_v3",
+  "level": "L2_form",
+  "name": "onchain_uniswap_v3",
+  "protocol": "Uniswap V3 Concentrated Liquidity",
+  "source_file": "Uniswap V3 Concentrated Liquidity",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "range_liquidity_solvency",
+    "swap_price_correctness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "V3 lets LPs concentrate liquidity in price ranges using ticks and positions; swaps cross initialized ticks and apply concentrated liquidity, with a price-depend"
+}

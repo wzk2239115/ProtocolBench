@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_avalanche_snowman",
+  "level": "L2_form",
+  "name": "onchain_avalanche_snowman",
+  "protocol": "Avalanche Snowman Consensus",
+  "source_file": "Avalanche Snowman Consensus",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "safety",
+    "liveness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Avalanche uses repeated sub-sampled voting (Snowball) to build confidence; Snowman linearizes it into a chain with a preference/confidence counter and finality "
+}

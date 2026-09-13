@@ -1,0 +1,24 @@
+{
+  "protocol": "Euler Finance (donate / health check)",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "health_score_soundness",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "reserve_accounting",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

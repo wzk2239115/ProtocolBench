@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_layerzero",
+  "level": "L2_form",
+  "name": "onchain_layerzero",
+  "protocol": "LayerZero (ultra-light nodes)",
+  "source_file": "LayerZero (ultra-light nodes)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "oracle_relayer_consistency",
+    "config_soundness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "LayerZero uses an oracle (e.g. Chainlink) and a relayer that must be distinct-but-independent: the endpoint verifies a message only if the block header from the"
+}

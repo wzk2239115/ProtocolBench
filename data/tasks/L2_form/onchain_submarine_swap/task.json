@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_submarine_swap",
+  "level": "L2_form",
+  "name": "onchain_submarine_swap",
+  "protocol": "Submarine Swap",
+  "source_file": "Submarine Swap",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "swap_atomicity",
+    "provider_solvency"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "A submarine swap exchanges on-chain coins for off-chain Lightning balance using an HTLC: the Lightning sender pays an invoice whose preimage releases an on-chai"
+}

@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_erc2771_meta_transaction",
+  "level": "L2_form",
+  "name": "onchain_erc2771_meta_transaction",
+  "protocol": "ERC-2771 Meta-Transactions (trusted forwarder)",
+  "source_file": "ERC-2771 Meta-Transactions (trusted forwarder)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "sender_authentication",
+    "meta_tx_no_replay",
+    "forwarder_trust"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "ERC-2771 lets a relayer pay gas: a user signs a request (from, to, data, nonce) off-chain; the trusted forwarder appends the original sender to calldata and cal"
+}

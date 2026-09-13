@@ -1,0 +1,24 @@
+{
+  "protocol": "AMM Sandwich Attack",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "no_sandwich_profit",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "slippage_protection",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

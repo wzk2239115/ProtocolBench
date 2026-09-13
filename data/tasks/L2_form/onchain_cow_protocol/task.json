@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_cow_protocol",
+  "level": "L2_form",
+  "name": "onchain_cow_protocol",
+  "protocol": "CoW Protocol (batch auctions)",
+  "source_file": "CoW Protocol (batch auctions)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "uniform_clearing_price",
+    "user_limit_respected",
+    "solver_bond_safety"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "CoW Protocol batches user orders and settles them with a uniform clearing price via solvers; orders are signed intents and the CoW settlement contract enforces "
+}

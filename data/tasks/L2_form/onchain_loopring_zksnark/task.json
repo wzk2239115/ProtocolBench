@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_loopring_zksnark",
+  "level": "L2_form",
+  "name": "onchain_loopring_zksnark",
+  "protocol": "Loopring zkRollup",
+  "source_file": "Loopring zkRollup",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "settlement_soundness",
+    "fund_safety"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "A zkRollup DEX with off-chain order matching and on-chain SNARK-verified settlement; L1 holds funds and verifies batches."
+}

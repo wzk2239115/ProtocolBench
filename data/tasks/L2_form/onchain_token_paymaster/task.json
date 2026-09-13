@@ -1,0 +1,22 @@
+{
+  "task_id": "L2:onchain_token_paymaster",
+  "level": "L2_form",
+  "name": "onchain_token_paymaster",
+  "protocol": "Token Paymaster",
+  "source_file": "Token Paymaster",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "userop_authentication",
+    "no_replay",
+    "module_authorization",
+    "paymaster_safety"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Token Paymaster is a production on-chain account_abstraction protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth "
+}

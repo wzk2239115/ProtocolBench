@@ -1,0 +1,30 @@
+{
+  "protocol": "Polygon zkEVM",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "batch_validity",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "forced_batch_liveness",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "emergency_state_consistency",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

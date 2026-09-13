@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_ibc_cosmos",
+  "level": "L2_form",
+  "name": "onchain_ibc_cosmos",
+  "protocol": "Cosmos IBC",
+  "source_file": "Cosmos IBC",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "packet_authenticity",
+    "packet_exactly_once",
+    "light_client_soundness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "IBC is a generic, permissioned-channel protocol between light clients: packet commitments and acknowledgements are proven against the counterparty's consensus s"
+}

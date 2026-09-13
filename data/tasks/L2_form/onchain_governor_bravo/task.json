@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_governor_bravo",
+  "level": "L2_form",
+  "name": "onchain_governor_bravo",
+  "protocol": "Compound Governor Bravo",
+  "source_file": "Compound Governor Bravo",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "proposal_threshold",
+    "vote_accounting",
+    "timelock_delay"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "On-chain governance: holders delegate votes; a proposal requires a proposer threshold, then a voting period with quorum, then a timelock. Votes are checkpointed"
+}

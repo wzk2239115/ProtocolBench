@@ -1,0 +1,24 @@
+{
+  "protocol": "Uniswap V2 AMM",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "constant_product_invariant",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "lp_solvency",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

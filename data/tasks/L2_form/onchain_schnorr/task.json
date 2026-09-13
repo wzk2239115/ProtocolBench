@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_schnorr",
+  "level": "L2_form",
+  "name": "onchain_schnorr",
+  "protocol": "Schnorr",
+  "source_file": "Schnorr",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "unforgeability",
+    "domain_binding",
+    "no_replay"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Schnorr is a production on-chain signature protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; con"
+}

@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_flashbots_pbs",
+  "level": "L2_form",
+  "name": "onchain_flashbots_pbs",
+  "protocol": "Flashbots / PBS (block builder market)",
+  "source_file": "Flashbots / PBS (block builder market)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "bid_authenticity",
+    "builder_neutrality",
+    "payment_guarantee"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Proposer-Builder Separation: builders assemble blocks and bid in a sealed-bid auction; the proposer signs the highest bid header. Relays mediate to prevent stea"
+}

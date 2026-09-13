@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_mev_boost_relay",
+  "level": "L2_form",
+  "name": "onchain_mev_boost_relay",
+  "protocol": "MEV-Boost Relay",
+  "source_file": "MEV-Boost Relay",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "payload_availability",
+    "bid_integrity",
+    "equivocation_prevention"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "A relay receives builder bids and payloads, validates them, and passes the winning header to the proposer; the relay is a trusted party between builders and pro"
+}

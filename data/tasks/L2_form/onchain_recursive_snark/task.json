@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_recursive_snark",
+  "level": "L2_form",
+  "name": "onchain_recursive_snark",
+  "protocol": "Recursive SNARK / proof aggregation",
+  "source_file": "Recursive SNARK / proof aggregation",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "composition_soundness",
+    "domain_binding"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Recursive SNARKs verify a proof inside another proof, enabling aggregation and incrementally verifiable computation across many steps."
+}

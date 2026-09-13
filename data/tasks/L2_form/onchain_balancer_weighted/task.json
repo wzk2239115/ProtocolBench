@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_balancer_weighted",
+  "level": "L2_form",
+  "name": "onchain_balancer_weighted",
+  "protocol": "Balancer Weighted Pools",
+  "source_file": "Balancer Weighted Pools",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "weighted_invariant_non_decrease",
+    "no_rounding_extraction"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Balancer generalizes constant-product to weighted geometric-mean pools: invariant = product(balance_i ^ weight_i); swaps and joins/exits compute exact amounts w"
+}

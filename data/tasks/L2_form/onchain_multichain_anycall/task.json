@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_multichain_anycall",
+  "level": "L2_form",
+  "name": "onchain_multichain_anycall",
+  "protocol": "Multichain anyCall (router)",
+  "source_file": "Multichain anyCall (router)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "message_uniqueness",
+    "mpc_authorization"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Multichain (formerly Anyswap) uses an MPC network to validate cross-chain messages; anyCall lets a contract on chain A invoke a function on chain B after MPC at"
+}

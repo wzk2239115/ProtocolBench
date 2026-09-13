@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_morpho_blue",
+  "level": "L2_form",
+  "name": "onchain_morpho_blue",
+  "protocol": "Morpho Blue",
+  "source_file": "Morpho Blue",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "market_solvency",
+    "oracle_soundness",
+    "no_bad_debt"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Morpho Blue is a minimal immutable lending primitive: each market is a single (collateral, loan, oracle, IRM, LLTV) tuple; positions are matched peer-to-peer wi"
+}

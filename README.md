@@ -24,15 +24,33 @@ freely choose their analysis method.
 - **Ablation track** — `--tool-config {full, no-tamarin, black-box}` to
   measure the marginal value of formal analysis vs black-box reasoning.
 
-## Task corpus (585 tasks)
+## Task corpus (1,800+ tasks)
 
 | Source | Count | Coverage |
 |--------|-------|----------|
 | Real protocol models | 506 | 43 families (TLS 1.3, 5G AKA, HTLC, SPDM, EMV, DNP3, DDS, SOAP/OIDC, WirelessHART, AKE, e-voting, DAA, Noise...) |
 | CrypFormBench (v0) | 75 | Classic protocols with ground truth |
 | B1 real deployments | 4 | Keycloak + FastAPI OIDC (zero-day mode) |
+| On-chain (L2_form) | 1,259 | Consensus, bridges, DEX/AMM, lending, stablecoins, oracles, NFT, token standards, signatures, account abstraction, governance, ZK, MEV, privacy, DA, Layer2 |
+| **Total** | **1,840+** | |
 
 Curated **challenge set** of 60 highest-impact tasks: `data/task_ids/challenge_set.txt`
+On-chain set: `data/task_ids/onchain.txt` (spec-only; no models provided).
+
+### ExploitGym-scale on-chain run
+
+```bash
+# 1259 on-chain tasks, 50 parallel agents, 6h budget each
+API_KEY=... ./scripts/run_onchain.sh
+
+# overrides (any env var)
+API_KEY=... CONCURRENCY=30 TIMEOUT=4h MEM=2g ./scripts/run_onchain.sh
+```
+
+The agent image (`protocolbench/agent:latest`) bundles Lean 4, Tamarin, and
+Verifpal; `docker/bin/lean-minimal.tar.gz` (aarch64, 728 MB) is built locally
+and baked into the image.
+
 
 ## Quick start
 

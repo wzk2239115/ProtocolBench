@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_alchemix",
+  "level": "L2_form",
+  "name": "onchain_alchemix",
+  "protocol": "Alchemix",
+  "source_file": "Alchemix",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "share_price_integrity",
+    "strategy_authorization",
+    "no_inflation_theft"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Alchemix is a production on-chain yield protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; consul"
+}

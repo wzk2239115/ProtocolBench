@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_eigenlayer_restaking",
+  "level": "L2_form",
+  "name": "onchain_eigenlayer_restaking",
+  "protocol": "EigenLayer Restaking",
+  "source_file": "EigenLayer Restaking",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "slashing_completeness",
+    "withdrawal_safety",
+    "no_double_slashing"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "EigenLayer lets ETH stakers opt into additional services (AVSs) with slashing conditions, re-using stake for economic security."
+}

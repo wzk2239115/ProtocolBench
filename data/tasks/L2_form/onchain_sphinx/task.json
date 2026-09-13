@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_sphinx",
+  "level": "L2_form",
+  "name": "onchain_sphinx",
+  "protocol": "Sphinx",
+  "source_file": "Sphinx",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "atomicity",
+    "timeout_fairness",
+    "no_free_option"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Sphinx is a production on-chain payment protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; consul"
+}

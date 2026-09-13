@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_groth16",
+  "level": "L2_form",
+  "name": "onchain_groth16",
+  "protocol": "Groth16 zk-SNARK",
+  "source_file": "Groth16 zk-SNARK",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "soundness",
+    "knowledge_soundness",
+    "setup_integrity"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Groth16 is a pairing-based zk-SNARK with a circuit-specific trusted setup producing a proving key and a verification key; proofs are three group elements and ve"
+}

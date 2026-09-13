@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_solana_tower_bft",
+  "level": "L2_form",
+  "name": "onchain_solana_tower_bft",
+  "protocol": "Solana Tower BFT / Proof of History",
+  "source_file": "Solana Tower BFT / Proof of History",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "safety",
+    "liveness",
+    "poh_ordering_integrity"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Solana orders transactions with Proof of History (a verifiable delay of hashes) and finalizes with Tower BFT, where validators lock a vote tower and vote for in"
+}

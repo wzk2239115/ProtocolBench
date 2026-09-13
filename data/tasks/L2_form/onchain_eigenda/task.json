@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_eigenda",
+  "level": "L2_form",
+  "name": "onchain_eigenda",
+  "protocol": "EigenDA (restaked data availability)",
+  "source_file": "EigenDA (restaked data availability)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "blob_availability",
+    "commitment_binding"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "EigenDA uses restaked operators with erasure coding and KZG commitments, where operators attest to storing blobs and can be slashed."
+}

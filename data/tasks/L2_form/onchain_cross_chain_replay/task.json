@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_cross_chain_replay",
+  "level": "L2_form",
+  "name": "onchain_cross_chain_replay",
+  "protocol": "Unprotected Signed Transactions",
+  "source_file": "EIP-155 / 2016 chain split",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "no_cross_chain_replay",
+    "single_use",
+    "nonce_monotonicity"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Model pre-EIP-155 signed transactions broadcast across two chains that share account state, and determine whether signatures can be replayed across chains."
+}

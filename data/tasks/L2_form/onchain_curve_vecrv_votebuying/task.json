@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_curve_vecrv_votebuying",
+  "level": "L2_form",
+  "name": "onchain_curve_vecrv_votebuying",
+  "protocol": "Curve veCRV Vote-Buying / bribe markets",
+  "source_file": "Curve veCRV Vote-Buying / bribe markets",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "vote_binding",
+    "gauge_emission_correctness",
+    "no_flash_governance"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Curve locks CRV for veCRV to direct emissions to gauges; bribe markets (e.g. Convex/Votium) let others pay for votes, and Convex aggregates veCRV for voting pow"
+}

@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_yield_bearing_token",
+  "level": "L2_form",
+  "name": "onchain_yield_bearing_token",
+  "protocol": "Yield-Bearing Token",
+  "source_file": "Yield-Bearing Token",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "balance_integrity",
+    "allowance_correctness",
+    "transfer_authorization"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Yield-Bearing Token is a production on-chain token protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this t"
+}

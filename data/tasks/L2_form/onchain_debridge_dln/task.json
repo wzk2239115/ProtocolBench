@@ -1,0 +1,22 @@
+{
+  "task_id": "L2:onchain_debridge_dln",
+  "level": "L2_form",
+  "name": "onchain_debridge_dln",
+  "protocol": "deBridge DLN",
+  "source_file": "deBridge DLN",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "message_authenticity",
+    "no_replay",
+    "value_conservation",
+    "proof_verification_soundness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "deBridge DLN is a production on-chain bridge protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; c"
+}

@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_bulletproofs",
+  "level": "L2_form",
+  "name": "onchain_bulletproofs",
+  "protocol": "Bulletproofs Range Proofs",
+  "source_file": "Bulletproofs Range Proofs",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "range_soundness",
+    "zero_knowledge",
+    "binding"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Bulletproofs are short non-interactive zero-knowledge range proofs without a trusted setup, used in Confidential Transactions to prove a value is in [0, 2^n)."
+}

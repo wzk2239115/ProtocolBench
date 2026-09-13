@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_secp256r1_passkey",
+  "level": "L2_form",
+  "name": "onchain_secp256r1_passkey",
+  "protocol": "secp256r1 / Passkey Smart Accounts",
+  "source_file": "secp256r1 / Passkey Smart Accounts",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "key_binding",
+    "domain_binding",
+    "verifier_soundness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Smart accounts verify WebAuthn/passkey signatures over secp256r1 (P-256), often via an on-chain P-256 verifier precompile or contract and a ReplaySafeHash domai"
+}

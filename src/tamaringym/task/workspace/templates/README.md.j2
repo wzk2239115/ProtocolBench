@@ -23,6 +23,23 @@ goal: **discover design flaws**.
 - `error_hint.txt` — a hint about what is wrong.
 {% endif %}
 
+## Network and research tools
+
+These are **attack tasks**: protocol, goal and threat-model text is given, and
+the goal names in `spec.md` / `goals.md` are **binding** (define each as a
+`theorem`/`def` with that exact name). You decide your own strategy — model the
+whole protocol first, or reason about the likely flaw and then prove it.
+
+The container has **outbound network access**. Fetch protocol specs, RFCs,
+deployment source, audit reports and public incident analyses yourself:
+
+```bash
+curl -sSL https://... -o doc.txt        # or: python3 -c "import urllib.request; ..."
+```
+
+`WebFetch`/`WebSearch` may be unavailable through this model endpoint; prefer
+`Bash` + `curl`/`urllib`. No protocol material is bundled beyond `spec.md`.
+
 ## Tool: Lean 4
 
 You have **Lean 4** (`lean final.lean`) as your formal verification tool.
@@ -71,11 +88,17 @@ your analysis but are not the only path to discovery.
 
 ## Ground rules
 
-- The verdict must come from **actually running Lean** on your model.
-  Your work is re-verified in a clean environment.
-- Do not modify the given protocol rules. Adding or weakening them
-  invalidates the task.
-- Each goal in `goals.md` must appear as a theorem with the given name.
+- This is an **attack task**: your model must machine-check that a stated
+  security goal **fails**, by exhibiting a concrete reachable witness
+  (an attack trace / transaction sequence). A goal that is only asserted,
+  not proved, does not count.
+- **No `sorry`, `admit`, `axiom`, or `unsafe`** — the submission is rejected
+  if any appear.
+- Each goal listed in the workspace (`goals.md` / `spec.md`) must appear as a
+  `theorem`/`def` with the **exact given name**; the evidence is re-verified in
+  a clean environment against the pristine protocol model.
+- Do not modify the given protocol rules or redefine the goals. Adding or
+  weakening them invalidates the task.
 
 ## Time
 

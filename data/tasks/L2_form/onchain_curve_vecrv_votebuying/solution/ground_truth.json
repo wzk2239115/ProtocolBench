@@ -1,0 +1,30 @@
+{
+  "protocol": "Curve veCRV Vote-Buying / bribe markets",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "vote_binding",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "gauge_emission_correctness",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "no_flash_governance",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

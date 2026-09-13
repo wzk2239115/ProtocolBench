@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_wormhole_bridge",
+  "level": "L2_form",
+  "name": "onchain_wormhole_bridge",
+  "protocol": "Wormhole Token Bridge",
+  "source_file": "Wormhole Token Bridge",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "vaa_guardian_quorum",
+    "no_signature_spoof"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Wormhole moves tokens via guardian-signed VAAs: the core contract verifies a quorum of guardian signatures over a message, and the token bridge mints wrapped to"
+}

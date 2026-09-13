@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_uniswap_v4_hooks",
+  "level": "L2_form",
+  "name": "onchain_uniswap_v4_hooks",
+  "protocol": "Uniswap V4 Hooks",
+  "source_file": "Uniswap V4 Hooks",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "invariant_preservation",
+    "hook_authorization",
+    "no_reentrancy"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "V4 uses a singleton pool manager with hooks that run before/after pool actions (initialize, swap, liquidity, donate), letting custom logic alter behavior."
+}

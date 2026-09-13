@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_spark",
+  "level": "L2_form",
+  "name": "onchain_spark",
+  "protocol": "Spark",
+  "source_file": "Spark",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "solvency_invariant",
+    "liquidation_correctness",
+    "oracle_soundness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Spark is a production on-chain lending protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; consult"
+}

@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_nova_folding",
+  "level": "L2_form",
+  "name": "onchain_nova_folding",
+  "protocol": "Nova (folding scheme IVC)",
+  "source_file": "Nova (folding scheme IVC)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "ivc_validity",
+    "folding_soundness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Nova is an incrementally verifiable computation scheme based on a relaxed R1CS folding scheme and a cycle of elliptic curves; it avoids per-step SNARKs."
+}

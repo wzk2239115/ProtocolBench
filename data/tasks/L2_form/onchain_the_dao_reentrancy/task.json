@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_the_dao_reentrancy",
+  "level": "L2_form",
+  "name": "onchain_the_dao_reentrancy",
+  "protocol": "The DAO (reentrancy)",
+  "source_file": "The DAO (reentrancy)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "withdraw_exactly_once",
+    "balance_consistency"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "The DAO held ETH and let token holders withdraw their share via splitDAO, which computed the reward and sent ETH to the caller before updating the internal toke"
+}

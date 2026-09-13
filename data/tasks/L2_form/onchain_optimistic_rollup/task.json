@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_optimistic_rollup",
+  "level": "L2_form",
+  "name": "onchain_optimistic_rollup",
+  "protocol": "Optimistic Rollup (fraud proofs)",
+  "source_file": "Optimistic Rollup (fraud proofs)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "state_root_soundness",
+    "fraud_proof_soundness",
+    "withdrawal_safety"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "An optimistic rollup posts L2 state roots to L1 and assumes validity; withdrawals are delayed by a challenge window during which anyone can submit a fraud proof"
+}

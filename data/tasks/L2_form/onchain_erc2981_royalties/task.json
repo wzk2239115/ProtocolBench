@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_erc2981_royalties",
+  "level": "L2_form",
+  "name": "onchain_erc2981_royalties",
+  "protocol": "ERC-2981 NFT Royalties",
+  "source_file": "ERC-2981 NFT Royalties",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "royalty_enforcement",
+    "no_royalty_bypass"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "ERC-2981 exposes royaltyInfo(tokenId, salePrice) returning a receiver and amount; marketplaces are expected to honor it, but it is advisory only."
+}

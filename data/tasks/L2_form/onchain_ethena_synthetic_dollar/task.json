@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_ethena_synthetic_dollar",
+  "level": "L2_form",
+  "name": "onchain_ethena_synthetic_dollar",
+  "protocol": "Ethena USDe (delta-neutral stablecoin)",
+  "source_file": "Ethena USDe (delta-neutral stablecoin)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "peg_solvency",
+    "custody_safety",
+    "redemption_liveness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "USDe is backed by delta-neutral positions: staked ETH plus a short perpetual future; the funding rate and counterparty/exchange risk determine solvency, with an"
+}

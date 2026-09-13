@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_ecdsa_malleability",
+  "level": "L2_form",
+  "name": "onchain_ecdsa_malleability",
+  "protocol": "ECDSA Signature Malleability",
+  "source_file": "ECDSA Signature Malleability",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "signature_uniqueness",
+    "txid_stability"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "ECDSA signatures (r, s) have a second valid representation (r, n-s) for the same message and key. Bitcoin's original txid was the signature, so malleated signat"
+}

@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_plonk",
+  "level": "L2_form",
+  "name": "onchain_plonk",
+  "protocol": "PLONK Universal SNARK",
+  "source_file": "PLONK Universal SNARK",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "soundness",
+    "public_input_binding",
+    "transcript_binding"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "PLONK is a universal, updatable-setup SNARK using a polynomial commitment scheme; circuits are expressed as permutations over a fixed domain, with public inputs"
+}

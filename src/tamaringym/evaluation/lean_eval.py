@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import json
 import logging
+import re
 import subprocess
 import time
 from pathlib import Path
@@ -117,6 +118,7 @@ class LeanEvaluator:
                         ),
                         extra_kwargs=cfg.agent_extra_kwargs,
                         credential_path=cfg.credential_path,
+                        disable_web_search=cfg.disable_web_search,
                     )
                 )
             except Exception:
@@ -129,6 +131,11 @@ class LeanEvaluator:
             outputs_dir = self._collect_outputs(container, cfg.out_dir)
         except Exception:
             logger.exception("output collection failed")
+
+        # Persist the agent trajectory: cc session jsonl + streamed log live
+        # under /logs inside the container (CLAUDE_CONFIG_DIR=/logs) and are
+        # otherwise destroyed with the container.
+        self._collect_logs(container, cfg.out_dir)
 
         try:
             checks = self._score(outputs_dir)
@@ -195,65 +202,135 @@ class LeanEvaluator:
                 pass
         return outputs_dir
 
-    def _score(self, outputs_dir: Path) -> list[CheckResult]:
-        checks: list[CheckResult] = []
+    def _collect_logs(self, container, out_dir: Path) -> None:
+        """Copy the agent trajectory out of the container to ``out_dir/trajectory``.
 
-        # 1. verdict_correct: agent verdict matches ground truth → 0 or 1
-        verdict = {}
+        Includes the Claude Code session JSONL under ``/logs/projects`` (full
+        message/tool-call trajectory, resumable) and the streamed CLI log.
+        """
+        if container is None:
+            return
+        dest = out_dir / "trajectory"
+        dest.mkdir(parents=True, exist_ok=True)
+        try:
+            docker_cp_from_container(container.id, "/logs/.", str(dest), check=False)
+            logger.info("collected trajectory logs -> %s", dest)
+        except Exception:
+            logger.exception("failed to collect /logs from container")
+
+    def _score(self, outputs_dir: Path) -> list[CheckResult]:
+        """Attack-discovery scoring.
+
+        Every on-chain task is an attack task: the agent must produce a Lean
+        model that formalises the protocol, formalise each required goal, and
+        machine-check its falsification (an attack witness).  We do not compare
+        against a stored SAFE/UNSAFE label; the deterministic signal is:
+
+          * attack_evidence (0.6): final.lean compiles, contains no
+            sorry/admit/axiom/unsafe, and defines every required goal name.
+          * verdict_unsafe  (0.2): verdict.json says UNSAFE and lists the
+            falsified goals.
+          * attack_report   (0.2): attack_report.md is present and substantive.
+
+        Semantic acceptance (is the attack real / the target bug?) is a
+        separate judge stage.
+        """
+        checks: list[CheckResult] = []
+        required = list(getattr(self.meta, "lemma_names", []) or [])
+
+        # 1. attack_evidence
+        lean_file = outputs_dir / "final.lean"
+        forbidden_patterns = {
+            "sorry": re.compile(r"(?<![A-Za-z0-9_'])sorry(?![A-Za-z0-9_'])"),
+            "admit": re.compile(r"(?<![A-Za-z0-9_'])admit(?![A-Za-z0-9_'])"),
+            "axiom": re.compile(r"(?m)^\s*axiom\b"),
+            "unsafe": re.compile(r"(?<![A-Za-z0-9_'])unsafe(?![A-Za-z0-9_'])"),
+        }
+        ev_detail: dict = {"has_lean_file": lean_file.is_file()}
+        compile_ok = False
+        forbidden_used: list[str] = []
+        missing_goals: list[str] = list(required)
+        if lean_file.is_file():
+            try:
+                src = lean_file.read_text(encoding="utf-8", errors="replace")
+                forbidden_used = [
+                    name for name, pat in forbidden_patterns.items() if pat.search(src)
+                ]
+                missing_goals = [
+                    n for n in required
+                    if not re.search(
+                        r"\b(?:theorem|lemma|def)\s+" + re.escape(n) + r"\b", src
+                    )
+                ]
+                if not forbidden_used:
+                    r = subprocess.run(
+                        [
+                            "docker", "run", "--rm",
+                            "-v", f"{lean_file.resolve()}:/model.lean:ro",
+                            self.config.agent_image,
+                            "lean", "/model.lean",
+                        ],
+                        capture_output=True, text=True,
+                        timeout=self.config.verify_timeout_seconds or 120,
+                    )
+                    compile_ok = r.returncode == 0
+                    ev_detail["exit_code"] = r.returncode
+                    ev_detail["stderr_tail"] = r.stderr[-300:]
+            except Exception as e:
+                ev_detail["error"] = str(e)
+        if forbidden_used:
+            ev_detail["reward_hacking_tokens"] = forbidden_used
+        if missing_goals and len(missing_goals) < len(required):
+            ev_detail["missing_goals"] = missing_goals
+        evidence_ok = (
+            lean_file.is_file()
+            and not forbidden_used
+            and compile_ok
+            and not missing_goals
+        )
+        checks.append(
+            CheckResult(
+                name="attack_evidence",
+                score=1.0 if evidence_ok else 0.0,
+                weight=0.6,
+                details=ev_detail,
+            )
+        )
+
+        # 2. verdict_unsafe
+        verdict: dict = {}
         vp = outputs_dir / "verdict.json"
         if vp.is_file():
             try:
                 verdict = json.loads(vp.read_text())
             except (OSError, json.JSONDecodeError):
-                pass
-        agent_overall = verdict.get("overall", "")
-        gt_is_unsafe = any(
-            not lt.verified for lt in self.ground_truth.lemmas
-        )
-        gt_overall = "UNSAFE" if gt_is_unsafe else "SAFE"
-        verdict_correct = (
-            agent_overall.upper().startswith("UNSAFE") == gt_is_unsafe
-            and bool(agent_overall)
-        )
+                verdict = {}
+        overall = str(verdict.get("overall", ""))
+        attacks = verdict.get("attack_lemmas") or []
+        verdict_ok = overall.upper().startswith("UNSAFE") and bool(attacks)
         checks.append(
             CheckResult(
-                name="verdict_correct",
-                score=1.0 if verdict_correct else 0.0,
-                weight=0.5,
-                details={
-                    "agent_verdict": agent_overall,
-                    "ground_truth": gt_overall,
-                },
+                name="verdict_unsafe",
+                score=1.0 if verdict_ok else 0.0,
+                weight=0.2,
+                details={"agent_verdict": overall, "attack_lemmas": attacks},
             )
         )
 
-        # 2. evidence_compiles: Lean model compiles → 0 or 1
-        lean_file = outputs_dir / "final.lean"
-        lean_ok = False
-        lean_detail: dict = {"has_lean_file": lean_file.is_file()}
-        if lean_file.is_file():
-            try:
-                r = subprocess.run(
-                    [
-                        "docker", "run", "--rm",
-                        "-v", f"{lean_file.resolve()}:/model.lean:ro",
-                        self.config.agent_image,
-                        "lean", "/model.lean",
-                    ],
-                    capture_output=True, text=True,
-                    timeout=self.config.verify_timeout_seconds or 120,
-                )
-                lean_ok = r.returncode == 0
-                lean_detail["exit_code"] = r.returncode
-                lean_detail["stderr_tail"] = r.stderr[-300:]
-            except Exception as e:
-                lean_detail["error"] = str(e)
+        # 3. attack_report
+        rep = outputs_dir / "attack_report.md"
+        report_ok = False
+        report_detail: dict = {"has_report": rep.is_file()}
+        if rep.is_file():
+            body = rep.read_text(encoding="utf-8", errors="replace").strip()
+            report_detail["chars"] = len(body)
+            report_ok = len(body) >= 200
         checks.append(
             CheckResult(
-                name="evidence_compiles",
-                score=1.0 if lean_ok else 0.0,
-                weight=0.5,
-                details=lean_detail,
+                name="attack_report",
+                score=1.0 if report_ok else 0.0,
+                weight=0.2,
+                details=report_detail,
             )
         )
 

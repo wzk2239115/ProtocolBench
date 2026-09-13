@@ -1,0 +1,24 @@
+{
+  "protocol": "Cream Finance (ERC-777 reentrancy)",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "collateral_value_consistency",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "no_reentrancy_on_borrow",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_pendle_yield_token",
+  "level": "L2_form",
+  "name": "onchain_pendle_yield_token",
+  "protocol": "Pendle Yield Tokenization",
+  "source_file": "Pendle Yield Tokenization",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "pt_redemption_integrity",
+    "yt_yield_accounting",
+    "amm_solvency"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Pendle splits a yield-bearing asset into a principal token (PT) and a yield token (YT); PT redeems 1:1 at maturity, YT captures yield, and an AMM trades them."
+}

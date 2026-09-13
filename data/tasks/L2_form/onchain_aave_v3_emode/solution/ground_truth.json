@@ -1,0 +1,30 @@
+{
+  "protocol": "Aave V3 E-Mode and Isolation Mode",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "emode_soundness",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "debt_ceiling_enforcement",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "oracle_consistency",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

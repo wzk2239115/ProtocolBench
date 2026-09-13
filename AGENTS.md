@@ -17,8 +17,17 @@ ProtocolBench: 测量 AI 自主发现协议设计缺陷的能力。
   - Tamarin Prover 1.12.0 (vendored, docker/bin/)
   - Verifpal 1.3.6 (静态二进制, docker/bin/verifpal-arm64)
   - Verifpal 示例库 (/opt/verifpal-examples/: Signal/TLS13/WireGuard/Kerberos等)
+  - Lean 4.33.0 (/opt/lean, starter /opt/lean-starter) — `lean final.lean` 打分
   - maude 3.4, graphviz, python3, ripgrep, jq, tmux
   - (ProVerif 待补: OCaml 编译超时，后续用预编译二进制)
+- **链上 L2 任务**: 1259 个 (data/tasks/L2_form/onchain_*), 列表 data/task_ids/onchain.txt
+  - 目录: data/onchain/protocols.json + protocols_batch2.json (手写) + registry.json→protocols_batch3.json (批量)
+  - 生成: `PYTHONPATH=src .venv/bin/python scripts/expand_onchain_generic.py`
+          `PYTHONPATH=src .venv/bin/python scripts/add_onchain_tasks.py [--force]`
+  - 只给 spec.md, 不给任何 Lean/Tamarin 模型; 联网工具默认开启 (WebFetch/WebSearch 走第三方端点可能不可用, prompt 已让 agent 用 Bash+curl)
+  - 全部是**找攻击**题 (ground_truth=UNSAFE); 评分: attack_evidence 0.6 (编译+无sorry/axiom+goal 名全覆盖) + verdict_unsafe 0.2 + attack_report 0.2; 语义验收留给 judge
+  - 跑批: `API_KEY=... ./scripts/run_onchain.sh` (默认 model=deepseek/deepseek-v4.1-flash, 并发50/6h/mem 2g)
+  - **轨迹**: 每个任务输出 `out/<model>_<ts>/<task>/trajectory/projects/-workspace/<session>.jsonl` (cc 原生会话, 含 assistant/tool_use) + `trajectory/claude_code.log` (流式) + `logs/claude_code.log`
 - **verifier 镜像**: `tamaringym/verifier:1.12.0` — 旧 Tamarin-only 评分镜像(仍用于 L1)
 - **RS 镜像**: `tamaringym/jwt-rs:latest` — B1 的 FastAPI/PyJWT 资源服务器
 - 构建: `docker build -f docker/agent.Dockerfile -t protocolbench/agent:latest docker/`
@@ -29,10 +38,12 @@ ProtocolBench: 测量 AI 自主发现协议设计缺陷的能力。
 
 - **360 Proxy**(`https://api.360.cn`): Anthropic 兼容端点
   - DeepSeek V4 Flash: `deepseek/deepseek-v4-flash`
+  - DeepSeek V4.1 Flash: `deepseek/deepseek-v4.1-flash` (1M ctx, 已验证 `/v1/messages`)
   - GLM 系列: `z-ai/glm-5.3` 等
   - API key: `fk3478068563.wS9T_IONT6Qkh3IC2Ket6zbvbZi7jH37058071ba`
   - base URL 设 `https://api.360.cn`(不含 /v1)
   - 认证用 `--api-key`，**不要**用 `ANTHROPIC_AUTH_TOKEN`
+  - opencode 侧配置: `~/.config/opencode/opencode.json` (provider `360-proxy`, OpenAI 兼容 `/v1`)
 - **z.ai**(`https://api.z.ai/api/anthropic`): 仅 GLM，认证用 `ANTHROPIC_AUTH_TOKEN`
 - claude code CLI: `/data/node/bin/claude-code.sh`，需先 `scripts/setup/setup_runtime.sh`
 

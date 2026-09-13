@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_erc3156_flashloan",
+  "level": "L2_form",
+  "name": "onchain_erc3156_flashloan",
+  "protocol": "ERC-3156 Flash Loans",
+  "source_file": "ERC-3156 Flash Loans",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "repayment_atomicity",
+    "no_balance_manipulation",
+    "initiator_binding"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "ERC-3156 standardizes flash loans: a lender transfers assets to a borrower, calls onFlashLoan, and requires repayment plus fee before the transaction ends."
+}

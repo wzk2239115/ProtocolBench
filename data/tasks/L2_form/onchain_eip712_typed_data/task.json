@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_eip712_typed_data",
+  "level": "L2_form",
+  "name": "onchain_eip712_typed_data",
+  "protocol": "EIP-712 Typed Structured Data Hashing",
+  "source_file": "EIP-712 Typed Structured Data Hashing",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "domain_separation",
+    "struct_binding",
+    "no_replay"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "EIP-712 defines a hashing/signing scheme for structured data with a domain separator (name, version, chainId, verifyingContract) and type hashes."
+}

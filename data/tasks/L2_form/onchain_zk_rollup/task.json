@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_zk_rollup",
+  "level": "L2_form",
+  "name": "onchain_zk_rollup",
+  "protocol": "ZK Rollup (validity proofs)",
+  "source_file": "ZK Rollup (validity proofs)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "validity_proof_soundness",
+    "no_forged_proof"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "A ZK rollup posts a validity proof (SNARK/STARK) with each state transition; L1 verifies the proof before accepting the new root, so no challenge window is need"
+}

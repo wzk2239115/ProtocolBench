@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_zkibc",
+  "level": "L2_form",
+  "name": "onchain_zkibc",
+  "protocol": "zkIBC",
+  "source_file": "zkIBC",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "message_authenticity",
+    "packet_exactly_once",
+    "channel_binding"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "zkIBC is a production on-chain interop protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; consult"
+}

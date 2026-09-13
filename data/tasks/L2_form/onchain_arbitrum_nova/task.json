@@ -1,0 +1,22 @@
+{
+  "task_id": "L2:onchain_arbitrum_nova",
+  "level": "L2_form",
+  "name": "onchain_arbitrum_nova",
+  "protocol": "Arbitrum Nova",
+  "source_file": "Arbitrum Nova",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "state_root_soundness",
+    "withdrawal_safety",
+    "data_availability",
+    "censorship_resistance"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Arbitrum Nova is a production on-chain layer2 protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; "
+}

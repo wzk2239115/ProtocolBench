@@ -1,0 +1,22 @@
+{
+  "task_id": "L2:onchain_arbitrum_nitro",
+  "level": "L2_form",
+  "name": "onchain_arbitrum_nitro",
+  "protocol": "Arbitrum Nitro",
+  "source_file": "Arbitrum Nitro",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "state_root_soundness",
+    "withdrawal_safety",
+    "data_availability",
+    "censorship_resistance"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Arbitrum Nitro is a production on-chain layer2 protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task;"
+}

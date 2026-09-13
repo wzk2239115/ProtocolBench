@@ -1,0 +1,22 @@
+{
+  "task_id": "L2:onchain_risc_zero",
+  "level": "L2_form",
+  "name": "onchain_risc_zero",
+  "protocol": "RISC Zero",
+  "source_file": "RISC Zero",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "state_root_soundness",
+    "withdrawal_safety",
+    "data_availability",
+    "censorship_resistance"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "RISC Zero is a production on-chain layer2 protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; cons"
+}

@@ -1,0 +1,24 @@
+{
+  "protocol": "ERC-1155 Multi-Token with Receiver Hooks",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "balance_conservation",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "no_reentrancy",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

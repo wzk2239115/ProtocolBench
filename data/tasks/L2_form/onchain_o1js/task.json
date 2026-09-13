@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_o1js",
+  "level": "L2_form",
+  "name": "onchain_o1js",
+  "protocol": "o1js",
+  "source_file": "o1js",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "soundness",
+    "knowledge_soundness",
+    "setup_integrity"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "o1js is a production on-chain zk protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; consult the p"
+}

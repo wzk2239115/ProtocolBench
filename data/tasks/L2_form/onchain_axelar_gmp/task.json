@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_axelar_gmp",
+  "level": "L2_form",
+  "name": "onchain_axelar_gmp",
+  "protocol": "Axelar General Message Passing",
+  "source_file": "Axelar General Message Passing",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "message_authenticity",
+    "command_uniqueness",
+    "approval_correctness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Axelar is a PoS validator network that observes source-chain events and signs cross-chain messages executed by a gateway on the destination chain."
+}

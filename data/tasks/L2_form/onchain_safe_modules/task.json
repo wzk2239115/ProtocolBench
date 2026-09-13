@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_safe_modules",
+  "level": "L2_form",
+  "name": "onchain_safe_modules",
+  "protocol": "Gnosis Safe Modules and Guards",
+  "source_file": "Gnosis Safe Modules and Guards",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "module_authorization",
+    "threshold_not_bypassed",
+    "guard_completeness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Safe modules can execute transactions from a Safe without the normal owner threshold; guards can veto transactions. Modules extend Safe with automation."
+}

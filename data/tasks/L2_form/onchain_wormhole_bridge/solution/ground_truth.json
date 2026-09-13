@@ -1,0 +1,24 @@
+{
+  "protocol": "Wormhole Token Bridge",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "vaa_guardian_quorum",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "no_signature_spoof",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_trusted_setup",
+  "level": "L2_form",
+  "name": "onchain_trusted_setup",
+  "protocol": "Trusted Setup",
+  "source_file": "Trusted Setup",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "soundness",
+    "knowledge_soundness",
+    "setup_integrity"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Trusted Setup is a production on-chain zk protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; cons"
+}

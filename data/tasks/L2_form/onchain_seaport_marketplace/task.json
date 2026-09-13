@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_seaport_marketplace",
+  "level": "L2_form",
+  "name": "onchain_seaport_marketplace",
+  "protocol": "OpenSea Seaport",
+  "source_file": "OpenSea Seaport",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "order_authorization",
+    "consideration_satisfaction",
+    "order_expiry"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Seaport is a marketplace protocol where orders are signed structs (offers/considerations) matched on-chain; fulfillments specify how to transfer items, and an o"
+}

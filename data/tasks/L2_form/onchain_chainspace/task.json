@@ -1,0 +1,22 @@
+{
+  "task_id": "L2:onchain_chainspace",
+  "level": "L2_form",
+  "name": "onchain_chainspace",
+  "protocol": "Chainspace",
+  "source_file": "Chainspace",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "safety",
+    "liveness",
+    "fork_choice_correctness",
+    "no_double_spend"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Chainspace is a production on-chain consensus protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; "
+}

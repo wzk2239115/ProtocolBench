@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_hotstuff",
+  "level": "L2_form",
+  "name": "onchain_hotstuff",
+  "protocol": "HotStuff / DiemBFT",
+  "source_file": "HotStuff / DiemBFT",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "safety",
+    "liveness_after_gst"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "HotStuff is a chained BFT protocol with a leader per view, threshold signatures, and a three-phase commit rule (prepare/pre-commit/commit) giving linear communi"
+}

@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_erc6909_multi_token",
+  "level": "L2_form",
+  "name": "onchain_erc6909_multi_token",
+  "protocol": "ERC-6909 Minimal Multi-Token",
+  "source_file": "ERC-6909 Minimal Multi-Token",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "balance_integrity",
+    "operator_authorization",
+    "allowance_correctness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "ERC-6909 is a minimal multi-token interface with per-id balances and operator approvals, separate from ERC-1155."
+}

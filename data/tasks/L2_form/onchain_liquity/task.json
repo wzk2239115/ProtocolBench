@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_liquity",
+  "level": "L2_form",
+  "name": "onchain_liquity",
+  "protocol": "Liquity (LUSD troves)",
+  "source_file": "Liquity (LUSD troves)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "trove_solvency",
+    "redemption_soundness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Liquity issues LUSD against ETH collateral in troves. Stability is maintained by a Stability Pool, liquidations (with gas compensation), a recovery mode, and re"
+}

@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_lightning_replacement_cycling",
+  "level": "L2_form",
+  "name": "onchain_lightning_replacement_cycling",
+  "protocol": "Lightning Replacement Cycling",
+  "source_file": "Lightning Replacement Cycling",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "preimage_settlement_liveness",
+    "no_fund_loss_via_cycling"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Lightning commitment transactions are replaced in the mempool (RBF) as fees change. Settlement of an HTLC involves broadcasting a preimage-bearing transaction, "
+}

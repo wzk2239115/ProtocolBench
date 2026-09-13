@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_inner_product_argument",
+  "level": "L2_form",
+  "name": "onchain_inner_product_argument",
+  "protocol": "Inner Product Argument",
+  "source_file": "Inner Product Argument",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "soundness",
+    "knowledge_soundness",
+    "setup_integrity"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Inner Product Argument is a production on-chain zk protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this t"
+}

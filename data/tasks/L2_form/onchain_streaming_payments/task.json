@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_streaming_payments",
+  "level": "L2_form",
+  "name": "onchain_streaming_payments",
+  "protocol": "Streaming Payments",
+  "source_file": "Streaming Payments",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "atomicity",
+    "timeout_fairness",
+    "no_free_option"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Streaming Payments is a production on-chain payment protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this "
+}

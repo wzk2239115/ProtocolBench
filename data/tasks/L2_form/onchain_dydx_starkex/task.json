@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_dydx_starkex",
+  "level": "L2_form",
+  "name": "onchain_dydx_starkex",
+  "protocol": "dYdX / StarkEx (validity exchange)",
+  "source_file": "dYdX / StarkEx (validity exchange)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "batch_validity",
+    "escape_hatch"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "StarkEx batches off-chain trades and settles with a STARK proof; an on-chain operator manages deposits/withdrawals and a delayed-withdrawal escape hatch."
+}

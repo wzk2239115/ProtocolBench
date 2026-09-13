@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_erc1967_proxy",
+  "level": "L2_form",
+  "name": "onchain_erc1967_proxy",
+  "protocol": "ERC-1967 Upgradeable Proxy",
+  "source_file": "ERC-1967 Upgradeable Proxy",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "implementation_authorization",
+    "storage_isolation",
+    "initializer_once"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Upgradeable contracts use a proxy storing the implementation address in a standardized slot and delegatecall to it; an admin (or logic contract via UUPS) upgrad"
+}

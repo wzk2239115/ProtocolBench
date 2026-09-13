@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_frax_vefxs",
+  "level": "L2_form",
+  "name": "onchain_frax_vefxs",
+  "protocol": "Frax veFXS",
+  "source_file": "Frax veFXS",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "proposal_threshold",
+    "vote_accounting",
+    "timelock_delay"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Frax veFXS is a production on-chain governance protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task;"
+}

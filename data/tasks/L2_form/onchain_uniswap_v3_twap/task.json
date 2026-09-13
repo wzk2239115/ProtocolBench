@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_uniswap_v3_twap",
+  "level": "L2_form",
+  "name": "onchain_uniswap_v3_twap",
+  "protocol": "Uniswap V3 TWAP",
+  "source_file": "Uniswap V3 TWAP",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "feed_authenticity",
+    "freshness",
+    "manipulation_resistance"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Uniswap V3 TWAP is a production on-chain oracle protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task"
+}

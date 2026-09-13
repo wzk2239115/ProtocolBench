@@ -1,0 +1,1696 @@
+{
+  "version": 1,
+  "note": "Production-deployed on-chain protocols. Each entry becomes an L2_form task; no model is provided to the agent.",
+  "protocols": [
+    {
+      "slug": "erc2612_permit",
+      "name": "ERC-2612 Permit (gasless approvals)",
+      "category": "token",
+      "overview": "ERC-2612 adds an EIP-712 signature-based approval to ERC-20: a spender submits permit(owner, spender, value, deadline, v, r, s) and the token contract sets allowance[owner][spender] if the signature is valid and deadline has not passed. The signed struct is bound to a domain separator. Goal is to replace the separate approve transaction.",
+      "roles": [
+        "Owner (signer of the permit)",
+        "Spender (submits the permit)",
+        "Token contract (verifies the EIP-712 signature and records the nonce)"
+      ],
+      "goals": [
+        {
+          "name": "permit_signature_binding",
+          "property": "A permit is accepted only for the exact (owner, spender, value, nonce, deadline) signed by the owner."
+        },
+        {
+          "name": "permit_no_replay",
+          "property": "A permit signature cannot be reused to grant an allowance twice, on the same chain or on any other chain/contract."
+        },
+        {
+          "name": "permit_nonce_monotonicity",
+          "property": "Each accepted permit increments the owner's nonce by exactly one."
+        }
+      ],
+      "threat_model": "Adversary can read all signed permits from the mempool/chain and submit arbitrary permits; cannot forge the owner's signature. Chains may fork and share genesis state.",
+      "references": [
+        "https://eips.ethereum.org/EIPS/eip-2612",
+        "https://eips.ethereum.org/EIPS/eip-712"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "Permit verification is only as strong as the EIP-712 domain separator. Deployed tokens that hardcode or omit chainId (or cache the separator across a fork) let a permit signed on one chain be replayed on the forked chain; tokens that omit the nonce allow unlimited replay. A related griefing issue: anyone can front-run a permit and consume it."
+    },
+    {
+      "slug": "erc2771_meta_transaction",
+      "name": "ERC-2771 Meta-Transactions (trusted forwarder)",
+      "category": "token",
+      "overview": "ERC-2771 lets a relayer pay gas: a user signs a request (from, to, data, nonce) off-chain; the trusted forwarder appends the original sender to calldata and calls the target contract, which reads the sender via _msgSender(). The forwarder is trusted by the target.",
+      "roles": [
+        "User (signs the meta-transaction)",
+        "Relayer (submits it)",
+        "Trusted forwarder",
+        "Target contract (executes using _msgSender())"
+      ],
+      "goals": [
+        {
+          "name": "sender_authentication",
+          "property": "Only requests signed by the claimed sender are executed as that sender."
+        },
+        {
+          "name": "meta_tx_no_replay",
+          "property": "A signed meta-transaction is executed at most once per target contract and chain."
+        },
+        {
+          "name": "forwarder_trust",
+          "property": "The appended sender field cannot be forged by an untrusted caller."
+        }
+      ],
+      "threat_model": "Adversary is a relayer that observes signed requests and can submit any request; cannot forge signatures. The forwarder contract is honest.",
+      "references": [
+        "https://eips.ethereum.org/EIPS/eip-2771",
+        "https://eips.ethereum.org/EIPS/eip-712"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "Replay: if the signed request does not bind a per-contract/per-chain nonce or domain separator, a relayer can replay it to the same contract or a sibling deployment. Spoofing: contracts that trust a user-supplied forwarder (or that read the last 20 bytes of calldata without pinning the trusted forwarder) let anyone forge _msgSender()."
+    },
+    {
+      "slug": "erc4337_account_abstraction",
+      "name": "ERC-4337 Account Abstraction",
+      "category": "token",
+      "overview": "ERC-4337 introduces UserOperations processed by an EntryPoint contract: validation calls the account's validateUserOp (and optionally a paymaster's validatePaymasterUserOp), then execution runs the call. Bundlers package UserOps; the EntryPoint enforces nonce and prefunding.",
+      "roles": [
+        "User (account owner)",
+        "Bundler",
+        "EntryPoint",
+        "Account contract",
+        "Paymaster (optional gas sponsor)"
+      ],
+      "goals": [
+        {
+          "name": "userop_authentication",
+          "property": "A UserOperation is executed only if the account's validation function approves it."
+        },
+        {
+          "name": "paymaster_safety",
+          "property": "A paymaster cannot be drained: it pays only for UserOps it validated and within its stake/allowance."
+        },
+        {
+          "name": "validation_storage_isolation",
+          "property": "During validation, one entity cannot read or write storage of another entity."
+        }
+      ],
+      "threat_model": "Adversary controls UserOps, accounts, paymasters and bundling; cannot break ECDSA. It may exploit reentrancy and cross-entity storage access during validation.",
+      "references": [
+        "https://eips.ethereum.org/EIPS/eip-4337",
+        "https://docs.erc4337.io/"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "Validation runs user code and has historically violated storage isolation (an account reading another entity's storage) and allowed reentrancy into validation; paymasters can be griefed or drained, and aggregator/paymaster validation semantics were revised repeatedly. Implementations that do not enforce the ERC-7562 reputation/storage rules are exploitable."
+    },
+    {
+      "slug": "erc777_reentrancy",
+      "name": "ERC-777 Tokens and Receiver Hooks",
+      "category": "token",
+      "overview": "ERC-777 defines send() which calls tokensReceived on the recipient if it is a registered contract, and ERC-1820 registry lookups. This hook executes attacker code mid-transfer.",
+      "roles": [
+        "Sender",
+        "Recipient (may be an attacker contract with a hooks)",
+        "ERC-1820 registry"
+      ],
+      "goals": [
+        {
+          "name": "transfer_atomicity",
+          "property": "A transfer either completes fully or has no effect; balances and total supply stay consistent."
+        },
+        {
+          "name": "no_reentrancy",
+          "property": "The recipient hook cannot reenter the token or an integrating protocol to observe an inconsistent state."
+        }
+      ],
+      "threat_model": "Adversary is the recipient of a transfer and controls the tokensReceived hook, which runs before the sender's state update in naive integrations.",
+      "references": [
+        "https://eips.ethereum.org/EIPS/eip-777",
+        "https://eips.ethereum.org/EIPS/eip-1820"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "The recipient hook executes arbitrary code during the transfer; integrations that update their own state after the token call (e.g. DEX pools, lending markets) are reentrancy-exploitable. This class caused the imBTC/Uniswap and several DeFi drains."
+    },
+    {
+      "slug": "erc4626_vault",
+      "name": "ERC-4626 Tokenized Vault (share inflation)",
+      "category": "defi",
+      "overview": "ERC-4626 standardizes yield vaults: deposit(assets) mints shares = assets * totalSupply / totalAssets; redeem burns shares for assets. First depositor sets the initial share price.",
+      "roles": [
+        "Depositor",
+        "Vault contract",
+        "Yield strategy"
+      ],
+      "goals": [
+        {
+          "name": "share_price_monotonicity",
+          "property": "Existing depositors' redeemable assets never decrease due to another user's deposit/redeem."
+        },
+        {
+          "name": "no_inflation_theft",
+          "property": "An attacker cannot profit by donating assets and exploiting rounding on the first/last deposit."
+        }
+      ],
+      "threat_model": "Adversary is an ordinary depositor who can choose deposit amounts and donate tokens directly to the vault.",
+      "references": [
+        "https://eips.ethereum.org/EIPS/eip-4626",
+        "https://docs.openzeppelin.com/contracts/4.x/erc4626"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "First-depositor / donation inflation: an attacker deposits 1 wei, donates a large amount to inflate totalAssets, then subsequent depositors get 0 shares due to integer rounding; the attacker redeems and captures their assets. Requires rounding-safe share accounting (virtual shares/assets or minimum initial deposit)."
+    },
+    {
+      "slug": "erc1155_batch_hooks",
+      "name": "ERC-1155 Multi-Token with Receiver Hooks",
+      "category": "token",
+      "overview": "ERC-1155 supports both fungible and non-fungible balances and safeTransferFrom/safeBatchTransferFrom, which call onERC1155Received/onERC1155BatchReceived on contract recipients.",
+      "roles": [
+        "Operator",
+        "Sender",
+        "Recipient (hook receiver)"
+      ],
+      "goals": [
+        {
+          "name": "balance_conservation",
+          "property": "Batch transfers preserve per-id balances and total supply."
+        },
+        {
+          "name": "no_reentrancy",
+          "property": "Receiver hooks cannot be used to reenter and observe inconsistent state."
+        }
+      ],
+      "threat_model": "Adversary is a contract recipient controlling the ERC-1155 receiver hook.",
+      "references": [
+        "https://eips.ethereum.org/EIPS/eip-1155"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "The receiver hook runs arbitrary code before the caller's state settles (same class as ERC-777/ERC-721 hooks); naive marketplace/lending integrations that check balances after the hook can be reentered."
+    },
+    {
+      "slug": "weth_wrap_unwrap",
+      "name": "Wrapped Ether (WETH)",
+      "category": "token",
+      "overview": "WETH escrows ETH 1:1 and issues an ERC-20 balance: deposit() is payable and mints WETH, withdraw(amount) burns WETH and sends ETH.",
+      "roles": [
+        "User",
+        "WETH contract"
+      ],
+      "goals": [
+        {
+          "name": "one_to_one_backing",
+          "property": "The contract's ETH balance always equals the total WETH supply."
+        },
+        {
+          "name": "no_double_withdraw",
+          "property": "Each WETH unit can be withdrawn at most once."
+        }
+      ],
+      "threat_model": "Adversary can call deposit/withdraw with arbitrary amounts, including from contracts.",
+      "references": [
+        "https://weth.io/",
+        "WETH9 reference implementation"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "No documented design flaw: accounting is 1:1 and withdraw burns before sending (the canonical implementation sends after burning)."
+    },
+    {
+      "slug": "uniswap_v2",
+      "name": "Uniswap V2 AMM",
+      "category": "dex",
+      "overview": "Constant-product AMM: each pair holds reserves (x, y) and enforces x*y = k; swaps add to one reserve and remove from the other with a 0.3% fee; mint/burn provide liquidity. A cumulative price accumulator supports TWAP.",
+      "roles": [
+        "Trader",
+        "Liquidity provider",
+        "Pair contract",
+        "Router"
+      ],
+      "goals": [
+        {
+          "name": "constant_product_invariant",
+          "property": "After every swap, reserveX * reserveY does not decrease."
+        },
+        {
+          "name": "lp_solvency",
+          "property": "Liquidity providers can redeem a share of reserves proportional to their pool tokens."
+        }
+      ],
+      "threat_model": "Adversary is a trader/liquidity provider with atomic composability (flash loans); cannot break the invariant arithmetic.",
+      "references": [
+        "https://docs.uniswap.org/contracts/v2/overview",
+        "https://uniswap.org/whitepaper.pdf"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "No design flaw in the AMM invariant. (Spot-price oracle misuse and sandwiching are integration problems, modelled separately.)"
+    },
+    {
+      "slug": "uniswap_v3",
+      "name": "Uniswap V3 Concentrated Liquidity",
+      "category": "dex",
+      "overview": "V3 lets LPs concentrate liquidity in price ranges using ticks and positions; swaps cross initialized ticks and apply concentrated liquidity, with a price-dependent fee.",
+      "roles": [
+        "Trader",
+        "Liquidity provider",
+        "Pool contract",
+        "NFT position manager"
+      ],
+      "goals": [
+        {
+          "name": "range_liquidity_solvency",
+          "property": "Liquidity in a range is correctly added/removed at tick boundaries."
+        },
+        {
+          "name": "swap_price_correctness",
+          "property": "The pool price changes only according to reserve changes and fee growth."
+        }
+      ],
+      "threat_model": "Adversary is a trader/LP exploiting tick crossing and fee accounting.",
+      "references": [
+        "https://docs.uniswap.org/contracts/v3/overview",
+        "https://uniswap.org/whitepaper-v3.pdf"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "No design flaw in the core. (JIT liquidity and MEV are economic, not invariant violations.)"
+    },
+    {
+      "slug": "curve_stableswap",
+      "name": "Curve StableSwap",
+      "category": "dex",
+      "overview": "Curve's StableSwap invariant is a hybrid between constant-sum and constant-product tuned for stablecoins; pools expose get_virtual_price used as an oracle by external protocols.",
+      "roles": [
+        "Trader",
+        "LP",
+        "Pool"
+      ],
+      "goals": [
+        {
+          "name": "invariant_non_decrease",
+          "property": "The StableSwap invariant D never decreases across swaps."
+        },
+        {
+          "name": "virtual_price_monotonicity",
+          "property": "get_virtual_price is non-decreasing and manipulation-resistant within a transaction."
+        }
+      ],
+      "threat_model": "Adversary is a trader with flash loans interacting with pools and external protocols that read get_virtual_price.",
+      "references": [
+        "https://curve.fi/files/stableswap-paper.pdf",
+        "https://docs.curve.fi/"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "Read-only reentrancy: integrations read get_virtual_price mid-transaction while a pool's state is inconsistent (e.g. inside remove_liquidity callbacks), enabling under-collateralized borrowing/draining. Several 2022-2023 Curve-ecosystem incidents exploited this; the 2023 Vyper compiler bug made some pools vulnerable to direct reentrancy."
+    },
+    {
+      "slug": "balancer_weighted",
+      "name": "Balancer Weighted Pools",
+      "category": "dex",
+      "overview": "Balancer generalizes constant-product to weighted geometric-mean pools: invariant = product(balance_i ^ weight_i); swaps and joins/exits compute exact amounts with a fee.",
+      "roles": [
+        "Trader",
+        "LP",
+        "Vault/Pool"
+      ],
+      "goals": [
+        {
+          "name": "weighted_invariant_non_decrease",
+          "property": "The weighted invariant does not decrease across swaps and liquidity ops."
+        },
+        {
+          "name": "no_rounding_extraction",
+          "property": "Rounding in swap/exit math cannot be exploited for profit by dust transactions."
+        }
+      ],
+      "threat_model": "Adversary is a trader exploiting rounding and rate-provider (e.g. yield-bearing) token accounting.",
+      "references": [
+        "https://docs.balancer.fi/",
+        "https://balancer.fi/whitepaper.pdf"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "Rounding and rate manipulation: a 2023 Balancer incident (and several forks) exploited incorrect rounding in pool math combined with a manipulated rate provider, allowing an attacker to drain value. Composable pools with linear/rate providers are especially sensitive."
+    },
+    {
+      "slug": "the_dao_reentrancy",
+      "name": "The DAO (reentrancy)",
+      "category": "defi",
+      "overview": "The DAO held ETH and let token holders withdraw their share via splitDAO, which computed the reward and sent ETH to the caller before updating the internal token balance.",
+      "roles": [
+        "Token holder",
+        "DAO contract"
+      ],
+      "goals": [
+        {
+          "name": "withdraw_exactly_once",
+          "property": "A holder can withdraw at most the balance corresponding to their tokens."
+        },
+        {
+          "name": "balance_consistency",
+          "property": "The internal balance is debited before any external value transfer."
+        }
+      ],
+      "threat_model": "Adversary is a token holder that is a contract with a payable fallback, able to reenter.",
+      "references": [
+        "https://en.wikipedia.org/wiki/The_DAO",
+        "2016 DAO exploit post-mortems"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "Classic reentrancy: splitDAO sent ETH via call before zeroing the attacker's token balance, so the reentrant fallback could recursively withdraw until the DAO was drained (~US$60M), leading to the ETH/ETC hard fork."
+    },
+    {
+      "slug": "euler_flashloan",
+      "name": "Euler Finance (donate / health check)",
+      "category": "lending",
+      "overview": "Euler is a permissionless lending protocol; users supply/borrow, and a health score based on collateral and debt gates actions. It supports flash loans and a donateToReserves function.",
+      "roles": [
+        "Supplier",
+        "Borrower",
+        "Liquidator",
+        "Flash-loan user"
+      ],
+      "goals": [
+        {
+          "name": "health_score_soundness",
+          "property": "No action sequence leaves an account with debt exceeding its collateral value."
+        },
+        {
+          "name": "reserve_accounting",
+          "property": "donateToReserves changes accounting only as intended and cannot be used to manipulate the health score."
+        }
+      ],
+      "threat_model": "Adversary is an unprivileged user with flash-loan capital and atomic composition.",
+      "references": [
+        "https://docs.euler.finance/",
+        "Euler Finance 2023 exploit analyses"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "The March 2023 exploit (~US$197M) combined a flash loan, self-liquidation, and donateToReserves: the donate path failed to update the account's health check, so a deliberately undercollateralized position could be created and then not liquidated, letting the attacker mint a huge debt and extract it."
+    },
+    {
+      "slug": "cream_finance_reentrancy",
+      "name": "Cream Finance (ERC-777 reentrancy)",
+      "category": "lending",
+      "overview": "Cream is a Compound fork lending market accepting many ERC-20s, including ERC-777 tokens with transfer hooks, as collateral.",
+      "roles": [
+        "Supplier",
+        "Borrower",
+        "Liquidator"
+      ],
+      "goals": [
+        {
+          "name": "collateral_value_consistency",
+          "property": "An account's collateral value reflects only settled token balances."
+        },
+        {
+          "name": "no_reentrancy_on_borrow",
+          "property": "Borrowing cannot be reentered while the account's balances are mid-update."
+        }
+      ],
+      "threat_model": "Adversary supplies an ERC-777 token and reenters during the token hook.",
+      "references": [
+        "Cream Finance 2021 exploit post-mortems",
+        "https://eips.ethereum.org/EIPS/eip-777"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "The October 2021 exploit (~US$130M) reentered Cream through the ERC-777 token hook during a borrow/repay path, inflating collateral accounting and draining markets."
+    },
+    {
+      "slug": "compound_lending",
+      "name": "Compound Lending Market",
+      "category": "lending",
+      "overview": "Compound is an algorithmic money market: cTokens represent supplied assets, borrowing accrues interest, and liquidations repay debt in exchange for collateral at a discount. An interest-rate model and a comptroller gate actions.",
+      "roles": [
+        "Supplier",
+        "Borrower",
+        "Liquidator",
+        "Comptroller"
+      ],
+      "goals": [
+        {
+          "name": "solvency_invariant",
+          "property": "Accounts cannot borrow beyond their collateral factor."
+        },
+        {
+          "name": "interest_accrual_correctness",
+          "property": "Borrow/supply indices accrue correctly and are not manipulable within a block."
+        }
+      ],
+      "threat_model": "Adversary is a user exploiting oracle/price or interest-index timing; cannot break the accounting arithmetic.",
+      "references": [
+        "https://docs.compound.finance/",
+        "Compound cToken whitepaper"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "No core design flaw. (Liquidations rely on an external price feed; feed manipulation is modelled in the oracle tasks.)"
+    },
+    {
+      "slug": "aave_lending",
+      "name": "Aave Lending Pool",
+      "category": "lending",
+      "overview": "Aave is a pooled lending protocol with variable/stable rates, aTokens, debt tokens, health-factor gating, and flash loans; aToken transfers can trigger receiver hooks via `onERC1155`-style callbacks in some configurations.",
+      "roles": [
+        "Supplier",
+        "Borrower",
+        "Liquidator",
+        "Flash-loan user"
+      ],
+      "goals": [
+        {
+          "name": "health_factor_soundness",
+          "property": "Borrowing/withdrawals are rejected when the health factor would fall below 1."
+        },
+        {
+          "name": "flashloan_repayment",
+          "property": "A flash loan transaction reverts unless principal plus fee is repaid."
+        }
+      ],
+      "threat_model": "Adversary uses flash loans and composability; cannot break the accounting.",
+      "references": [
+        "https://docs.aave.com/",
+        "Aave V2/V3 technical papers"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "No core design flaw; flash loans are a feature, not a bug. Integration mistakes (unsafe price oracles, ignored return values) are outside the protocol."
+    },
+    {
+      "slug": "makerdao_vat",
+      "name": "MakerDAO Vat (DAI CDP engine)",
+      "category": "stablecoin",
+      "overview": "MakerDAO's Vat holds collateral (ink) and debt (art) per vault, normalized by rates; ilks define debt ceilings, stability fees, and liquidation ratios. Liquidations auction collateral.",
+      "roles": [
+        "Vault owner",
+        "Keeper/liquidator",
+        "Oracle",
+        "Vat core"
+      ],
+      "goals": [
+        {
+          "name": "vault_solvency",
+          "property": "A vault's debt never exceeds its collateral value times the liquidation ratio without being liquidated."
+        },
+        {
+          "name": "dai_backing",
+          "property": "Total DAI issued is backed by total collateral and system surplus."
+        }
+      ],
+      "threat_model": "Adversary manipulates oracle prices or races liquidations; cannot mint unbacked DAI without authorization.",
+      "references": [
+        "https://docs.makerdao.com/",
+        "MakerDAO whitepaper"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "No core accounting flaw. (The March 2020 Black Thursday liquidations were driven by network congestion and zero-bid auctions, a mechanism/ops issue rather than a soundness break.)"
+    },
+    {
+      "slug": "liquity",
+      "name": "Liquity (LUSD troves)",
+      "category": "stablecoin",
+      "overview": "Liquity issues LUSD against ETH collateral in troves. Stability is maintained by a Stability Pool, liquidations (with gas compensation), a recovery mode, and redemptions of LUSD against the riskiest troves.",
+      "roles": [
+        "Borrower",
+        "Stability-pool depositor",
+        "Liquidator",
+        "Redeemer"
+      ],
+      "goals": [
+        {
+          "name": "trove_solvency",
+          "property": "A trove stays above the minimum collateral ratio unless liquidated."
+        },
+        {
+          "name": "redemption_soundness",
+          "property": "Redemptions always reduce total debt and transfer exactly the redeemed collateral."
+        }
+      ],
+      "threat_model": "Adversary manipulates the ETH price feed or exploits liquidation/recovery-mode transitions.",
+      "references": [
+        "https://docs.liquity.org/",
+        "Liquity whitepaper"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "No core design flaw identified in the accounting; recovery mode and redemptions are intentionally conservative."
+    },
+    {
+      "slug": "chainlink_price_feed",
+      "name": "Chainlink Price Feed",
+      "category": "oracle",
+      "overview": "Chainlink aggregates multiple node operators' reports into a single answer per feed, with round ids, timestamps, and deviation/threshold parameters; consumers read latestRoundData().",
+      "roles": [
+        "Node operators",
+        "Aggregator contract",
+        "Consumer protocol"
+      ],
+      "goals": [
+        {
+          "name": "feed_authenticity",
+          "property": "An answer is accepted only if signed by a sufficient quorum of operators."
+        },
+        {
+          "name": "feed_freshness",
+          "property": "Consumers can detect stale rounds and invalid round ids."
+        }
+      ],
+      "threat_model": "Adversary cannot compromise a quorum of operators; it may manipulate the underlying market or replay stale rounds to careless consumers.",
+      "references": [
+        "https://docs.chain.link/data-feeds",
+        "Chainlink whitepaper"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "The aggregation design is sound; outages are liveness/latency issues. The real risk is consumer misuse (ignoring staleness/round checks, using a feed with too few decimals), which is an integration bug."
+    },
+    {
+      "slug": "uniswap_twap_oracle",
+      "name": "Uniswap V2 TWAP Oracle",
+      "category": "oracle",
+      "overview": "Uniswap V2 pairs expose cumulative price accumulators (price0CumulativeLast, price1CumulativeLast); a consumer samples them over a window to obtain a time-weighted average price, resistant to single-block manipulation only if the window is long.",
+      "roles": [
+        "Pool",
+        "Oracle consumer"
+      ],
+      "goals": [
+        {
+          "name": "twap_manipulation_resistance",
+          "property": "The TWAP over the chosen window cannot be profitably manipulated within a single block."
+        },
+        {
+          "name": "accumulator_overflow_safety",
+          "property": "Cumulative price accounting cannot overflow/underflow to forge a price."
+        }
+      ],
+      "threat_model": "Adversary is a trader holding capital across the entire TWAP window (multi-block), or exploiting a short window.",
+      "references": [
+        "https://docs.uniswap.org/contracts/v2/guides/smart-contract-integration/building-an-oracle"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "TWAPs are only as strong as the window: short-window TWAPs can be manipulated across a few blocks with a large capital position, and the cumulative accumulator assumes the pool price is not otherwise broken. Several DeFi protocols were drained via flash-loan/short-window TWAP manipulation."
+    },
+    {
+      "slug": "wormhole_bridge",
+      "name": "Wormhole Token Bridge",
+      "category": "bridge",
+      "overview": "Wormhole moves tokens via guardian-signed VAAs: the core contract verifies a quorum of guardian signatures over a message, and the token bridge mints wrapped tokens from a VAA. On Solana the signature set was verified by the system program's secp256k1 instruction.",
+      "roles": [
+        "Guardians",
+        "Core contract",
+        "Token bridge",
+        "User/relayer"
+      ],
+      "goals": [
+        {
+          "name": "vaa_guardian_quorum",
+          "property": "A VAA is executed only if signed by the current guardian set quorum."
+        },
+        {
+          "name": "no_signature_spoof",
+          "property": "An attacker cannot supply arbitrary bytes that pass signature verification."
+        }
+      ],
+      "threat_model": "Adversary cannot compromise the guardian keys; it may exploit the verification code path.",
+      "references": [
+        "Wormhole 2022 incident (~US$326M)",
+        "https://docs.wormhole.com/"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "The February 2022 exploit forged a VAA by abusing a deprecated instruction: the attacker supplied a spoofed sysvar/instruction account so the signature verification returned success without real guardian signatures, then minted 120k wrapped ETH. Verification was not bound to the genuine instructions sysvar."
+    },
+    {
+      "slug": "ronin_bridge",
+      "name": "Ronin Bridge (threshold validators)",
+      "category": "bridge",
+      "overview": "The Ronin bridge used a 5-of-9 validator multisig to approve cross-chain withdrawals; validators included Axie-related nodes and one third-party (Axie DAO) node whose access was not revoked.",
+      "roles": [
+        "Validators",
+        "Bridge contract",
+        "User"
+      ],
+      "goals": [
+        {
+          "name": "withdrawal_quorum",
+          "property": "A withdrawal is released only with 5 valid, independent validator approvals."
+        },
+        {
+          "name": "key_independence",
+          "property": "No small coalition can obtain the threshold via a single point of compromise."
+        }
+      ],
+      "threat_model": "Adversary may social-engineer/compromise validator keys and abuse special delegations; cannot break ECDSA.",
+      "references": [
+        "Ronin bridge 2022 incident (~US$624M)"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "Operational threshold failure: attackers compromised 5 of 9 validator keys (four Sky Mavis keys plus the Axie DAO key, whose signing access should have been revoked) and signed fraudulent withdrawals. The design concentrated trust and had no independent monitoring."
+    },
+    {
+      "slug": "poly_network_bridge",
+      "name": "Poly Network Bridge (keeper signatures)",
+      "category": "bridge",
+      "overview": "Poly Network's cross-chain manager verifies a keeper signature over a cross-chain transaction header before releasing funds; the header includes the target chain and method.",
+      "roles": [
+        "Keepers",
+        "EthCrossChainManager",
+        "User"
+      ],
+      "goals": [
+        {
+          "name": "keeper_signature_binding",
+          "property": "A cross-chain call is executed only if the keeper signature covers the exact (chain, method, args)."
+        },
+        {
+          "name": "arbitrary_call_prevention",
+          "property": "The manager never executes an attacker-chosen method on an attacker-chosen contract without a valid keeper signature."
+        }
+      ],
+      "threat_model": "Adversary submits crafted cross-chain headers; cannot forge the keeper key.",
+      "references": [
+        "Poly Network 2021 incident (~US$611M)"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "The August 2021 exploit forged cross-chain headers: the manager's verification allowed an attacker to specify the target method/arguments, and a keeper key was used to sign a malicious header chain, letting the attacker redirect the arbitrary call to their own method and eventually withdraw funds."
+    },
+    {
+      "slug": "multichain_anycall",
+      "name": "Multichain anyCall (router)",
+      "category": "bridge",
+      "overview": "Multichain (formerly Anyswap) uses an MPC network to validate cross-chain messages; anyCall lets a contract on chain A invoke a function on chain B after MPC attestation.",
+      "roles": [
+        "MPC nodes",
+        "anyCall contract",
+        "User"
+      ],
+      "goals": [
+        {
+          "name": "message_uniqueness",
+          "property": "Each attested cross-chain call is executed at most once."
+        },
+        {
+          "name": "mpc_authorization",
+          "property": "Only messages signed by the MPC threshold are executed."
+        }
+      ],
+      "threat_model": "Adversary cannot corrupt the MPC threshold; may exploit reentrancy/processing order or the token router.",
+      "references": [
+        "Multichain 2023 incident (~US$126M)"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "The July 2023 drain was enabled by workflow/processing issues around the token router and the custodian-held MPC keys (multiple incidents of the same class). Messages passed the check but accounting did not bind the locked amount to the minted amount."
+    },
+    {
+      "slug": "harmony_horizon_bridge",
+      "name": "Harmony Horizon Bridge",
+      "category": "bridge",
+      "overview": "Horizon used a 2-of-5 multisig of EOA keys to approve cross-chain withdrawals of assets between Harmony and Ethereum/BSC.",
+      "roles": [
+        "Multisig signers",
+        "Bridge contract",
+        "User"
+      ],
+      "goals": [
+        {
+          "name": "withdrawal_multisig",
+          "property": "A withdrawal requires 2 valid signer approvals."
+        },
+        {
+          "name": "signer_compromise_resistance",
+          "property": "No single compromise yields the threshold."
+        }
+      ],
+      "threat_model": "Adversary compromises signer EOAs (e.g. via malware/social engineering).",
+      "references": [
+        "Harmony Horizon 2022 incident (~US$100M)"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "The June 2022 exploit compromised two of the five signer private keys (reportedly the same access vector), met the 2-of-5 threshold, and released roughly US$100M. Plain EOA multisig with weak key hygiene concentrates risk."
+    },
+    {
+      "slug": "bnb_bridge",
+      "name": "BNB Smart Chain Bridge (IAVL proof)",
+      "category": "bridge",
+      "overview": "The BSC token hub released funds when presented with a Merkle (IAVL) proof of a burn on BNB Beacon Chain; the proof was verified against a stored app hash.",
+      "roles": [
+        "Relayers",
+        "Token hub",
+        "User"
+      ],
+      "goals": [
+        {
+          "name": "proof_verification_soundness",
+          "property": "Funds are released only for a burn proven against a valid committed app hash."
+        },
+        {
+          "name": "no_forged_proof",
+          "property": "An attacker cannot craft a proof that verifies without a real leaf."
+        }
+      ],
+      "threat_model": "Adversary can craft arbitrary proof bytes and interact with the IAVL verification library.",
+      "references": [
+        "BNB Chain bridge 2022 incident (~US$570M)"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "The October 2022 exploit forged an IAVL proof: the attacker exploited the proof verification (a crafted proof bypassed the Merkle check), so the bridge minted 2M BNB without any real burn."
+    },
+    {
+      "slug": "thorchain",
+      "name": "THORChain (cross-chain swaps)",
+      "category": "bridge",
+      "overview": "THORChain uses a rotating validator set (vaults) to custody assets and uses continuous liquidity pools with a slip-based fee; inbound/outbound observations drive state changes.",
+      "roles": [
+        "Validators",
+        "Vault",
+        "Trader"
+      ],
+      "goals": [
+        {
+          "name": "inbound_outbound_consistency",
+          "property": "Outbound amounts match observed intents and pool accounting."
+        },
+        {
+          "name": "pool_value_soundness",
+          "property": "Pool balances cannot be manipulated to over-withdraw."
+        }
+      ],
+      "threat_model": "Adversary manipulates gas accounting/observation or pool math; may exploit donation/accounting during churn.",
+      "references": [
+        "THORChain 2021 incidents",
+        "https://docs.thorchain.org/"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "Multiple 2021 exploits abused inbound-outbound state (e.g. refund/memo handling and gas accounting) and engineered low-liquidity pools, causing protocol losses despite no key compromise."
+    },
+    {
+      "slug": "ibc_cosmos",
+      "name": "Cosmos IBC",
+      "category": "interop",
+      "overview": "IBC is a generic, permissioned-channel protocol between light clients: packet commitments and acknowledgements are proven against the counterparty's consensus state using Merkle proofs; clients track consensus and timeouts.",
+      "roles": [
+        "Chain A",
+        "Chain B",
+        "Relayer",
+        "Light client"
+      ],
+      "goals": [
+        {
+          "name": "packet_authenticity",
+          "property": "A packet is delivered only if committed on the source chain."
+        },
+        {
+          "name": "packet_exactly_once",
+          "property": "Each packet is processed at most once (sequence numbers + timeouts)."
+        },
+        {
+          "name": "light_client_soundness",
+          "property": "The consensus state accepting proofs is itself validated."
+        }
+      ],
+      "threat_model": "Adversary is a relayer; light clients and consensus are honest. Cannot forge Merkle proofs.",
+      "references": [
+        "https://ibc.cosmos.network/",
+        "IBC specification"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "No protocol-level soundness flaw: packet commitment + ordered/unordered channels + timeouts give exactly-once delivery, assuming the light-client security (validator quorum) holds."
+    },
+    {
+      "slug": "xcmp_polkadot",
+      "name": "Polkadot XCMP",
+      "category": "interop",
+      "overview": "XCMP moves cross-consensus messages between parachains; the relay chain's message queue ensures ordering and delivery, with HRMP for older deployments. Messages are bound to a channel between two parachains.",
+      "roles": [
+        "Parachain A",
+        "Parachain B",
+        "Relay-chain message queue"
+      ],
+      "goals": [
+        {
+          "name": "message_binding",
+          "property": "A message is delivered only to its addressed channel and in order."
+        },
+        {
+          "name": "no_replay_or_forge",
+          "property": "Messages cannot be injected by a party other than the source parachain."
+        }
+      ],
+      "threat_model": "Adversary is a parachain; the relay chain and other validators are honest.",
+      "references": [
+        "https://wiki.polkadot.network/docs/learn-cross-consensus",
+        "XCMP design"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "No known protocol flaw: the relay-chain queue and channel binding prevent injection/replay across channels."
+    },
+    {
+      "slug": "layerzero",
+      "name": "LayerZero (ultra-light nodes)",
+      "category": "interop",
+      "overview": "LayerZero uses an oracle (e.g. Chainlink) and a relayer that must be distinct-but-independent: the endpoint verifies a message only if the block header from the oracle and the proof from the relayer agree. Security is configurable per application.",
+      "roles": [
+        "User",
+        "Endpoint",
+        "Oracle",
+        "Relayer",
+        "Application"
+      ],
+      "goals": [
+        {
+          "name": "oracle_relayer_consistency",
+          "property": "A message is accepted only if both the oracle header and the relayer proof match."
+        },
+        {
+          "name": "config_soundness",
+          "property": "The library configuration cannot be replaced by an unauthorized party."
+        }
+      ],
+      "threat_model": "Adversary may control or collude with the chosen oracle/relayer pair, or exploit an application misconfiguration.",
+      "references": [
+        "https://docs.layerzero.network/",
+        "LayerZero whitepaper"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "Security is entirely delegated to the chosen oracle/relayer pair; applications can (and do) configure both to the same party or to a single EOA, collapsing the two-of-two check to one. Library/config changes without proper access control enable forged messages."
+    },
+    {
+      "slug": "htlc_atomic_swap",
+      "name": "HTLC Atomic Cross-Chain Swap",
+      "category": "payment",
+      "overview": "Two parties swap assets across chains using Hash-Time-Locked Contracts: the swap secret's hash locks funds; the receiver claims on one chain revealing the preimage and uses it to claim on the other; both legs have timeouts with a safety margin.",
+      "roles": [
+        "Initiator (Alice)",
+        "Participant (Bob)",
+        "Both chains"
+      ],
+      "goals": [
+        {
+          "name": "atomicity",
+          "property": "Either both legs settle or both are refunded; no party loses assets."
+        },
+        {
+          "name": "no_free_option",
+          "property": "Neither party can gain by delaying or by abandoning after learning the preimage."
+        },
+        {
+          "name": "timeout_fairness",
+          "property": "If one leg is claimed, the counterparty has time to claim their leg."
+        }
+      ],
+      "threat_model": "Adversary is a rational, possibly timing-manipulating counterparty and a congestion-causing network adversary.",
+      "references": [
+        "https://en.bitcoin.it/wiki/Hash_Time_Locked_Contracts",
+        "Cross-chain atomic swap literature"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "HTLCs give no fairness guarantee under adversarial timing: the receiver holds a free option to claim near the timeout, griefing the sender; if fee spikes or chain congestion delay the claim, the counterparty leg can expire, and on Lightning the same preimage can be used in replacement-cycling. Atomicity (both-or-neither) holds only under optimistic liveness assumptions."
+    },
+    {
+      "slug": "lightning_channel",
+      "name": "Lightning Network Payment Channel",
+      "category": "payment",
+      "overview": "A 2-of-2 funding transaction opens a channel; commitment transactions encode the current balance split with revocation secrets. Revoking an old state lets the wronged party penalize the counterparty; HTLCs are added for routed payments.",
+      "roles": [
+        "Channel parties",
+        "Routing nodes",
+        "Watchtowers"
+      ],
+      "goals": [
+        {
+          "name": "close_at_agreed_balance",
+          "property": "A channel can only close at the latest agreed balance split."
+        },
+        {
+          "name": "revoked_state_penalty",
+          "property": "Broadcasting a revoked commitment lets the counterparty take all funds."
+        },
+        {
+          "name": "no_htlc_theft",
+          "property": "HTLC outputs can be claimed only by the rightful party after preimage/timeout."
+        }
+      ],
+      "threat_model": "Adversary is a channel counterparty that broadcasts old states, withholds preimages, or griefs HTLCs; watchtowers may be offline.",
+      "references": [
+        "https://github.com/lightning/bolts",
+        "Lightning Network whitepaper (Poon-Dryja)"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "The Poon-Dryja revocation mechanism is sound for balance enforcement (an old state is penalizable). Known attacks are liveness/jamming or require implementation bugs, not a break of the channel state machine."
+    },
+    {
+      "slug": "lightning_replacement_cycling",
+      "name": "Lightning Replacement Cycling",
+      "category": "payment",
+      "overview": "Lightning commitment transactions are replaced in the mempool (RBF) as fees change. Settlement of an HTLC involves broadcasting a preimage-bearing transaction, which an attacker can race.",
+      "roles": [
+        "Victim node",
+        "Attacker (forwarding node)",
+        "Mempool/miners"
+      ],
+      "goals": [
+        {
+          "name": "preimage_settlement_liveness",
+          "property": "A claimed HTLC settles within the timeout window under adversarial mempool replacement."
+        },
+        {
+          "name": "no_fund_loss_via_cycling",
+          "property": "An attacker cannot make a victim's HTLC claim fail and steal/force-timeout the funds."
+        }
+      ],
+      "threat_model": "Adversary is a peer controlling mempool policy, with the ability to broadcast replacement transactions and pin/cycle victim transactions.",
+      "references": [
+        "Antoine Riard, replacement cycling disclosure (2023)",
+        "https://github.com/lightning/bolts/pull/1081"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "Replacement cycling (Riard, 2023): an attacker repeatedly replaces the victim's preimage-revealing transaction in mempools, evicting the honest claim so the HTLC times out; combined with the preimage being exposed, this can steal funds or force channel exhaustion. The commitment design did not account for adversarial RBF mempool interactions."
+    },
+    {
+      "slug": "raiden_channel",
+      "name": "Raiden Network",
+      "category": "payment",
+      "overview": "Raiden is an Ethereum payment-channel network using balance proofs, a monitoring service, and a one-time-use lock (secret) for transfers; channels are settled on-chain after an unlock/settle window.",
+      "roles": [
+        "Channel parties",
+        "Monitoring service",
+        "Path-finding service"
+      ],
+      "goals": [
+        {
+          "name": "settlement_at_agreed_balance",
+          "property": "Settlement reflects the latest balance proof with the highest nonce."
+        },
+        {
+          "name": "lock_uniqueness",
+          "property": "A transfer secret unlocks at most its intended amount once."
+        }
+      ],
+      "threat_model": "Adversary is a counterparty that withholds or replays balance proofs; the monitoring service may be unavailable.",
+      "references": [
+        "https://raiden.network/",
+        "Raiden specification"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "No known soundness flaw in the balance-proof + nonce design; liveness depends on a monitoring service, and non-closing counterparties are penalized by design."
+    },
+    {
+      "slug": "submarine_swap",
+      "name": "Submarine Swap",
+      "category": "payment",
+      "overview": "A submarine swap exchanges on-chain coins for off-chain Lightning balance using an HTLC: the Lightning sender pays an invoice whose preimage releases an on-chain HTLC to the on-chain counterparty, with a timeout.",
+      "roles": [
+        "On-chain party",
+        "Lightning party",
+        "Swap provider"
+      ],
+      "goals": [
+        {
+          "name": "swap_atomicity",
+          "property": "The on-chain and Lightning legs cannot settle unequally."
+        },
+        {
+          "name": "provider_solvency",
+          "property": "The provider cannot take on-chain funds without completing the Lightning payment."
+        }
+      ],
+      "threat_model": "Adversary is a malicious swap provider exploiting timeout/preimage ordering and mempool conditions.",
+      "references": [
+        "Submarine swap literature",
+        "Lightning HTLC design"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "The provider (who knows the invoice preimage) can delay releasing the on-chain leg until the last moment or exploit fee/mempool conditions to force a timeout mismatch, extracting value or griefing the user; the trust model is asymmetric in favour of the provider."
+    },
+    {
+      "slug": "adaptor_signature_swap",
+      "name": "Scriptless Atomic Swap (adaptor signatures)",
+      "category": "payment",
+      "overview": "Adaptor signatures (e.g. Schnorr) hide the secret key inside a signature: settling one leg reveals the witness that settles the other, without HTLC scripts and timeouts.",
+      "roles": [
+        "Alice",
+        "Bob"
+      ],
+      "goals": [
+        {
+          "name": "witness_binding",
+          "property": "Settling one leg reveals exactly the witness needed for the other."
+        },
+        {
+          "name": "swap_atomicity",
+          "property": "Neither party can settle only one leg."
+        }
+      ],
+      "threat_model": "Adversary is a rational counterparty; cannot break the signature scheme's security.",
+      "references": [
+        "https://github.com/ElementsProject/scriptless-scripts",
+        "Adaptor signature literature"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "Adaptor-signature atomic swaps do not rely on timeouts for fairness: the witness is cryptographically bound, so settling one leg enables the other. Safe under the underlying signature assumptions."
+    },
+    {
+      "slug": "nakamoto_pow",
+      "name": "Nakamoto Consensus (Proof of Work)",
+      "category": "consensus",
+      "overview": "Nodes extend the heaviest (most-work) chain; the longest-chain rule plus proof-of-work gives eventual consistency. Transactions have probabilistic finality after k confirmations.",
+      "roles": [
+        "Miners",
+        "Full nodes",
+        "Light clients"
+      ],
+      "goals": [
+        {
+          "name": "common_prefix",
+          "property": "Honest chains diverge only in the last k blocks with probability decreasing in k."
+        },
+        {
+          "name": "no_double_spend",
+          "property": "A confirmed transaction cannot be reverted without controlling a majority of hash power."
+        },
+        {
+          "name": "selfish_mining_resistance",
+          "property": "Deviating by withholding blocks is not more profitable than honest mining."
+        }
+      ],
+      "threat_model": "Adversary controls a fraction of hash power and network timing; rational miners maximize revenue.",
+      "references": [
+        "https://bitcoin.org/bitcoin.pdf",
+        "Eyal & Sirer, Majority is not Enough (2014)"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "The protocol is only secure below a hash-power threshold: a >50% adversary double-spends, and selfish mining is profitable for smaller fractions when the attacker's hashrate share is high enough (Eyal-Sirer). Rational deviation and stale-block withholding break the honest-majority assumption."
+    },
+    {
+      "slug": "casper_ffg",
+      "name": "Casper FFG (Ethereum finality)",
+      "category": "consensus",
+      "overview": "Casper FFG overlays BFT finality on the chain: validators vote on checkpoint source/target pairs; two-thirds of stake finalizes a checkpoint. Slashing conditions punish equivocation and surround voting.",
+      "roles": [
+        "Validators",
+        "Beacon chain",
+        "Attesters"
+      ],
+      "goals": [
+        {
+          "name": "safety",
+          "property": "Two conflicting checkpoints cannot both be finalized without a slashing condition being violated."
+        },
+        {
+          "name": "accountable_safety",
+          "property": "Violating safety implicates enough stake to be slashed."
+        },
+        {
+          "name": "slashing_completeness",
+          "property": "Equivocation and surround votes are detectable and punished."
+        }
+      ],
+      "threat_model": "Adversary controls up to 1/3 of stake; validators are rational and may equivocate.",
+      "references": [
+        "Buterin & Griffith, Casper the Friendly Finality Gadget (2017)",
+        "Ethereum consensus specs"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "The original Casper FFG slashing conditions were revised because naive formulations admitted surround/equivocation cases not caught by the first rule set; LMD-GHOST and FFG interactions required additional slashing conditions. Systems implementing only the initial two conditions can be finalized-conflicting without accountability."
+    },
+    {
+      "slug": "tendermint",
+      "name": "Tendermint / CometBFT Consensus",
+      "category": "consensus",
+      "overview": "Tendermint is a BFT consensus with proposer/prevote/precommit rounds; a block is committed when >2/3 of validators precommit. Locking prevents conflicting commits across rounds.",
+      "roles": [
+        "Validators",
+        "Proposers",
+        "Full nodes"
+      ],
+      "goals": [
+        {
+          "name": "safety",
+          "property": "Two correct validators never commit conflicting blocks at the same height."
+        },
+        {
+          "name": "locking_correctness",
+          "property": "A validator only unlocks on a valid polka for a higher round."
+        },
+        {
+          "name": "liveness",
+          "property": "With <1/3 Byzantine and partial synchrony, the chain makes progress."
+        }
+      ],
+      "threat_model": "Adversary controls <1/3 of voting power and can delay messages.",
+      "references": [
+        "https://docs.tendermint.com/",
+        "Buchman, Tendermint (2016)"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "No safety flaw: with <1/3 Byzantine voting power, the lock/unlock and >2/3 precommit rules prevent conflicting commits (standard BFT result)."
+    },
+    {
+      "slug": "hotstuff",
+      "name": "HotStuff / DiemBFT",
+      "category": "consensus",
+      "overview": "HotStuff is a chained BFT protocol with a leader per view, threshold signatures, and a three-phase commit rule (prepare/pre-commit/commit) giving linear communication and responsive liveness.",
+      "roles": [
+        "Validators",
+        "Leader"
+      ],
+      "goals": [
+        {
+          "name": "safety",
+          "property": "No two correct replicas commit conflicting blocks."
+        },
+        {
+          "name": "liveness_after_gst",
+          "property": "After GST with a correct leader, the protocol commits."
+        }
+      ],
+      "threat_model": "Adversary controls <1/3 of voting power and may be the leader in some views.",
+      "references": [
+        "Yin et al., HotStuff (PODC 2019)",
+        "DiemBFT specification"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "No safety flaw under <1/3 Byzantine and the standard partial-synchrony liveness model; the commit rule is a known-safe BFT construction."
+    },
+    {
+      "slug": "algorand_ba_star",
+      "name": "Algorand BA*",
+      "category": "consensus",
+      "overview": "Algorand uses cryptographic sortition to select committees per step and a BA* protocol with graded consensus and a binary agreement, giving probabilistic finality with negligible fork probability.",
+      "roles": [
+        "Users/validators",
+        "Committee members"
+      ],
+      "goals": [
+        {
+          "name": "safety",
+          "property": "The probability that two blocks are finalized at the same height is negligible."
+        },
+        {
+          "name": "liveness",
+          "property": "Under partial synchrony and honest majority of money, blocks finalize."
+        }
+      ],
+      "threat_model": "Adversary controls a bounded fraction of stake/money; can corrupt selected committee members adaptively.",
+      "references": [
+        "https://algorand.com/",
+        "Chen & Micali, Algorand (2019)"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "Security reduces to the honest-stake majority and the random committee selection; no protocol-level safety break is known."
+    },
+    {
+      "slug": "ouroboros_praos",
+      "name": "Ouroboros Praos (Cardano)",
+      "category": "consensus",
+      "overview": "Praos is a proof-of-stake longest-chain protocol with a private leader election (VRF), epoch-based randomness, and a chain-selection rule weighted by stake; it tolerates adaptive corruption.",
+      "roles": [
+        "Stake pools",
+        "Delegators",
+        "Nodes"
+      ],
+      "goals": [
+        {
+          "name": "common_prefix",
+          "property": "Honest chains share a common prefix except for recent blocks."
+        },
+        {
+          "name": "chain_quality",
+          "property": "Adversarial chains cannot grow faster than honest chains under the stake bound."
+        }
+      ],
+      "threat_model": "Adversary controls <1/2 of stake and can corrupt parties adaptively (with delay).",
+      "references": [
+        "Kiayias et al., Ouroboros Praos (EUROCRYPT 2017)"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "No known break under the <1/2 stake and adaptive-corruption model; security proofs treat the private VRF election as the key mechanism."
+    },
+    {
+      "slug": "avalanche_snowman",
+      "name": "Avalanche Snowman Consensus",
+      "category": "consensus",
+      "overview": "Avalanche uses repeated sub-sampled voting (Snowball) to build confidence; Snowman linearizes it into a chain with a preference/confidence counter and finality after a confidence threshold.",
+      "roles": [
+        "Validators",
+        "Nodes"
+      ],
+      "goals": [
+        {
+          "name": "safety",
+          "property": "Two conflicting blocks cannot both reach finality under the honest-stake bound."
+        },
+        {
+          "name": "liveness",
+          "property": "The network reaches finality when enough honest validators participate."
+        }
+      ],
+      "threat_model": "Adversary controls a bounded fraction of stake and can delay messages.",
+      "references": [
+        "Rocket, Snowflake to Avalanche (2018)",
+        "https://docs.avax.network/"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "No protocol-level safety break under the honest-stake assumption; finality is probabilistic with tunable confidence parameters."
+    },
+    {
+      "slug": "stellar_scp",
+      "name": "Stellar Consensus Protocol",
+      "category": "consensus",
+      "overview": "SCP uses federated Byzantine agreement: each node chooses quorum slices; statements are confirmed through a federated voting process over ballots, with externalize and quorum-intersection guarantees.",
+      "roles": [
+        "Nodes",
+        "Quorum slices"
+      ],
+      "goals": [
+        {
+          "name": "safety",
+          "property": "Two intact nodes cannot externalize conflicting values when quorum intersection holds."
+        },
+        {
+          "name": "liveness",
+          "property": "Transitive quorum-closure and a correct node drive the protocol to confirmation."
+        }
+      ],
+      "threat_model": "Adversary controls some nodes; the quorum system must have adequate intersection.",
+      "references": [
+        "Mazieres, The Stellar Consensus Protocol (2015)"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "Safety holds under quorum intersection; the practical risk is misconfigured quorum slices (a deployment/configuration issue, not a protocol flaw)."
+    },
+    {
+      "slug": "ecdsa_malleability",
+      "name": "ECDSA Signature Malleability",
+      "category": "signature",
+      "overview": "ECDSA signatures (r, s) have a second valid representation (r, n-s) for the same message and key. Bitcoin's original txid was the signature, so malleated signatures changed the txid.",
+      "roles": [
+        "Signer",
+        "Verifier",
+        "Transaction"
+      ],
+      "goals": [
+        {
+          "name": "signature_uniqueness",
+          "property": "For a fixed key and message there is exactly one canonical valid signature."
+        },
+        {
+          "name": "txid_stability",
+          "property": "Mutating the signature cannot change a transaction's identifier without invalidating it."
+        }
+      ],
+      "threat_model": "Adversary can observe a broadcast transaction and mutate the signature encoding.",
+      "references": [
+        "https://en.bitcoin.it/wiki/Transaction_malleability",
+        "BIP-62/BIP-141 (SegWit)"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "Malleability: without a canonical low-s rule and with txids computed over signatures, an attacker can alter a pending transaction's txid, breaking unconfirmed-spend chains (this enabled the Mt. Gox withdrawal bug and motivated SegWit)."
+    },
+    {
+      "slug": "schnorr_musig_rogue_key",
+      "name": "Schnorr Multisig (rogue-key / MuSig)",
+      "category": "signature",
+      "overview": "Naive Schnorr multisig aggregates public keys as the sum of participants' keys and asks for the sum signature. MuSig hardens this with per-session key coefficients.",
+      "roles": [
+        "Signers",
+        "Verifier/aggregator"
+      ],
+      "goals": [
+        {
+          "name": "unforgeability",
+          "property": "A coalition of n-1 signers cannot produce a signature valid for the aggregated key of n honest signers."
+        },
+        {
+          "name": "key_aggregation_binding",
+          "property": "Each participant's contribution to the aggregate key is bound to the session."
+        }
+      ],
+      "threat_model": "Adversary is a malicious participant that chooses its public key after seeing the others (rogue-key attack).",
+      "references": [
+        "https://eprint.iacr.org/2018/068",
+        "MuSig2 (2020/1261)"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "Rogue-key attack: in naive key aggregation (sum of public keys) the last signer can choose pk' = pk_target - sum(other pks) so the aggregate key is the target's, and it alone can sign. MuSig prevents it by hashing each public key with the session context."
+    },
+    {
+      "slug": "bls_threshold_signature",
+      "name": "BLS Threshold Signatures",
+      "category": "signature",
+      "overview": "BLS signatures are unique and aggregatable; a t-of-n threshold is implemented with a Shamir sharing of the secret key, where t shares produce one signature verifiable against the group public key.",
+      "roles": [
+        "Signers",
+        "Aggregator",
+        "Verifier"
+      ],
+      "goals": [
+        {
+          "name": "threshold_unforgeability",
+          "property": "Fewer than t signers cannot produce a valid signature."
+        },
+        {
+          "name": "unique_signature",
+          "property": "There is a single valid signature per (key, message), preventing malleability."
+        }
+      ],
+      "threat_model": "Adversary corrupts up to t-1 signers and may choose messages adaptively.",
+      "references": [
+        "Boneh-Lynn-Shacham (2001)",
+        "Threshold BLS constructions"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "No design flaw: BLS uniqueness and the threshold sharing give unforgeability with <t shares (assuming the pairing/DDH-style assumptions and a correct setup)."
+    },
+    {
+      "slug": "gnosis_safe_multisig",
+      "name": "Gnosis Safe (smart-contract multisig)",
+      "category": "governance",
+      "overview": "Safe is an account contract executing transactions approved by an owner threshold; it stores owner set, threshold, nonce, and module/guard hooks, and verifies EIP-712 or EIP-1271 signatures.",
+      "roles": [
+        "Owners",
+        "Safe contract",
+        "Modules/Guards"
+      ],
+      "goals": [
+        {
+          "name": "threshold_approval",
+          "property": "A transaction executes only with at least `threshold` distinct owner signatures over its hash."
+        },
+        {
+          "name": "nonce_no_replay",
+          "property": "Each executed transaction increments the nonce and cannot be replayed."
+        },
+        {
+          "name": "no_signature_reuse",
+          "property": "An owner signature cannot be counted twice or reused for a different transaction."
+        }
+      ],
+      "threat_model": "Adversary cannot compromise the threshold; may submit arbitrary transactions/signatures.",
+      "references": [
+        "https://docs.safe.global/",
+        "Safe contract audits"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "The core threshold + nonce design is sound. (Risk concentrates in modules/guards, which extend trust; the base Safe enforces distinct-signer threshold and monotonic nonce.)"
+    },
+    {
+      "slug": "governor_bravo",
+      "name": "Compound Governor Bravo",
+      "category": "governance",
+      "overview": "On-chain governance: holders delegate votes; a proposal requires a proposer threshold, then a voting period with quorum, then a timelock. Votes are checkpointed per block.",
+      "roles": [
+        "Token holders",
+        "Delegates",
+        "Timelock"
+      ],
+      "goals": [
+        {
+          "name": "proposal_threshold",
+          "property": "Only accounts meeting the proposal threshold can propose."
+        },
+        {
+          "name": "vote_accounting",
+          "property": "A delegator's votes are counted once per proposal and follow delegation checkpoints."
+        },
+        {
+          "name": "timelock_delay",
+          "property": "Passed proposals cannot execute before the timelock."
+        }
+      ],
+      "threat_model": "Adversary may acquire votes atomically (flash loans) or via delegation manipulation.",
+      "references": [
+        "https://docs.compound.finance/v2/governance/",
+        "Compound Governor Bravo"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "If voting power is read from the current balance rather than a snapshot, an attacker can flash-loan governance tokens, pass a proposal, and return the loan within one transaction. Even with snapshots, delegation can be griefed and the proposer threshold can be manipulated. Real DAOs have been exploited via flash-loan/borrowed voting power."
+    },
+    {
+      "slug": "optimistic_rollup",
+      "name": "Optimistic Rollup (fraud proofs)",
+      "category": "rollup",
+      "overview": "An optimistic rollup posts L2 state roots to L1 and assumes validity; withdrawals are delayed by a challenge window during which anyone can submit a fraud proof. A sequencer orders transactions.",
+      "roles": [
+        "Sequencer",
+        "Verifier/challenger",
+        "L1 bridge"
+      ],
+      "goals": [
+        {
+          "name": "state_root_soundness",
+          "property": "Only valid state roots are finalized after the challenge window."
+        },
+        {
+          "name": "fraud_proof_soundness",
+          "property": "A fraudulent root can always be proven wrong by an honest challenger within the window."
+        },
+        {
+          "name": "withdrawal_safety",
+          "property": "Withdrawals cannot finalize against an unchallenged fraudulent root."
+        }
+      ],
+      "threat_model": "Adversary controls the sequencer and may censor/speed up; at least one honest challenger must be live within the window.",
+      "references": [
+        "https://ethereum.org/en/developers/docs/scaling/optimistic-rollups/",
+        "Arbitrum/Optimism docs"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "Safety depends on a live honest challenger within the challenge window: if the challenger is censored, offline, or the window is too short relative to L1 censorship, a fraudulent root finalizes and withdrawals release invalid funds. Sequencer censorship and delayed data availability are known attack surfaces (hence forced-inclusion and multi-challenger designs)."
+    },
+    {
+      "slug": "zk_rollup",
+      "name": "ZK Rollup (validity proofs)",
+      "category": "rollup",
+      "overview": "A ZK rollup posts a validity proof (SNARK/STARK) with each state transition; L1 verifies the proof before accepting the new root, so no challenge window is needed.",
+      "roles": [
+        "Prover/sequencer",
+        "Verifier contract",
+        "L1 bridge"
+      ],
+      "goals": [
+        {
+          "name": "validity_proof_soundness",
+          "property": "A state root is accepted only if a valid proof of the transition verifies."
+        },
+        {
+          "name": "no_forged_proof",
+          "property": "An attacker cannot produce a proof for an invalid transition."
+        }
+      ],
+      "threat_model": "Adversary cannot break the proof system's soundness; may censor or delay data availability.",
+      "references": [
+        "https://ethereum.org/en/developers/docs/scaling/zk-rollups/",
+        "zkSync/StarkNet docs"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "Correctness reduces to the proof system's soundness and the verifier contract; with a sound SNARK/STARK, invalid transitions cannot be finalized (data-availability/liveness are separate concerns)."
+    },
+    {
+      "slug": "groth16",
+      "name": "Groth16 zk-SNARK",
+      "category": "zk",
+      "overview": "Groth16 is a pairing-based zk-SNARK with a circuit-specific trusted setup producing a proving key and a verification key; proofs are three group elements and verification is a constant-size pairing check.",
+      "roles": [
+        "Prover",
+        "Verifier",
+        "Trusted setup (ceremony)"
+      ],
+      "goals": [
+        {
+          "name": "soundness",
+          "property": "A prover cannot produce a proof for a false statement."
+        },
+        {
+          "name": "knowledge_soundness",
+          "property": "A valid proof implies knowledge of a satisfying witness."
+        },
+        {
+          "name": "setup_integrity",
+          "property": "Security holds if at least one ceremony participant was honest."
+        }
+      ],
+      "threat_model": "Adversary is a malicious prover with full control of proof generation; the toxic waste is unknown to at least one honest participant.",
+      "references": [
+        "Groth, On the Size of Pairing-based NIZKs (2016)",
+        "Zcash ceremony"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "Soundness holds under the q-PDH/q-SDH-type assumptions and an honest participant in the trusted setup; the known weakness is setup trust, not the scheme."
+    },
+    {
+      "slug": "plonk",
+      "name": "PLONK Universal SNARK",
+      "category": "zk",
+      "overview": "PLONK is a universal, updatable-setup SNARK using a polynomial commitment scheme; circuits are expressed as permutations over a fixed domain, with public inputs bound in the transcript.",
+      "roles": [
+        "Prover",
+        "Verifier",
+        "Universal setup"
+      ],
+      "goals": [
+        {
+          "name": "soundness",
+          "property": "No false statement has a valid proof (Fiat-Shamir is sound)."
+        },
+        {
+          "name": "public_input_binding",
+          "property": "The proof binds the exact public inputs."
+        },
+        {
+          "name": "transcript_binding",
+          "property": "Fiat-Shamir challenges are uniquely derived, preventing grinding."
+        }
+      ],
+      "threat_model": "Adversary is a malicious prover; the universal setup is honest.",
+      "references": [
+        "Gabizon, Williamson, Ciobotaru, PLONK (2019)"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "No soundness flaw in PLONK itself; implementations are only broken by Fiat-Shamir transcript bugs or missing public-input binding, which are implementation errors."
+    },
+    {
+      "slug": "merkle_airdrop",
+      "name": "Merkle-Proof Token Airdrop",
+      "category": "token",
+      "overview": "An airdrop distributor commits to a Merkle root of (index, account, amount) leaves; each account claims by submitting a proof; claims are marked per index.",
+      "roles": [
+        "Distributor",
+        "Claimer",
+        "Merkle tree"
+      ],
+      "goals": [
+        {
+          "name": "claim_exactly_once",
+          "property": "Each leaf can be claimed at most once."
+        },
+        {
+          "name": "claim_binding",
+          "property": "The claimed account/amount match the committed leaf."
+        },
+        {
+          "name": "no_proof_forgery",
+          "property": "No account can claim without a valid Merkle proof."
+        }
+      ],
+      "threat_model": "Adversary submits arbitrary proofs/indices; cannot forge Merkle proofs.",
+      "references": [
+        "Uniswap/MerkleDistributor reference"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "Distributors that key the claimed flag on the account (instead of the unique leaf index) or that omit the index from the proof let a single eligibility set be claimed multiple times / by front-runners; second preimage/duplicate-leaf constructions also allow double claims."
+    },
+    {
+      "slug": "parity_multisig",
+      "name": "Parity Multisig Wallet (2017)",
+      "category": "governance",
+      "overview": "The Parity multisig used a library contract containing the wallet logic plus a tiny proxy per wallet; wallets were created by delegatecall to the library's initWallet, which configured owners and the required threshold.",
+      "roles": [
+        "Owners",
+        "Wallet proxy",
+        "WalletLibrary"
+      ],
+      "goals": [
+        {
+          "name": "owner_initialization_once",
+          "property": "A wallet's owners can be initialized exactly once by the legitimate creator."
+        },
+        {
+          "name": "access_control",
+          "property": "Only owners can execute/kill the wallet."
+        },
+        {
+          "name": "library_protection",
+          "property": "The shared library cannot be hijacked to control wallets."
+        }
+      ],
+      "threat_model": "Adversary can call anyone-permissioned functions on the library and proxies.",
+      "references": [
+        "Parity multisig incidents (July and November 2017)"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "Two flaws: (1) July 2017 - the library's initWallet/execute were callable by anyone because the wallet proxy delegated to the uninitialized library, letting attackers re-initialize wallets and drain funds; (2) November 2017 - an attacker became the owner of the library contract itself, called kill(), and permanently froze all dependent wallets (~US$150M). Missing initialization guard and missing access control on the library."
+    },
+    {
+      "slug": "erc1967_proxy",
+      "name": "ERC-1967 Upgradeable Proxy",
+      "category": "token",
+      "overview": "Upgradeable contracts use a proxy storing the implementation address in a standardized slot and delegatecall to it; an admin (or logic contract via UUPS) upgrades the implementation. Initializers replace constructors.",
+      "roles": [
+        "Admin/upgrader",
+        "Proxy",
+        "Implementation"
+      ],
+      "goals": [
+        {
+          "name": "implementation_authorization",
+          "property": "Only the authorized admin/upgrader can change the implementation."
+        },
+        {
+          "name": "storage_isolation",
+          "property": "Proxy and implementation storage never collide."
+        },
+        {
+          "name": "initializer_once",
+          "property": "The initializer can be called at most once."
+        }
+      ],
+      "threat_model": "Adversary can call any externally reachable function; the admin key is uncompromised.",
+      "references": [
+        "https://eips.ethereum.org/EIPS/eip-1967",
+        "OpenZeppelin upgrades docs"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "UUPS/transparent proxies are exploitable when the implementation's initializer is left callable (uninitialized logic contract taken over), when the upgrade function lacks access control, or when storage layouts collide. Real upgrades have been hijacked by front-running `initialize`."
+    },
+    {
+      "slug": "flashbots_pbs",
+      "name": "Flashbots / PBS (block builder market)",
+      "category": "mev",
+      "overview": "Proposer-Builder Separation: builders assemble blocks and bid in a sealed-bid auction; the proposer signs the highest bid header. Relays mediate to prevent stealing. MEV-Boost is the software used by most validators.",
+      "roles": [
+        "Builders",
+        "Relays",
+        "Proposers/validators",
+        "Searchers"
+      ],
+      "goals": [
+        {
+          "name": "bid_authenticity",
+          "property": "The proposer can only sign a header for which a matching body is available (no unbundling)."
+        },
+        {
+          "name": "builder_neutrality",
+          "property": "The market does not let one builder or relay censor/suppress transactions."
+        },
+        {
+          "name": "payment_guarantee",
+          "property": "The proposer is paid the winning bid atomically."
+        }
+      ],
+      "threat_model": "Adversary is a dominant builder or relay maximizing MEV and censoring transactions.",
+      "references": [
+        "https://docs.flashbots.net/",
+        "MEV-Boost/relay designs"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "PBS concentrates power in a few builders and relays (and the relay is a trusted party): a dominant builder can censor and reorder transactions, and relay/builder bugs or equivocation can break payment/authenticity. It is a real centralization/censorship attack surface, not a cryptographic break."
+    },
+    {
+      "slug": "sandwich_attack",
+      "name": "AMM Sandwich Attack",
+      "category": "mev",
+      "overview": "A DEX trade is sandwiched when an adversary places a buy before and a sell after a victim's swap in the same block, profiting from the price impact and slippage the victim tolerates.",
+      "roles": [
+        "Victim trader",
+        "Sandwicher (searcher)",
+        "Block builder"
+      ],
+      "goals": [
+        {
+          "name": "no_sandwich_profit",
+          "property": "No ordering of a victim's swap with adversarial swaps yields the adversary a guaranteed profit at the victim's expense."
+        },
+        {
+          "name": "slippage_protection",
+          "property": "The victim's min-output bound limits the adversary's extraction."
+        }
+      ],
+      "threat_model": "Adversary controls transaction ordering (or pays a builder) and can craft atomic swaps around a pending victim transaction.",
+      "references": [
+        "MEV literature",
+        "https://ethereum.org/en/developers/docs/mev/"
+      ],
+      "verdict": "UNSAFE",
+      "flaw": "Inherent to transparent AMMs with public mempools: an adversary can front-run/back-run to extract the victim's slippage. Mitigations are commitment schemes, batch auctions, or sealed-bid mempools; without them the sandwich is always available."
+    }
+  ]
+}

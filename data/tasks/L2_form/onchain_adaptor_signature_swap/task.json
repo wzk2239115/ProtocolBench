@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_adaptor_signature_swap",
+  "level": "L2_form",
+  "name": "onchain_adaptor_signature_swap",
+  "protocol": "Scriptless Atomic Swap (adaptor signatures)",
+  "source_file": "Scriptless Atomic Swap (adaptor signatures)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "witness_binding",
+    "swap_atomicity"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Adaptor signatures (e.g. Schnorr) hide the secret key inside a signature: settling one leg reveals the witness that settles the other, without HTLC scripts and "
+}

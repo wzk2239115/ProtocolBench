@@ -1,0 +1,30 @@
+{
+  "protocol": "Nakamoto Consensus (Proof of Work)",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "common_prefix",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "no_double_spend",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "selfish_mining_resistance",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

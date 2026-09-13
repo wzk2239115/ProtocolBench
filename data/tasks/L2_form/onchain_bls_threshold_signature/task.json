@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_bls_threshold_signature",
+  "level": "L2_form",
+  "name": "onchain_bls_threshold_signature",
+  "protocol": "BLS Threshold Signatures",
+  "source_file": "BLS Threshold Signatures",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "threshold_unforgeability",
+    "unique_signature"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "BLS signatures are unique and aggregatable; a t-of-n threshold is implemented with a Shamir sharing of the secret key, where t shares produce one signature veri"
+}

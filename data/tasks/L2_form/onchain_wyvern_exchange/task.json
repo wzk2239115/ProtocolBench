@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_wyvern_exchange",
+  "level": "L2_form",
+  "name": "onchain_wyvern_exchange",
+  "protocol": "Wyvern Exchange",
+  "source_file": "Wyvern Exchange",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "order_binding",
+    "no_reentrancy"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Wyvern (early OpenSea) matches signed sell/offer orders with a delegate/registry pattern using CALL/DELEGATECALL target specifications."
+}

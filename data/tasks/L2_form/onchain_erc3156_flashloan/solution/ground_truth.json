@@ -1,0 +1,30 @@
+{
+  "protocol": "ERC-3156 Flash Loans",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "repayment_atomicity",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "no_balance_manipulation",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "initiator_binding",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

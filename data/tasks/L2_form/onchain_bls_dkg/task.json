@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_bls_dkg",
+  "level": "L2_form",
+  "name": "onchain_bls_dkg",
+  "protocol": "BLS DKG",
+  "source_file": "BLS DKG",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "unforgeability",
+    "domain_binding",
+    "no_replay"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "BLS DKG is a production on-chain signature protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; con"
+}

@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_tornado_cash",
+  "level": "L2_form",
+  "name": "onchain_tornado_cash",
+  "protocol": "Tornado Cash Mixer",
+  "source_file": "Tornado Cash Mixer",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "withdrawal_once",
+    "anonymity_set",
+    "deposit_withdraw_consistency"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "A fixed-denomination mixer: users deposit into a Merkle tree and later withdraw to a fresh address using a zk-SNARK proving membership of a note, with a nullifi"
+}

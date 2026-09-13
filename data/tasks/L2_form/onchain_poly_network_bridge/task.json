@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_poly_network_bridge",
+  "level": "L2_form",
+  "name": "onchain_poly_network_bridge",
+  "protocol": "Poly Network Bridge (keeper signatures)",
+  "source_file": "Poly Network Bridge (keeper signatures)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "keeper_signature_binding",
+    "arbitrary_call_prevention"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Poly Network's cross-chain manager verifies a keeper signature over a cross-chain transaction header before releasing funds; the header includes the target chai"
+}

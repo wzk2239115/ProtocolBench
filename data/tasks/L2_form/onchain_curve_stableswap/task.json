@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_curve_stableswap",
+  "level": "L2_form",
+  "name": "onchain_curve_stableswap",
+  "protocol": "Curve StableSwap",
+  "source_file": "Curve StableSwap",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "invariant_non_decrease",
+    "virtual_price_monotonicity"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Curve's StableSwap invariant is a hybrid between constant-sum and constant-product tuned for stablecoins; pools expose get_virtual_price used as an oracle by ex"
+}

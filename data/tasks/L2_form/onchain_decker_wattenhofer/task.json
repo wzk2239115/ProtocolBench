@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_decker_wattenhofer",
+  "level": "L2_form",
+  "name": "onchain_decker_wattenhofer",
+  "protocol": "Decker-Wattenhofer",
+  "source_file": "Decker-Wattenhofer",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "atomicity",
+    "timeout_fairness",
+    "no_free_option"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Decker-Wattenhofer is a production on-chain payment protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this "
+}

@@ -1,0 +1,22 @@
+{
+  "task_id": "L2:onchain_aptos",
+  "level": "L2_form",
+  "name": "onchain_aptos",
+  "protocol": "Aptos",
+  "source_file": "Aptos",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "safety",
+    "liveness",
+    "fork_choice_correctness",
+    "no_double_spend"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Aptos is a production on-chain consensus protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; consu"
+}

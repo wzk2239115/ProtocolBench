@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_compound_lending",
+  "level": "L2_form",
+  "name": "onchain_compound_lending",
+  "protocol": "Compound Lending Market",
+  "source_file": "Compound Lending Market",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "solvency_invariant",
+    "interest_accrual_correctness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Compound is an algorithmic money market: cTokens represent supplied assets, borrowing accrues interest, and liquidations repay debt in exchange for collateral a"
+}

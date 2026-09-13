@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_gasper_lmd_ghost",
+  "level": "L2_form",
+  "name": "onchain_gasper_lmd_ghost",
+  "protocol": "Ethereum Gasper (LMD-GHOST + FFG)",
+  "source_file": "Ethereum Gasper (LMD-GHOST + FFG)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "safety",
+    "liveness",
+    "fork_choice_coherence"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Gasper combines LMD-GHOST fork choice (latest-message-driven) with Casper FFG finality; attesters vote for a head and for source/target checkpoints; slashings p"
+}

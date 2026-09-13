@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_stellar_scp",
+  "level": "L2_form",
+  "name": "onchain_stellar_scp",
+  "protocol": "Stellar Consensus Protocol",
+  "source_file": "Stellar Consensus Protocol",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "safety",
+    "liveness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "SCP uses federated Byzantine agreement: each node chooses quorum slices; statements are confirmed through a federated voting process over ballots, with external"
+}

@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_uniswap_v2",
+  "level": "L2_form",
+  "name": "onchain_uniswap_v2",
+  "protocol": "Uniswap V2 AMM",
+  "source_file": "Uniswap V2 AMM",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "constant_product_invariant",
+    "lp_solvency"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Constant-product AMM: each pair holds reserves (x, y) and enforces x*y = k; swaps add to one reserve and remove from the other with a 0.3% fee; mint/burn provid"
+}

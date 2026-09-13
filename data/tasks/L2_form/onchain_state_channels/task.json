@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_state_channels",
+  "level": "L2_form",
+  "name": "onchain_state_channels",
+  "protocol": "State Channels",
+  "source_file": "State Channels",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "atomicity",
+    "timeout_fairness",
+    "no_free_option"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "State Channels is a production on-chain payment protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task"
+}

@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_aave_lending",
+  "level": "L2_form",
+  "name": "onchain_aave_lending",
+  "protocol": "Aave Lending Pool",
+  "source_file": "Aave Lending Pool",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "health_factor_soundness",
+    "flashloan_repayment"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Aave is a pooled lending protocol with variable/stable rates, aTokens, debt tokens, health-factor gating, and flash loans; aToken transfers can trigger receiver"
+}

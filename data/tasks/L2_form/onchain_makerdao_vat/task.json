@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_makerdao_vat",
+  "level": "L2_form",
+  "name": "onchain_makerdao_vat",
+  "protocol": "MakerDAO Vat (DAI CDP engine)",
+  "source_file": "MakerDAO Vat (DAI CDP engine)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "vault_solvency",
+    "dai_backing"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "MakerDAO's Vat holds collateral (ink) and debt (art) per vault, normalized by rates; ilks define debt ceilings, stability fees, and liquidation ratios. Liquidat"
+}

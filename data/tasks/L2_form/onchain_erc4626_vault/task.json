@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_erc4626_vault",
+  "level": "L2_form",
+  "name": "onchain_erc4626_vault",
+  "protocol": "ERC-4626 Tokenized Vault (share inflation)",
+  "source_file": "ERC-4626 Tokenized Vault (share inflation)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "share_price_monotonicity",
+    "no_inflation_theft"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "ERC-4626 standardizes yield vaults: deposit(assets) mints shares = assets * totalSupply / totalAssets; redeem burns shares for assets. First depositor sets the "
+}

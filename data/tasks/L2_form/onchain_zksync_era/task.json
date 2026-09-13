@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_zksync_era",
+  "level": "L2_form",
+  "name": "onchain_zksync_era",
+  "protocol": "zkSync Era",
+  "source_file": "zkSync Era",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "validity_soundness",
+    "withdrawal_consistency"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "A zkEVM rollup posting state diffs with a validity proof verified on L1; a sequencer orders transactions and a prover generates SNARKs."
+}

@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_optimism_op_stack",
+  "level": "L2_form",
+  "name": "onchain_optimism_op_stack",
+  "protocol": "OP Stack Optimistic Rollup",
+  "source_file": "OP Stack Optimistic Rollup",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "output_root_soundness",
+    "withdrawal_safety",
+    "censorship_resistance"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Optimistic rollup with a single-round interactive fault proof (cannon) over an L2 output root, plus a dispute game with a challenger bond."
+}

@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_ics_20",
+  "level": "L2_form",
+  "name": "onchain_ics_20",
+  "protocol": "ICS-20",
+  "source_file": "ICS-20",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "message_authenticity",
+    "packet_exactly_once",
+    "channel_binding"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "ICS-20 is a production on-chain interop protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; consul"
+}

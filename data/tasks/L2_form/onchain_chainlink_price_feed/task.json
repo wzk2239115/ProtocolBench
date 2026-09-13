@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_chainlink_price_feed",
+  "level": "L2_form",
+  "name": "onchain_chainlink_price_feed",
+  "protocol": "Chainlink Price Feed",
+  "source_file": "Chainlink Price Feed",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "feed_authenticity",
+    "feed_freshness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Chainlink aggregates multiple node operators' reports into a single answer per feed, with round ids, timestamps, and deviation/threshold parameters; consumers r"
+}

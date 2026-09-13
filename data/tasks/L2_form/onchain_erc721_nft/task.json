@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_erc721_nft",
+  "level": "L2_form",
+  "name": "onchain_erc721_nft",
+  "protocol": "ERC-721 Non-Fungible Token",
+  "source_file": "ERC-721 Non-Fungible Token",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "ownership_uniqueness",
+    "no_unauthorized_transfer",
+    "no_reentrancy"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "ERC-721 tracks unique token ownership and approves operators via setApprovalForAll; safeTransferFrom calls onERC721Received on contract recipients."
+}

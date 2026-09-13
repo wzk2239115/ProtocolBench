@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_erc1155_batch_hooks",
+  "level": "L2_form",
+  "name": "onchain_erc1155_batch_hooks",
+  "protocol": "ERC-1155 Multi-Token with Receiver Hooks",
+  "source_file": "ERC-1155 Multi-Token with Receiver Hooks",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "balance_conservation",
+    "no_reentrancy"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "ERC-1155 supports both fungible and non-fungible balances and safeTransferFrom/safeBatchTransferFrom, which call onERC1155Received/onERC1155BatchReceived on con"
+}

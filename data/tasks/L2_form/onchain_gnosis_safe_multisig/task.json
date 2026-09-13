@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_gnosis_safe_multisig",
+  "level": "L2_form",
+  "name": "onchain_gnosis_safe_multisig",
+  "protocol": "Gnosis Safe (smart-contract multisig)",
+  "source_file": "Gnosis Safe (smart-contract multisig)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "threshold_approval",
+    "nonce_no_replay",
+    "no_signature_reuse"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Safe is an account contract executing transactions approved by an owner threshold; it stores owner set, threshold, nonce, and module/guard hooks, and verifies E"
+}

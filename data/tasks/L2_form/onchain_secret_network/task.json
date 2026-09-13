@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_secret_network",
+  "level": "L2_form",
+  "name": "onchain_secret_network",
+  "protocol": "Secret Network",
+  "source_file": "Secret Network",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "anonymity",
+    "double_spend_prevention",
+    "unlinkability"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Secret Network is a production on-chain privacy protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task"
+}

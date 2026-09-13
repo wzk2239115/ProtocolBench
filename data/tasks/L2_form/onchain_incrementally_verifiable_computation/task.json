@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_incrementally_verifiable_computation",
+  "level": "L2_form",
+  "name": "onchain_incrementally_verifiable_computation",
+  "protocol": "Incrementally Verifiable Computation",
+  "source_file": "Incrementally Verifiable Computation",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "soundness",
+    "knowledge_soundness",
+    "setup_integrity"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Incrementally Verifiable Computation is a production on-chain zk protocol. Its deployed interfaces, message/transaction formats and parameters are the ground tr"
+}

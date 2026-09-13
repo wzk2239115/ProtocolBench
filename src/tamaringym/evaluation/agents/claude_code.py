@@ -9,8 +9,12 @@ Invocation:
         --permission-mode=bypassPermissions \
         --effort <level> \
         --append-system-prompt <attack_enum_framework> \
-        --disallowed-tools WebSearch,WebFetch \
         2>&1 | tee /logs/claude_code.log
+
+Web tools (`WebSearch`/`WebFetch`) are enabled by default so agents can fetch
+protocol specs/RFCs and public analyses themselves; pass
+`disable_web_search=True` (or `run_protocol.py --disable-web-search`) to add
+`--disallowed-tools WebSearch,WebFetch` for a no-network ablation.
 
 Environment pins the model, disables non-essential traffic, and forces all
 model aliases to the configured model when a custom base URL is used.

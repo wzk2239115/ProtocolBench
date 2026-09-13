@@ -1,0 +1,24 @@
+{
+  "protocol": "Scriptless Atomic Swap (adaptor signatures)",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "witness_binding",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "swap_atomicity",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

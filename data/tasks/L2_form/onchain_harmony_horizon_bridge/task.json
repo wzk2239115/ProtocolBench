@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_harmony_horizon_bridge",
+  "level": "L2_form",
+  "name": "onchain_harmony_horizon_bridge",
+  "protocol": "Harmony Horizon Bridge",
+  "source_file": "Harmony Horizon Bridge",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "withdrawal_multisig",
+    "signer_compromise_resistance"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Horizon used a 2-of-5 multisig of EOA keys to approve cross-chain withdrawals of assets between Harmony and Ethereum/BSC."
+}

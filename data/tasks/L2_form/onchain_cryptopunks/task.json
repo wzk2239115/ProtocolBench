@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_cryptopunks",
+  "level": "L2_form",
+  "name": "onchain_cryptopunks",
+  "protocol": "CryptoPunks",
+  "source_file": "CryptoPunks",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "ownership_integrity",
+    "bid_escrow_safety"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "CryptoPunks predates ERC-721: a custom market contract tracks ownership and bids, with raw transfer and offer/bid functions."
+}

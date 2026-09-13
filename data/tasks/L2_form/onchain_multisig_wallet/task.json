@@ -1,0 +1,22 @@
+{
+  "task_id": "L2:onchain_multisig_wallet",
+  "level": "L2_form",
+  "name": "onchain_multisig_wallet",
+  "protocol": "Multisig Wallet",
+  "source_file": "Multisig Wallet",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "userop_authentication",
+    "no_replay",
+    "module_authorization",
+    "paymaster_safety"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Multisig Wallet is a production on-chain account_abstraction protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth "
+}

@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_htlc_atomic_swap",
+  "level": "L2_form",
+  "name": "onchain_htlc_atomic_swap",
+  "protocol": "HTLC Atomic Cross-Chain Swap",
+  "source_file": "HTLC Atomic Cross-Chain Swap",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "atomicity",
+    "no_free_option",
+    "timeout_fairness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Two parties swap assets across chains using Hash-Time-Locked Contracts: the swap secret's hash locks funds; the receiver claims on one chain revealing the preim"
+}

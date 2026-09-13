@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_polygon_pos_checkpoint",
+  "level": "L2_form",
+  "name": "onchain_polygon_pos_checkpoint",
+  "protocol": "Polygon PoS (checkpoint bridge)",
+  "source_file": "Polygon PoS (checkpoint bridge)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "checkpoint_quorum",
+    "exit_validity"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "A PoS sidechain whose checkpoints are submitted to Ethereum by a validator set; an on-chain bridge (Plasma/PoS portal) locks and releases assets."
+}

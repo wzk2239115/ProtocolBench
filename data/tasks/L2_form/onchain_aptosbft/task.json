@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_aptosbft",
+  "level": "L2_form",
+  "name": "onchain_aptosbft",
+  "protocol": "AptosBFT",
+  "source_file": "AptosBFT",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "safety",
+    "liveness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "AptosBFT is a chained BFT consensus (HotStuff-like) with a leader reputation/pipeline and a round-based quorum certificate."
+}

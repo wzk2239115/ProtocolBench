@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_eip4844_blobs",
+  "level": "L2_form",
+  "name": "onchain_eip4844_blobs",
+  "protocol": "EIP-4844 Proto-Danksharding (blobs)",
+  "source_file": "EIP-4844 Proto-Danksharding (blobs)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "kzg_binding",
+    "proof_soundness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Blob-carrying transactions add a KZG commitment to blobs whose data is pruned after ~18 days; rollups use blobs for cheap data availability."
+}

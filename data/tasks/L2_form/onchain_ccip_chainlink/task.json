@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_ccip_chainlink",
+  "level": "L2_form",
+  "name": "onchain_ccip_chainlink",
+  "protocol": "Chainlink CCIP",
+  "source_file": "Chainlink CCIP",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "message_authenticity",
+    "lane_and_rate_limit",
+    "no_router_confusion"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "CCIP uses a decentralized oracle network (Committing + Executing DONs) plus optional risk management to move messages and tokens; an on-chain Router enforces la"
+}

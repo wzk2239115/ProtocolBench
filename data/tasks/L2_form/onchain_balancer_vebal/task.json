@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_balancer_vebal",
+  "level": "L2_form",
+  "name": "onchain_balancer_vebal",
+  "protocol": "Balancer veBAL",
+  "source_file": "Balancer veBAL",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "proposal_threshold",
+    "vote_accounting",
+    "timelock_delay"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Balancer veBAL is a production on-chain governance protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this t"
+}

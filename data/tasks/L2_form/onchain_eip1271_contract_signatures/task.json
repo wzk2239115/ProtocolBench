@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_eip1271_contract_signatures",
+  "level": "L2_form",
+  "name": "onchain_eip1271_contract_signatures",
+  "protocol": "EIP-1271 Contract Signatures",
+  "source_file": "EIP-1271 Contract Signatures",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "signature_validation_soundness",
+    "reentrancy_safety",
+    "replay_binding"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "EIP-1271 lets a contract validate a signature via isValidSignature(hash, signature), enabling smart-contract accounts (Safe, AA wallets) to sign."
+}

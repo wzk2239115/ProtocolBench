@@ -1,0 +1,24 @@
+{
+  "protocol": "Balancer Weighted Pools",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "weighted_invariant_non_decrease",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "no_rounding_extraction",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

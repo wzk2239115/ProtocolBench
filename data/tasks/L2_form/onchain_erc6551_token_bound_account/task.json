@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_erc6551_token_bound_account",
+  "level": "L2_form",
+  "name": "onchain_erc6551_token_bound_account",
+  "protocol": "ERC-6551 Token-Bound Accounts",
+  "source_file": "ERC-6551 Token-Bound Accounts",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "owner_control",
+    "account_uniqueness",
+    "no_cross_account_control"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "ERC-6551 gives every NFT a deterministic smart-contract account controlled by the NFT's owner; the account can hold assets and execute calls."
+}

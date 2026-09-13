@@ -1,0 +1,15 @@
+{
+  "protocol": "Unprotected Signed Transactions",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {"name": "no_cross_chain_replay", "quantifier": "all-traces", "verdict": "falsified"},
+    {"name": "single_use", "quantifier": "all-traces", "verdict": "falsified"},
+    {"name": "nonce_monotonicity", "quantifier": "all-traces", "verdict": "verified"}
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

@@ -1,0 +1,30 @@
+{
+  "protocol": "CoW Protocol (batch auctions)",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "uniform_clearing_price",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "user_limit_respected",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "solver_bond_safety",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

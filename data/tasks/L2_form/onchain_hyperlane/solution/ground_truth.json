@@ -1,0 +1,30 @@
+{
+  "protocol": "Hyperlane Interchain Messaging",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "ism_verification",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "ism_authorization",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "message_uniqueness",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

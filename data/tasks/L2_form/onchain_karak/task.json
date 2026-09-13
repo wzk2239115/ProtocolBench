@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_karak",
+  "level": "L2_form",
+  "name": "onchain_karak",
+  "protocol": "Karak",
+  "source_file": "Karak",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "slashing_completeness",
+    "withdrawal_safety",
+    "no_double_slashing"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Karak is a production on-chain restaking protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; consu"
+}

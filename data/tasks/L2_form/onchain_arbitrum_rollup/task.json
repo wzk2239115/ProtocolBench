@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_arbitrum_rollup",
+  "level": "L2_form",
+  "name": "onchain_arbitrum_rollup",
+  "protocol": "Arbitrum Rollup (multi-round fraud proof)",
+  "source_file": "Arbitrum Rollup (multi-round fraud proof)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "assertion_correctness",
+    "challenger_liveness",
+    "bridge_consistency"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "An optimistic rollup whose dispute game narrows a state assertion over multiple bisection rounds until a single instruction is executed on-chain."
+}

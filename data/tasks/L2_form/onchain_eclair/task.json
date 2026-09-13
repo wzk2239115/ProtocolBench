@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_eclair",
+  "level": "L2_form",
+  "name": "onchain_eclair",
+  "protocol": "Eclair",
+  "source_file": "Eclair",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "atomicity",
+    "timeout_fairness",
+    "no_free_option"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Eclair is a production on-chain payment protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; consul"
+}

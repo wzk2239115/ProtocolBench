@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_xcmp_polkadot",
+  "level": "L2_form",
+  "name": "onchain_xcmp_polkadot",
+  "protocol": "Polkadot XCMP",
+  "source_file": "Polkadot XCMP",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "message_binding",
+    "no_replay_or_forge"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "XCMP moves cross-consensus messages between parachains; the relay chain's message queue ensures ordering and delivery, with HRMP for older deployments. Messages"
+}

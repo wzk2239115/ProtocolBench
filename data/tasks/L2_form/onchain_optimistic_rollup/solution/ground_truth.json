@@ -1,0 +1,30 @@
+{
+  "protocol": "Optimistic Rollup (fraud proofs)",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "state_root_soundness",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "fraud_proof_soundness",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "withdrawal_safety",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

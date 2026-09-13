@@ -1,0 +1,30 @@
+{
+  "protocol": "Pendle Yield Tokenization",
+  "overall_verdict": "UNSAFE",
+  "lemmas": [
+    {
+      "name": "pt_redemption_integrity",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "yt_yield_accounting",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    },
+    {
+      "name": "amm_solvency",
+      "quantifier": "all-traces",
+      "verdict": "falsified",
+      "steps": null
+    }
+  ],
+  "attack_traces": {},
+  "tamarin_version": null,
+  "wellformedness_ok": null,
+  "runtime_seconds": null,
+  "requires_diff": false,
+  "validated": false
+}

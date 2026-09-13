@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_sandwich_attack",
+  "level": "L2_form",
+  "name": "onchain_sandwich_attack",
+  "protocol": "AMM Sandwich Attack",
+  "source_file": "AMM Sandwich Attack",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "no_sandwich_profit",
+    "slippage_protection"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "A DEX trade is sandwiched when an adversary places a buy before and a sell after a victim's swap in the same block, profiting from the price impact and slippage"
+}

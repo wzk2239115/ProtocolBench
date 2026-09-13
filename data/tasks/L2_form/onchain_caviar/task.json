@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_caviar",
+  "level": "L2_form",
+  "name": "onchain_caviar",
+  "protocol": "Caviar",
+  "source_file": "Caviar",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "ownership_integrity",
+    "approval_authorization",
+    "no_reentrancy"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Caviar is a production on-chain nft protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; consult th"
+}

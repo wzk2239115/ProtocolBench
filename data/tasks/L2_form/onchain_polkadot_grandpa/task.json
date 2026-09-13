@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_polkadot_grandpa",
+  "level": "L2_form",
+  "name": "onchain_polkadot_grandpa",
+  "protocol": "Polkadot GRANDPA Finality",
+  "source_file": "Polkadot GRANDPA Finality",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "safety",
+    "liveness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "GRANDPA finalizes chains (not blocks) by having validators vote on the best chain containing a set of blocks, with a supermajority and a multi-round protocol."
+}

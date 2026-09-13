@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_starknet",
+  "level": "L2_form",
+  "name": "onchain_starknet",
+  "protocol": "Starknet (STARK validity rollup)",
+  "source_file": "Starknet (STARK validity rollup)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "validity_soundness",
+    "state_commitment_binding"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "A zk rollup using STARK proofs of a Cairo-based state transition, verified on L1, with a sequencer and provers."
+}

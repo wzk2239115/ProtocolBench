@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_ouroboros_praos",
+  "level": "L2_form",
+  "name": "onchain_ouroboros_praos",
+  "protocol": "Ouroboros Praos (Cardano)",
+  "source_file": "Ouroboros Praos (Cardano)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "common_prefix",
+    "chain_quality"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Praos is a proof-of-stake longest-chain protocol with a private leader election (VRF), epoch-based randomness, and a chain-selection rule weighted by stake; it "
+}

@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_bnb_bridge",
+  "level": "L2_form",
+  "name": "onchain_bnb_bridge",
+  "protocol": "BNB Smart Chain Bridge (IAVL proof)",
+  "source_file": "BNB Smart Chain Bridge (IAVL proof)",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "proof_verification_soundness",
+    "no_forged_proof"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "The BSC token hub released funds when presented with a Merkle (IAVL) proof of a burn on BNB Beacon Chain; the proof was verified against a stored app hash."
+}

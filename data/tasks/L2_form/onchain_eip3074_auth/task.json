@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_eip3074_auth",
+  "level": "L2_form",
+  "name": "onchain_eip3074_auth",
+  "protocol": "EIP-3074 AUTH/AUTHCALL",
+  "source_file": "EIP-3074 AUTH/AUTHCALL",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "authorization_binding",
+    "no_replay"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "EIP-3074 adds AUTH and AUTHCALL opcodes letting a sponsor (invoker) act on behalf of an EOA after an ECDSA authorization; the invoker gets full control within t"
+}

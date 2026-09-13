@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_stork",
+  "level": "L2_form",
+  "name": "onchain_stork",
+  "protocol": "Stork",
+  "source_file": "Stork",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "feed_authenticity",
+    "freshness",
+    "manipulation_resistance"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Stork is a production on-chain oracle protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; consult "
+}

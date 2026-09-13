@@ -36,6 +36,10 @@ class EvalConfig(BaseModel):
     container_memswap_limit: str | None = "8g"
     container_pids_limit: int | None = 4096
     task_description_template: str | None = None
+    # Networked research tools. Enabled by default: agents batch-run real
+    # deployed protocols and are expected to fetch specs/RFCs and public
+    # analyses themselves. Set True only for a no-network ablation.
+    disable_web_search: bool = False
 
 
 class CheckResult(BaseModel):
@@ -58,7 +62,7 @@ class AgentFnArguments(BaseModel):
     api_key: str | None = None
     credential_path: Path | None = None
     firewall_env: dict[str, str] | None = None
-    disable_web_search: bool = True
+    disable_web_search: bool = False
 
 
 class EvalResult(BaseModel):

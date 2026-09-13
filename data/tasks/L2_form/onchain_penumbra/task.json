@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_penumbra",
+  "level": "L2_form",
+  "name": "onchain_penumbra",
+  "protocol": "Penumbra",
+  "source_file": "Penumbra",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "anonymity",
+    "double_spend_prevention",
+    "unlinkability"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Penumbra is a production on-chain privacy protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; cons"
+}

@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_uma_optimistic_oracle",
+  "level": "L2_form",
+  "name": "onchain_uma_optimistic_oracle",
+  "protocol": "UMA Optimistic Oracle",
+  "source_file": "UMA Optimistic Oracle",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "assertion_correctness",
+    "dispute_liveness",
+    "dvm_soundness"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "UMA lets a proposer assert an outcome with a bond; anyone can dispute within a liveness window, escalating to a token-holder vote (DVM) if disputed."
+}

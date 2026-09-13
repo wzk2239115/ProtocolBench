@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_silk",
+  "level": "L2_form",
+  "name": "onchain_silk",
+  "protocol": "SILK",
+  "source_file": "SILK",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "peg_solvency",
+    "backing_integrity",
+    "mint_authorization"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "SILK is a production on-chain stablecoin protocol. Its deployed interfaces, message/transaction formats and parameters are the ground truth for this task; consu"
+}

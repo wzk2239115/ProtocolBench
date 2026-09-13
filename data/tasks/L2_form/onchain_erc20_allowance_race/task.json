@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_erc20_allowance_race",
+  "level": "L2_form",
+  "name": "onchain_erc20_allowance_race",
+  "protocol": "ERC-20 Allowance",
+  "source_file": "EIP-20",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "allowance_upper_bound",
+    "approval_atomicity",
+    "no_unauthorized_transfer"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Model the ERC-20 allowance workflow and determine whether transaction reordering lets a spender exceed the owner's intended allowance."
+}

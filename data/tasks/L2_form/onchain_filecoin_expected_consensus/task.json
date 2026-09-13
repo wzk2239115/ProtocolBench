@@ -1,0 +1,20 @@
+{
+  "task_id": "L2:onchain_filecoin_expected_consensus",
+  "level": "L2_form",
+  "name": "onchain_filecoin_expected_consensus",
+  "protocol": "Filecoin Expected Consensus",
+  "source_file": "Filecoin Expected Consensus",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "chain_quality",
+    "storage_proof_binding"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "Filecoin uses storage-based leader election (ElectionProof) weighted by quality-adjusted power, a tipset structure, and a longest-chain rule over tipsets."
+}

@@ -1,0 +1,21 @@
+{
+  "task_id": "L2:onchain_lightning_channel",
+  "level": "L2_form",
+  "name": "onchain_lightning_channel",
+  "protocol": "Lightning Network Payment Channel",
+  "source_file": "Lightning Network Payment Channel",
+  "source_dataset": "onchain",
+  "given_files": [
+    "spec.md"
+  ],
+  "lemma_names": [
+    "close_at_agreed_balance",
+    "revoked_state_penalty",
+    "no_htlc_theft"
+  ],
+  "uses_diff_terms": false,
+  "family": "tamarin",
+  "deployment": null,
+  "oracle": false,
+  "description": "A 2-of-2 funding transaction opens a channel; commitment transactions encode the current balance split with revocation secrets. Revoking an old state lets the w"
+}
