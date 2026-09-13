@@ -11,7 +11,14 @@ set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-MODEL="${MODEL:-deepseek/deepseek-v4.1-flash}"
+# Load repo-local .glm_env (gitignored) if no key is already exported.
+if [[ -z "${API_KEY:-}" && -z "${GLM_API_KEY:-}" && -f .glm_env ]]; then
+  set -a; # shellcheck disable=SC1091
+  source .glm_env
+  set +a
+fi
+
+MODEL="${MODEL:-${GLM_MODEL:-deepseek/deepseek-v4.1-flash}}"
 API_BASE="${API_BASE:-https://api.360.cn}"
 API_KEY="${API_KEY:-${GLM_API_KEY:-}}"
 CONCURRENCY="${CONCURRENCY:-50}"

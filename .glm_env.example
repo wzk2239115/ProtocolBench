@@ -1,0 +1,6 @@
+# Copy this to .glm_env (gitignored) and fill in the values.
+# run_protocol.py and scripts/run_onchain.sh load it automatically.
+export GLM_API_KEY=""
+export API_KEY=""                 # optional alias (run_onchain.sh reads API_KEY or GLM_API_KEY)
+export GLM_API_BASE="https://api.360.cn"
+export GLM_MODEL="deepseek/deepseek-v4.1-flash"

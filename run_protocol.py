@@ -23,6 +23,7 @@ from __future__ import annotations
 import argparse
 import json
 import logging
+import os
 import random
 import signal
 import sys
@@ -40,8 +41,28 @@ logger = logging.getLogger("run_protocol")
 
 global_terminate_flag = False
 
-DEFAULT_API_KEY = "fk3478068563.wS9T_IONT6Qkh3IC2Ket6zbvbZi7jH37058071ba"
-DEFAULT_API_BASE = "https://api.360.cn"
+
+def _load_glm_env() -> None:
+    """Load repo-local .glm_env (gitignored) without overriding real env vars."""
+    path = REPO_ROOT / ".glm_env"
+    if not path.is_file():
+        return
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        if line.startswith("export "):
+            line = line[len("export "):]
+        if "=" not in line:
+            continue
+        key, _, value = line.partition("=")
+        os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
+
+
+_load_glm_env()
+
+DEFAULT_API_KEY = os.environ.get("GLM_API_KEY") or os.environ.get("API_KEY")
+DEFAULT_API_BASE = os.environ.get("GLM_API_BASE", "https://api.360.cn")
 DEFAULT_AGENT_IMAGE = "protocolbench/agent:latest"
 DEFAULT_TIMEOUT = 3600
 DEFAULT_VERIFY_TIMEOUT = 120

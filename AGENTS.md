@@ -40,7 +40,7 @@ ProtocolBench: 测量 AI 自主发现协议设计缺陷的能力。
   - DeepSeek V4 Flash: `deepseek/deepseek-v4-flash`
   - DeepSeek V4.1 Flash: `deepseek/deepseek-v4.1-flash` (1M ctx, 已验证 `/v1/messages`)
   - GLM 系列: `z-ai/glm-5.3` 等
-  - API key: `fk3478068563.wS9T_IONT6Qkh3IC2Ket6zbvbZi7jH37058071ba`
+  - API key: 从 `.glm_env` 读取 (`GLM_API_KEY`/`API_KEY`; 模板见 `.glm_env.example`), **不要**写进代码/文档
   - base URL 设 `https://api.360.cn`(不含 /v1)
   - 认证用 `--api-key`，**不要**用 `ANTHROPIC_AUTH_TOKEN`
   - opencode 侧配置: `~/.config/opencode/opencode.json` (provider `360-proxy`, OpenAI 兼容 `/v1`)
@@ -54,7 +54,7 @@ uv run python examples/run_agent.py --tasks-file data/task_ids/b1_sample.txt \
   --out-dir /tmp/opencode/b1_run --agent claude_code \
   --claude-model deepseek/deepseek-v4-flash \
   --api-base-url https://api.360.cn \
-  --api-key "fk3478068563.wS9T_IONT6Qkh3IC2Ket6zbvbZi7jH37058071ba" \
+  --api-key "$GLM_API_KEY" \
   --agent-image protocolbench/agent:latest \
   --timeout 3600 --verify-timeout 1800 --mem-limit 16g --max-workers 1
 ```
