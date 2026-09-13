@@ -20,7 +20,7 @@ VERIFY_TIMEOUT="${VERIFY_TIMEOUT:-5m}"
 MEM="${MEM:-2g}"
 CPUS="${CPUS:-1000000000}"          # 1 CPU per container
 TASKS="${TASKS:-data/task_ids/onchain.txt}"
-OUT="${OUT:-/tmp/opencode/onchain_run}"
+OUT="${OUT:-out/onchain_run}"
 AGENT_IMAGE="${AGENT_IMAGE:-protocolbench/agent:latest}"
 
 if [[ -z "$API_KEY" ]]; then

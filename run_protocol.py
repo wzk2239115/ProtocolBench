@@ -180,7 +180,7 @@ def main() -> None:
     ap.add_argument("--protocols", "-p", type=Path, default=None,
                     help="protocol list file (one task ID per line)")
     ap.add_argument("--out-dir", "-o", type=Path,
-                    default=Path("/tmp/opencode/protocol_run"),
+                    default=Path("out/protocol_run"),
                     help="output directory")
     ap.add_argument("--first-n", type=int, default=None,
                     help="run only first N tasks")
