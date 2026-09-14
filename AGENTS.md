@@ -27,7 +27,7 @@ ProtocolBench: 测量 AI 自主发现协议设计缺陷的能力。
   - 只给 spec.md, 不给任何 Lean/Tamarin 模型; 联网工具默认开启 (WebFetch/WebSearch 走第三方端点可能不可用, prompt 已让 agent 用 Bash+curl)
   - 全部是**找攻击**题 (ground_truth=UNSAFE); 评分: attack_evidence 0.6 (编译+无sorry/axiom+goal 名全覆盖) + verdict_unsafe 0.2 + attack_report 0.2; 语义验收留给 judge
   - 跑批: `API_KEY=... ./scripts/run_onchain.sh` (默认 model=deepseek/deepseek-v4.1-flash, 并发50/6h/mem 2g)
-  - **轨迹**: 每个任务输出 `out/<model>_<ts>/<task>/trajectory/projects/-workspace/<session>.jsonl` (cc 原生会话, 含 assistant/tool_use) + `trajectory/claude_code.log` (流式) + `logs/claude_code.log`
+  - **轨迹**: 每任务 `trajectory/projects/-workspace/<session>.jsonl` (cc 原生会话, 含 assistant/tool_use) + 过滤后的 `logs/trajectory.jsonl` (原始流 ~99.8% 是 `system/thinking_tokens` 计数器, 已丢弃); 转可读文本 `scripts/extract_trajectory.py <run_dir>`
 - **verifier 镜像**: `tamaringym/verifier:1.12.0` — 旧 Tamarin-only 评分镜像(仍用于 L1)
 - **RS 镜像**: `tamaringym/jwt-rs:latest` — B1 的 FastAPI/PyJWT 资源服务器
 - 构建: `docker build -f docker/agent.Dockerfile -t protocolbench/agent:latest docker/`

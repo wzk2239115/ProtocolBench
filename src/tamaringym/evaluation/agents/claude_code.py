@@ -200,7 +200,7 @@ def run_claude_code_with_container(args: AgentFnArguments) -> None:
     claude_command = (
         f"cat {prompt_path} | timeout {args.agent_timeout_seconds} "
         f"{claude_code_bin} {' '.join(cli_flags)} "
-        f"2>&1 | tee /logs/claude_code.log"
+        f"2>&1"
     )
     env = {
         "ANTHROPIC_BASE_URL": args.api_base_url or os.environ.get("ANTHROPIC_BASE_URL"),
@@ -241,14 +241,41 @@ def run_claude_code_with_container(args: AgentFnArguments) -> None:
     )
     exec_output = client.api.exec_start(resp["Id"], stream=True, socket=False)
 
+    # Write a *filtered* trajectory. The raw stream-json is dominated by
+    # `system/thinking_tokens` per-token counter records (~99.8% of lines,
+    # hundreds of MB) which carry no analytical value. Keep only meaningful
+    # records: messages, tool calls, task/status/compact events.
+    NOISY_SYSTEM = {"thinking_tokens"}
     rendered_log_dir = args.out_dir / "logs"
     rendered_log_dir.mkdir(parents=True, exist_ok=True)
-    rendered_log_path = rendered_log_dir / "claude_code.log"
-    with rendered_log_path.open("w", encoding="utf-8") as out:
+    trajectory_path = rendered_log_dir / "trajectory.jsonl"
+    buf = ""
+    kept = dropped = 0
+    with trajectory_path.open("w", encoding="utf-8") as out:
         for chunk in exec_output:
-            if chunk:
-                out.write(chunk.decode(errors="replace"))
-                out.flush()
+            if not chunk:
+                continue
+            buf += chunk.decode(errors="replace")
+            while "\n" in buf:
+                line, buf = buf.split("\n", 1)
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    rec = _json.loads(line)
+                except ValueError:
+                    out.write(line + "\n")  # non-JSON status line: keep
+                    kept += 1
+                    continue
+                if rec.get("type") == "system" and rec.get("subtype") in NOISY_SYSTEM:
+                    dropped += 1
+                    continue
+                out.write(_json.dumps(rec, ensure_ascii=False) + "\n")
+                kept += 1
+        if buf.strip():
+            out.write(buf.strip() + "\n")
+            kept += 1
+    logger.info("trajectory: kept %d records, dropped %d noisy (-> %s)", kept, dropped, trajectory_path)
 
     exit_code = client.api.exec_inspect(resp["Id"])["ExitCode"]
     logger.info("Claude Code exit code: %d", exit_code)

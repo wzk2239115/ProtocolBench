@@ -203,20 +203,31 @@ class LeanEvaluator:
         return outputs_dir
 
     def _collect_logs(self, container, out_dir: Path) -> None:
-        """Copy the agent trajectory out of the container to ``out_dir/trajectory``.
+        """Copy the clean agent trajectory out of the container.
 
-        Includes the Claude Code session JSONL under ``/logs/projects`` (full
-        message/tool-call trajectory, resumable) and the streamed CLI log.
+        Only the Claude Code session JSONL under ``/logs/projects`` (full
+        message/tool-call trajectory, resumable) and the small session config
+        are kept. The raw streamed CLI log is written host-side as a filtered
+        ``logs/trajectory.jsonl`` (see ``agents/claude_code.py``); the noisy
+        in-container ``claude_code.log`` is neither produced nor copied.
         """
         if container is None:
             return
         dest = out_dir / "trajectory"
         dest.mkdir(parents=True, exist_ok=True)
         try:
-            docker_cp_from_container(container.id, "/logs/.", str(dest), check=False)
-            logger.info("collected trajectory logs -> %s", dest)
+            docker_cp_from_container(
+                container.id, "/logs/projects", str(dest / "projects"), check=False
+            )
+            logger.info("collected session trajectory -> %s", dest / "projects")
         except Exception:
-            logger.exception("failed to collect /logs from container")
+            logger.exception("failed to collect /logs/projects from container")
+        try:
+            docker_cp_from_container(
+                container.id, "/logs/.claude.json", str(dest / ".claude.json"), check=False
+            )
+        except Exception:
+            pass
 
     def _score(self, outputs_dir: Path) -> list[CheckResult]:
         """Attack-discovery scoring.

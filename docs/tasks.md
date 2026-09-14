@@ -124,8 +124,11 @@ There is no stored SAFE/UNSAFE label to match: a task scores by producing
 machine-checkable attack evidence. Semantic acceptance (is the attack real, is
 it the target flaw, are the witnesses sound?) is a separate judge stage.
 
-**Trajectories** are collected per task: `trajectory/projects/-workspace/*.jsonl`
-(the native Claude Code session, resumable) plus `trajectory/claude_code.log`.
+**Trajectories** are collected per task as the clean Claude Code session JSONL
+(`trajectory/projects/-workspace/*.jsonl`, resumable) plus a filtered
+`logs/trajectory.jsonl` (the raw stream is ~99.8% `system/thinking_tokens`
+counters and is dropped). Convert either to readable Markdown with
+`scripts/extract_trajectory.py <run_dir> [--out traj.md]`.
 
 ## Difficulty axes (future)
 
