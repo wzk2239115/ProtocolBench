@@ -1,0 +1,15 @@
+{
+  "id": "tx:erc20_allowance_race",
+  "kind": "tx",
+  "protocol": "ERC-20 (EIP-20)",
+  "source": "EIP-20 security considerations",
+  "real_flaw": "approve/transferFrom allowance race",
+  "flag_gate": "attacker balance >= threshold only reachable by the race",
+  "threshold": "N + M (100e18 + 40e18 = 140e18)",
+  "flag": "HMAC_SHA256(FLAG_SEED, \"tx:erc20_allowance_race\")",
+  "stack": "foundry-1.8.3 / anvil",
+  "contracts": {
+    "Token": "OpenZeppelin ERC20 v5.1.0 (stock, fixed-supply mint in constructor)",
+    "FlagVault": "claim(taskId,flag) gated on attacker token balance >= threshold AND keccak256(flag) == expectedHash"
+  }
+}

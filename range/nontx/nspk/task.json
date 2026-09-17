@@ -1,0 +1,14 @@
+{
+  "id": "nontx:nspk",
+  "kind": "nontx",
+  "protocol": "Needham-Schroeder public-key (1978)",
+  "source": "Needham & Schroeder 1978; Lowe 1995 attack",
+  "real_flaw": "Lowe MITM (1995)",
+  "flag_gate": "knowledge of A<->B session nonce Nb",
+  "language": "python3",
+  "transport": "tcp/json-lines",
+  "crypto": "RSA-2048-OAEP-SHA256",
+  "roles": ["directory", "A (initiator)", "B (responder + flag)"],
+  "flag_env": "EXPECTED_FLAG",
+  "flag_derivation": "HMAC_SHA256(FLAG_SEED, \"nontx:nspk\")"
+}

@@ -1,0 +1,4 @@
+# Agent output captured during a run (never commit a captured flag)
+flag.txt
+# Controller / target run artifacts
+out/

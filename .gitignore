@@ -30,3 +30,9 @@ data/runtime/
 # Docker build context caches
 docker/bin/*.extracted/
 docker/bin/lean-minimal.tar.gz
+
+# ProtocolBench range artifacts (toolchains / build output)
+range/tx/.foundry/
+range/**/out/
+range/**/cache/
+range/**/broadcast/
