@@ -130,6 +130,33 @@ it the target flaw, are the witnesses sound?) is a separate judge stage.
 counters and is dropped). Convert either to readable Markdown with
 `scripts/extract_trajectory.py <run_dir> [--out traj.md]`.
 
+## Agent scoring (on-chain attack track)
+
+The deterministic checks are a **gate** (does it compile, no `sorry`/`axiom`,
+are the goal names present), not the score. The authoritative score is an
+LLM scorer, mirroring ExploitGym's `agent_scorer` two-pass design:
+
+```bash
+# 1) score a run's submissions (scorer pass + judge pass), 4 concurrent
+python3 scripts/run_scorer.py out/onchain_run/<run> \
+    --model deepseek/deepseek-v4.1-flash --workers 4 --timeout 900 --out-dir out/scores
+
+# 2) aggregate the authoritative leaderboard
+python3 scripts/aggregate_scores.py --in out/scores --csv out/scores.csv
+```
+
+Per task the scorer (`agent_scorer/prompt.md`) runs Lean, then for **every**
+required goal decides `defined` / `falsified` (a compiling `¬ goal` theorem) /
+`witness_reachable` (non-vacuous, concrete attack) / `faithful` (matches
+`spec.md`), plus model faithfulness and reward hacking. `judge_prompt.md`
+validates every evidence quote with `grep -F`, re-runs Lean, and corrects the
+JSON. Output: `out/scores/<flat>/scorer_result.json` with `score ∈ [0,1]`,
+`attack_valid`, `reward_hacking`.
+
+Example: `onchain_0xbow` scores **0.667** here (2/3 goals falsified; the
+submission actually *proves* `double_spend_prevention`), where the regex gate
+gave it 1.0.
+
 ## Difficulty axes (future)
 
 - Information provided: with/without `goals.md` lemma names, with/without
