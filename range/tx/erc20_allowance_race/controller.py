@@ -547,6 +547,8 @@ def main(argv: list[str] | None = None) -> int:
                         help="seconds between the two approve txs")
     parser.add_argument("--agent-timeout", type=float, default=120.0)
     parser.add_argument("--json", action="store_true", help="print result JSON only")
+    parser.add_argument("--out-dir", default=None,
+                        help="write result.json + agent I/O here (for run_range.py)")
     args = parser.parse_args(argv)
 
     agent_cmd = args.agent_cmd
@@ -560,6 +562,12 @@ def main(argv: list[str] | None = None) -> int:
         agent_timeout=args.agent_timeout,
         verbose=not args.json,
     )
+    if args.out_dir:
+        out_path = Path(args.out_dir)
+        out_path.mkdir(parents=True, exist_ok=True)
+        (out_path / "result.json").write_text(
+            json.dumps(result, indent=2) + "\n", encoding="utf-8"
+        )
     if args.json:
         print(json.dumps(result, indent=2))
     else:

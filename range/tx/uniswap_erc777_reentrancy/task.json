@@ -1,0 +1,17 @@
+{
+  "id": "tx:uniswap_erc777_reentrancy",
+  "kind": "tx",
+  "protocol": "Uniswap V1-style exchange + ERC-777",
+  "source": "imBTC/Lendf.Me April 2020",
+  "real_flaw": "ERC-777 hook reentrancy into balance-based pricing (no reentrancy guard)",
+  "flag_gate": "pool ETH balance drained below threshold only reachable via the ERC-777 tokensToSend reentrancy; FlagVault.claim requires pool drained AND keccak256(flag) == expectedHash",
+  "threshold": "pool ETH <= 2.5e18 (attacker holds B=T tokens; legit single swap leaves pool at ~5 ETH)",
+  "flag": "HMAC_SHA256(FLAG_SEED, \"tx:uniswap_erc777_reentrancy\")",
+  "stack": "foundry-1.8.3 / anvil",
+  "contracts": {
+    "ImBTC777": "OpenZeppelin ERC777 v4.9.6 (stock) + constructor mint; ERC-1820 hooks (tokensToSend fires before state update)",
+    "Exchange": "Uniswap-V1-style ETH/token pool, output priced from token.balanceOf(this) & address(this).balance, NO reentrancy guard",
+    "ExchangeSafe": "same pool with OpenZeppelin ReentrancyGuard (negative/fix variant)",
+    "FlagVault": "claim(taskId,flag) gated on address(pool).balance <= drainedThreshold AND keccak256(flag) == expectedHash"
+  }
+}

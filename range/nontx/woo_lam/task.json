@@ -1,0 +1,14 @@
+{
+  "id": "nontx:woo_lam",
+  "kind": "nontx",
+  "protocol": "Woo-Lam authentication (1992/1994, Abadi-Needham 1996 simplified form)",
+  "source": "Woo & Lam 1992/1994; Abadi & Needham 1996; Paulson Isabelle/HOL WooLam.thy",
+  "real_flaw": "Woo-Lam interleaving/impersonation (msg3 {NB}_KAS not bound to responder identity)",
+  "flag_gate": "knowledge of NB bound by B to peer identity A on a completed run",
+  "language": "python3",
+  "transport": "tcp/json-lines",
+  "crypto": "symmetric AEAD (hash-stream + HMAC-SHA256), 256-bit shared keys",
+  "roles": ["S (authentication server/KDC)", "A (initiator)", "B (responder + flag)"],
+  "flag_env": "EXPECTED_FLAG",
+  "flag_derivation": "HMAC_SHA256(FLAG_SEED, \"nontx:woo_lam\")"
+}

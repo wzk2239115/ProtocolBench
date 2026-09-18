@@ -1,0 +1,14 @@
+{
+  "id": "nontx:needham_schroeder_symmetric",
+  "kind": "nontx",
+  "protocol": "Needham-Schroeder symmetric-key (1978)",
+  "source": "Needham & Schroeder 1978; Denning & Sacco 1981 replay attack",
+  "real_flaw": "Denning-Sacco replay (1981)",
+  "flag_gate": "knowledge of a session key K_AB for a replayed session B attributes to A",
+  "language": "python3",
+  "transport": "tcp/json-lines",
+  "crypto": "HMAC-SHA256-CTR + HMAC-SHA256-MAC (authenticated symmetric encryption)",
+  "roles": ["S (KDC)", "A (initiator)", "B (responder + flag)"],
+  "flag_env": "EXPECTED_FLAG",
+  "flag_derivation": "HMAC_SHA256(FLAG_SEED, \"nontx:needham_schroeder_symmetric\")"
+}
