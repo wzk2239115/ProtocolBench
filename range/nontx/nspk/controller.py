@@ -58,8 +58,8 @@ def load_flag_seed() -> str:
     return DEV_FLAG_SEED
 
 
-def derive_expected_flag(seed: str) -> str:
-    return hmac.new(seed.encode(), TASK_ID.encode(), hashlib.sha256).hexdigest()
+def derive_expected_flag(seed: str, task_id: str = TASK_ID) -> str:
+    return hmac.new(seed.encode(), task_id.encode(), hashlib.sha256).hexdigest()
 
 
 def free_port() -> int:
@@ -93,9 +93,11 @@ class LocalTarget:
         self.ports = {"dir": free_port(), "a": free_port(), "b": free_port()}
         self.proc: subprocess.Popen | None = None
 
-    def start(self, flag: str) -> None:
+    def start(self, flag: str, variant_env: dict | None = None) -> None:
         env = dict(os.environ)
         env["EXPECTED_FLAG"] = flag
+        if variant_env:
+            env.update(variant_env)
         cmd = [
             sys.executable,
             str(TARGET_DIR / "server.py"),
@@ -146,7 +148,7 @@ class DockerTarget:
             return
         subprocess.run(["bash", str(TASK_DIR / "build.sh")], check=True)
 
-    def start(self, flag: str) -> None:
+    def start(self, flag: str, variant_env: dict | None = None) -> None:
         self.ensure_image()
         events_dir = self.events_file.parent
         events_dir.mkdir(parents=True, exist_ok=True)
@@ -160,10 +162,15 @@ class DockerTarget:
             "-p", f"127.0.0.1:{self.ports['a']}:{CONTAINER_PORTS['a']}",
             "-p", f"127.0.0.1:{self.ports['b']}:{CONTAINER_PORTS['b']}",
             "-v", f"{events_dir}:/events",
+        ]
+        if variant_env:
+            for key, value in variant_env.items():
+                cmd.extend(["-e", f"{key}={value}"])
+        cmd.extend([
             DOCKER_IMAGE,
             "--host", "0.0.0.0",
             "--events-file", f"/events/{self.events_file.name}",
-        ]
+        ])
         if self.fixed:
             cmd.append("--fixed")
         subprocess.run(cmd, check=True, capture_output=True)
@@ -222,9 +229,38 @@ def main(argv: list[str] | None = None) -> int:
     flag_path = WORKSPACE / "flag.txt"
     if flag_path.exists():
         flag_path.unlink()
+    (WORKSPACE / "role_map.json").unlink(missing_ok=True)
+
+    # ── variant support ───────────────────────────────────────────────
+    variant_task_id = os.environ.get("VARIANT_TASK_ID")
+    flag_task_id = variant_task_id if variant_task_id else TASK_ID
+
+    variant_env: dict | None = None
+    variant_params_json = os.environ.get("VARIANT_PARAMS")
+    if variant_params_json:
+        try:
+            vp = json.loads(variant_params_json)
+            variant_env = {}
+            if "rsa_bits" in vp:
+                variant_env["VARIANT_RSA_BITS"] = str(vp["rsa_bits"])
+            if "nonce_bytes" in vp:
+                variant_env["VARIANT_NONCE_BYTES"] = str(vp["nonce_bytes"])
+        except (json.JSONDecodeError, TypeError):
+            pass
+
+    # Write workspace/role_map.json so the agent sees the variant naming.
+    role_map_json = os.environ.get("VARIANT_ROLE_MAP")
+    if role_map_json:
+        try:
+            role_map = json.loads(role_map_json)
+            (WORKSPACE / "role_map.json").write_text(
+                json.dumps(role_map, indent=2) + "\n", encoding="utf-8"
+            )
+        except (json.JSONDecodeError, TypeError):
+            pass
 
     seed = load_flag_seed()
-    expected = derive_expected_flag(seed)
+    expected = derive_expected_flag(seed, flag_task_id)
     SOLUTION.mkdir(exist_ok=True)
     (SOLUTION / "expected_flag.txt").write_text(expected + "\n", encoding="utf-8")
 
@@ -234,6 +270,7 @@ def main(argv: list[str] | None = None) -> int:
 
     result: dict = {
         "task": TASK_ID,
+        "variant_task_id": variant_task_id,
         "mode": None,
         "fixed": args.fixed,
         "flag_seed_source": "dev-default" if seed == DEV_FLAG_SEED else "host",
@@ -250,7 +287,7 @@ def main(argv: list[str] | None = None) -> int:
     target = pick_target(args.mode, args.fixed, events_file)
     result["mode"] = target.mode
     try:
-        target.start(expected)
+        target.start(expected, variant_env=variant_env)
         wait_ready(args.host, target.ports["dir"], timeout=args.timeout)
         result["ports"] = target.ports
 

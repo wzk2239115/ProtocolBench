@@ -35,6 +35,7 @@ import contextlib
 import importlib
 import io
 import json
+import os
 import shutil
 import sys
 import time
@@ -47,6 +48,7 @@ sys.path.insert(0, str(RANGE_ROOT))
 from common.agent import build_claude_code_command  # noqa: E402
 from common.env import load_glm_env  # noqa: E402
 from common.result import normalize_result  # noqa: E402
+from common.variants import generate_variant  # noqa: E402
 
 
 # ── range discovery ──────────────────────────────────────────────────────
@@ -83,7 +85,12 @@ def _run_nspk(
     fixed: bool,
     mode: str,
 ) -> dict:
-    """Invoke the NSPK controller's ``main(argv)`` and read its result.json."""
+    """Invoke the NSPK controller's ``main(argv)`` and read its result.json.
+
+    Variant env vars (``VARIANT_SEED``, ``VARIANT_PARAMS``, ``VARIANT_ROLE_MAP``,
+    ``VARIANT_TASK_ID``) are read by the controller from ``os.environ`` — they
+    must be set before this function is called.
+    """
     argv = [
         "--agent-cmd", agent_cmd,
         "--out-dir", str(out_dir),
@@ -110,15 +117,22 @@ def _run_tx(
     out_dir: Path,
     safe: bool,
     window: float,
+    variant_params: dict | None = None,
+    variant_task_id: str | None = None,
 ) -> dict:
     """Invoke the TX controller's ``run_scenario()`` directly."""
-    result = controller.run_scenario(
+    kwargs: dict = dict(
         safe=safe,
         agent_cmd=agent_cmd,
         window=window,
         agent_timeout=timeout,
         verbose=False,
     )
+    if variant_params is not None:
+        kwargs["variant_params"] = variant_params
+    if variant_task_id is not None:
+        kwargs["variant_task_id"] = variant_task_id
+    result = controller.run_scenario(**kwargs)
     # run_scenario() cleans up workspace/flag.txt in stop(); save the raw result.
     (out_dir / "controller_result.json").write_text(
         json.dumps(result, indent=2) + "\n", encoding="utf-8"
@@ -150,8 +164,9 @@ def _restore_workspace(workspace: Path, original: set[str]) -> None:
                 item.unlink(missing_ok=True)
         except OSError:
             pass
-    # Always remove the flag (the controller may leave it behind on success).
-    for name in ("flag.txt", "target.json"):
+    # Always remove the flag and variant artifacts (the controller may leave
+    # them behind on success).
+    for name in ("flag.txt", "target.json", "variant.json", "role_map.json"):
         (workspace / name).unlink(missing_ok=True)
 def _collect_flag(
     range_dir: Path,
@@ -230,6 +245,10 @@ def main() -> int:
                     help="tx: seconds between the two approve txs")
     ap.add_argument("--agent-image", default=None,
                     help="override the agent docker image")
+    ap.add_argument("--variant-seed", type=int, default=None,
+                    help="generate a deterministic variant (role renaming + "
+                         "deployment param changes) from this seed; the variant "
+                         "gets a unique flag derived from variant_id")
     args = ap.parse_args()
 
     # Resolve the range directory.
@@ -293,6 +312,35 @@ def main() -> int:
               file=sys.stderr)
         return 2
 
+    # ── variant setup ─────────────────────────────────────────────────
+    variant_cfg = None
+    variant_extra: dict = {}
+    if args.variant_seed is not None:
+        variant_cfg = generate_variant(task_id, args.variant_seed)
+        os.environ["VARIANT_SEED"] = str(args.variant_seed)
+        os.environ["VARIANT_TASK_ID"] = variant_cfg.variant_id
+        os.environ["VARIANT_PARAMS"] = json.dumps(variant_cfg.params)
+        if variant_cfg.role_map:
+            os.environ["VARIANT_ROLE_MAP"] = json.dumps(variant_cfg.role_map)
+        # Write workspace/variant.json so the agent sees the variant presentation.
+        variant_doc = {
+            "variant_id": variant_cfg.variant_id,
+            "variant_seed": args.variant_seed,
+            "task_id_base": variant_cfg.task_id_base,
+            "role_map": variant_cfg.role_map,
+            "params": variant_cfg.params,
+            "description": variant_cfg.description,
+        }
+        (workspace / "variant.json").write_text(
+            json.dumps(variant_doc, indent=2) + "\n", encoding="utf-8"
+        )
+        variant_extra = {
+            "variant_seed": args.variant_seed,
+            "variant_id": variant_cfg.variant_id,
+        }
+        print(f"[run_range] variant seed={args.variant_seed} "
+              f"id={variant_cfg.variant_id}", flush=True)
+
     # ── run the range ──────────────────────────────────────────────────
     controller = _import_controller(range_dir)
 
@@ -312,6 +360,8 @@ def main() -> int:
             controller_result = _run_tx(
                 controller, range_dir, agent_cmd, args.timeout,
                 out_dir, args.safe, args.window,
+                variant_params=(variant_cfg.params if variant_cfg else None),
+                variant_task_id=(variant_cfg.variant_id if variant_cfg else None),
             )
     except Exception as exc:  # noqa: BLE001
         elapsed = time.monotonic() - t0
@@ -329,6 +379,7 @@ def main() -> int:
             model=model_label,
             controller_result=controller_result,
             elapsed_sec=elapsed,
+            extra=variant_extra or None,
         )
         (out_dir / "result.json").write_text(
             json.dumps(normalized, indent=2) + "\n", encoding="utf-8"
@@ -351,6 +402,7 @@ def main() -> int:
         model=model_label,
         controller_result=controller_result,
         elapsed_sec=elapsed,
+        extra=variant_extra or None,
     )
     (out_dir / "result.json").write_text(
         json.dumps(normalized, indent=2) + "\n", encoding="utf-8"

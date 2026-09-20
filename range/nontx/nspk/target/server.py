@@ -320,10 +320,20 @@ def main() -> int:
     parser.add_argument("--dir-port", type=int, default=9100)
     parser.add_argument("--events-file", default=None)
     parser.add_argument("--fixed", action="store_true", help="apply Lowe's fix")
-    parser.add_argument("--key-bits", type=int, default=2048)
+    parser.add_argument(
+        "--key-bits", type=int,
+        default=int(os.environ.get("VARIANT_RSA_BITS", "2048")),
+        help="RSA key size in bits (env VARIANT_RSA_BITS overrides default)",
+    )
+    parser.add_argument(
+        "--nonce-bytes", type=int,
+        default=int(os.environ.get("VARIANT_NONCE_BYTES", "16")),
+        help="nonce length in bytes (env VARIANT_NONCE_BYTES overrides default)",
+    )
     args = parser.parse_args()
 
-    global STATE
+    global STATE, NONCE_LEN
+    NONCE_LEN = args.nonce_bytes
     STATE = State(fixed=args.fixed, events_file=args.events_file)
     STATE.a_key = RSAKey.generate(args.key_bits)
     STATE.b_key = RSAKey.generate(args.key_bits)

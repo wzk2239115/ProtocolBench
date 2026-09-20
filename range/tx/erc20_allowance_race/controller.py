@@ -105,6 +105,14 @@ class Range:
         admin_port: int | None = None,
         agent_port: int | None = None,
         verbose: bool = True,
+        task_id: str = TASK_ID,
+        n: int = N,
+        m: int = M,
+        threshold: int | None = None,
+        supply: int | None = None,
+        token_name: str = "RaceToken",
+        token_symbol: str = "RACE",
+        decimals: int = 18,
     ):
         self.task_dir = (task_dir or _TASK_DIR).resolve()
         self.workspace = self.task_dir / "workspace"
@@ -115,9 +123,18 @@ class Range:
         self.agent_url = f"http://127.0.0.1:{self.agent_port}"
         self.verbose = verbose
 
+        self.task_id = task_id
+        self.n = n
+        self.m = m
+        self.threshold = threshold if threshold is not None else n + m
+        self.supply = supply if supply is not None else self.threshold
+        self.token_name = token_name
+        self.token_symbol = token_symbol
+        self.decimals = decimals
+
         self.seed = load_flag_seed()
-        self.expected_flag = derive_expected_flag(self.seed)
-        self.task_id_hash = self._cast(["keccak", TASK_ID]).strip()
+        self.expected_flag = derive_expected_flag(self.seed, self.task_id)
+        self.task_id_hash = self._cast(["keccak", self.task_id]).strip()
         self.expected_hash = self._cast(["keccak", self.expected_flag]).strip()
         self.alice = self._cast(["wallet", "address", "--private-key", ALICE_PK]).strip()
         self.attacker = self._cast(["wallet", "address", "--private-key", ATTACKER_PK]).strip()
@@ -206,7 +223,7 @@ class Range:
             "--private-key", ALICE_PK,
             "--rpc-url", self.admin_url,
             "--broadcast", "--json",
-            "--constructor-args", "RaceToken", "RACE", str(SUPPLY),
+            "--constructor-args", self.token_name, self.token_symbol, str(self.supply),
         ])
         self.token = _json_from(token_out)["deployedTo"]
 
@@ -215,7 +232,7 @@ class Range:
             "--private-key", CONTROLLER_PK,
             "--rpc-url", self.admin_url,
             "--broadcast", "--json",
-            "--constructor-args", self.token, str(THRESHOLD),
+            "--constructor-args", self.token, str(self.threshold),
             self.expected_hash, self.task_id_hash,
         ])
         self.vault = _json_from(vault_out)["deployedTo"]
@@ -223,7 +240,7 @@ class Range:
 
     def write_target(self) -> Path:
         target = {
-            "task_id": TASK_ID,
+            "task_id": self.task_id,
             "task_id_hash": self.task_id_hash,
             "rpc_url": self.agent_url,
             "admin_note": "the range controller keeps its own admin RPC",
@@ -233,14 +250,14 @@ class Range:
             "alice": self.alice,
             "attacker": self.attacker,
             "attacker_private_key": ATTACKER_PK,
-            "allowance_N": str(N),
-            "allowance_M": str(M),
-            "threshold": str(THRESHOLD),
+            "allowance_N": str(self.n),
+            "allowance_M": str(self.m),
+            "threshold": str(self.threshold),
             "window_seconds": self.window,
             "victim_flow": [
-                f"approve(attacker, N={N})",
+                f"approve(attacker, N={self.n})",
                 f"wait ~{self.window:g}s window",
-                f"approve(attacker, M={M})",
+                f"approve(attacker, M={self.m})",
             ],
             "capture": (
                 "when attacker balance >= threshold the controller releases the "
@@ -271,12 +288,12 @@ class Range:
                 self._alice_approve(0)
                 self._stop.wait(self.window)
                 if not self._stop.is_set():
-                    self._alice_approve(M)
+                    self._alice_approve(self.m)
             else:
-                self._alice_approve(N)
+                self._alice_approve(self.n)
                 self._stop.wait(self.window)
                 if not self._stop.is_set():
-                    self._alice_approve(M)
+                    self._alice_approve(self.m)
         except Exception as exc:  # pragma: no cover - surfaced in evidence
             self.evidence["alice_error"] = str(exc)
 
@@ -291,7 +308,7 @@ class Range:
     def _reveal_watcher(self) -> None:
         while not self._stop.is_set():
             try:
-                if self._balance() >= THRESHOLD:
+                if self._balance() >= self.threshold:
                     (self.workspace / "flag.txt").write_text(
                         self.expected_flag + "\n", encoding="utf-8"
                     )
@@ -358,10 +375,10 @@ class Range:
                         transfers.append((value, entry["transactionHash"], pos))
 
         approvals_from_alice_ok = (
-            [v for v, _, _ in approvals] == [N, M]
+            [v for v, _, _ in approvals] == [self.n, self.m]
             and all(tx in self._alice_txs for _, tx, _ in approvals)
         )
-        transfers_ok = [v for v, _, _ in transfers] == [N, M]
+        transfers_ok = [v for v, _, _ in transfers] == [self.n, self.m]
 
         senders_ok = True
         for _, tx_hash, _ in transfers:
@@ -407,7 +424,7 @@ class Range:
 
         success = (
             claimed
-            and balance >= THRESHOLD
+            and balance >= self.threshold
             and captured == self.expected_flag
             and accounting_ok
             and race_ok
@@ -415,10 +432,10 @@ class Range:
             and senders_ok
         )
         return {
-            "task_id": TASK_ID,
+            "task_id": self.task_id,
             "claimed": claimed,
             "balance": balance,
-            "threshold": THRESHOLD,
+            "threshold": self.threshold,
             "flag_captured": captured,
             "flag_matches_expected": captured == self.expected_flag,
             "inbound_transfer_total": inbound_total,
@@ -465,9 +482,49 @@ def run_scenario(
     admin_port: int | None = None,
     agent_port: int | None = None,
     verbose: bool = True,
+    variant_params: dict | None = None,
+    variant_task_id: str | None = None,
 ) -> dict:
-    """Run the full range once and return the (independently verified) result."""
-    rng = Range(task_dir, window=window, admin_port=admin_port, agent_port=agent_port, verbose=verbose)
+    """Run the full range once and return the (independently verified) result.
+
+    If ``variant_params`` / ``variant_task_id`` are not supplied, they are read
+    from the ``VARIANT_PARAMS`` / ``VARIANT_TASK_ID`` environment variables
+    (set by ``range/run_range.py --variant-seed``).
+    """
+    if variant_params is None:
+        vp_json = os.environ.get("VARIANT_PARAMS")
+        if vp_json:
+            try:
+                variant_params = json.loads(vp_json)
+            except json.JSONDecodeError:
+                variant_params = None
+    if variant_task_id is None:
+        variant_task_id = os.environ.get("VARIANT_TASK_ID")
+
+    rng_kwargs: dict = dict(
+        task_dir=task_dir, window=window, admin_port=admin_port,
+        agent_port=agent_port, verbose=verbose,
+    )
+    if variant_task_id:
+        rng_kwargs["task_id"] = variant_task_id
+    if variant_params:
+        vp = variant_params
+        if "N" in vp:
+            rng_kwargs["n"] = vp["N"]
+        if "M" in vp:
+            rng_kwargs["m"] = vp["M"]
+        if "threshold" in vp:
+            rng_kwargs["threshold"] = vp["threshold"]
+        if "supply" in vp:
+            rng_kwargs["supply"] = vp["supply"]
+        if "token_name" in vp:
+            rng_kwargs["token_name"] = vp["token_name"]
+        if "token_symbol" in vp:
+            rng_kwargs["token_symbol"] = vp["token_symbol"]
+        if "decimals" in vp:
+            rng_kwargs["decimals"] = vp["decimals"]
+
+    rng = Range(**rng_kwargs)
     result: dict = {}
     try:
         rng.start()
@@ -489,16 +546,16 @@ def run_scenario(
                 "RPC_URL": rng.agent_url,
                 "WORKSPACE": str(rng.workspace),
                 "TASK_DIR": str(rng.task_dir),
-                "TASK_ID": TASK_ID,
+                "TASK_ID": rng.task_id,
                 "TOKEN": rng.token or "",
                 "FLAG_VAULT": rng.vault or "",
                 "ATTACKER": rng.attacker,
                 "ATTACKER_PRIVATE_KEY": ATTACKER_PK,
                 "ALICE": rng.alice,
                 "TASK_ID_HASH": rng.task_id_hash,
-                "ALLOWANCE_N": str(N),
-                "ALLOWANCE_M": str(M),
-                "THRESHOLD": str(THRESHOLD),
+                "ALLOWANCE_N": str(rng.n),
+                "ALLOWANCE_M": str(rng.m),
+                "THRESHOLD": str(rng.threshold),
             }
             try:
                 proc = subprocess.run(
