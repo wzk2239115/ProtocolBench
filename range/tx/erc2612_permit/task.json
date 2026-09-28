@@ -1,0 +1,16 @@
+{
+  "id": "tx:erc2612_permit",
+  "kind": "tx",
+  "protocol": "ERC-2612 permit token",
+  "source": "ERC-2612 cross-deployment replay hazard (documented; EIP-712 domain binding is the mitigation)",
+  "real_flaw": "permit DOMAIN_SEPARATOR not bound to chainId/contract -> signed permit replayable across deployments",
+  "flag_gate": "attacker combined balance across two deployments >= threshold (2 * permit_value), reachable only by using one captured permit signature on both deployments",
+  "threshold": "2 * permit_value (100e18 + 100e18 = 200e18)",
+  "flag": "HMAC_SHA256(FLAG_SEED, \"tx:erc2612_permit\")",
+  "stack": "foundry-1.8.3 / anvil",
+  "contracts": {
+    "NaivePermitToken": "ERC-20 + ERC-2612 permit with HARDCODED domain separator (not bound to address(this)/chainId) -> cross-deployment replay (vulnerable)",
+    "SafePermitToken": "OpenZeppelin ERC20Permit v5.1.0 with EIP712 domain bound to block.chainid + address(this) (the documented fix; negative test)",
+    "FlagVault": "claim(taskId,flag) gated on tokenA.balanceOf + tokenB.balanceOf >= threshold AND keccak256(flag) == expectedHash"
+  }
+}

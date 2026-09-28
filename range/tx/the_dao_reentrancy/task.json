@@ -1,0 +1,16 @@
+{
+  "id": "tx:the_dao_reentrancy",
+  "kind": "tx",
+  "protocol": "The DAO (2016)",
+  "source": "The DAO 2016 exploit ($60M)",
+  "real_flaw": "splitDAO sends ETH via call before zeroing balance (checks-effects-interactions violation)",
+  "flag_gate": "address(dao).balance <= drainThreshold only reachable by the splitDAO reentrancy",
+  "flag": "HMAC_SHA256(FLAG_SEED, \"tx:the_dao_reentrancy\")",
+  "stack": "foundry-1.8.3 / anvil",
+  "contracts": {
+    "DAOToken": "minimal ledger token (mint/burn/transfer/balanceOf)",
+    "TheDAO": "fund() 1:1 ETH->token; splitDAO(amount) sends ETH via .call before burn (vulnerable)",
+    "TheDAOSafe": "splitDAO burns before the call + OZ ReentrancyGuard (fixed)",
+    "FlagVault": "claim(taskId,flag) gated on address(dao).balance <= drainThreshold AND keccak256(flag) == expectedHash"
+  }
+}

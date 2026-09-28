@@ -1,0 +1,18 @@
+{
+  "id": "tx:cream_lending_reentrancy",
+  "kind": "tx",
+  "protocol": "Cream-style lending pool + hook-calling token",
+  "source": "Cream Finance Oct 2021 (~$130M)",
+  "real_flaw": "lending pool transfers borrowed asset before updating borrows/collateral; hook-calling token reenters borrow (no reentrancy guard)",
+  "flag_gate": "attacker borrowed-token balance >= profit_threshold, reachable only via the borrow reentrancy (honest borrowing is bounded by collateral * collateralFactor < threshold)",
+  "threshold": "1000e18 (honest max borrow 750e18 < 1000e18 <= 1500e18 reentrancy)",
+  "flag": "HMAC_SHA256(FLAG_SEED, \"tx:cream_lending_reentrancy\")",
+  "stack": "foundry-1.8.3 / anvil",
+  "contracts": {
+    "AssetToken": "OpenZeppelin ERC20 v5.1.0 (stock, fixed-supply mint in constructor) — the collateral token",
+    "HookToken": "ERC-20 that fires ITokenReceiver(to).tokensReceived after _update (faithful EIP-777 recipient hook) — the borrowable token",
+    "LendingPool": "Cream/Compound-style market: supplyCollateral(asset) then borrow(hook); borrow pays out before updating borrows, no guard (vulnerable)",
+    "LendingPoolSafe": "fixed: OZ ReentrancyGuard + CEI (update borrows before payout) — the documented fix (negative test)",
+    "FlagVault": "claim(taskId,flag) gated on borrowed-token balance >= profitThreshold AND keccak256(flag) == expectedHash"
+  }
+}

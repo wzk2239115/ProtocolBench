@@ -1,0 +1,19 @@
+{
+  "id": "tx:oracle_spot_manipulation",
+  "kind": "tx",
+  "protocol": "lending pool with spot-price AMM oracle",
+  "source": "bZx/dYdX-style 2020 oracle manipulation incidents",
+  "real_flaw": "lending pool prices collateral from manipulable AMM spot reserves (no TWAP / no conservation check)",
+  "flag_gate": "attacker asset balance >= attacker_endowment + min_profit, reachable only by swapping to inflate the collateral spot price then over-borrowing at the manipulated price",
+  "threshold": "attacker_endowment + min_profit (2000e18 + 1000e18 = 3000e18)",
+  "flag": "HMAC_SHA256(FLAG_SEED, \"tx:oracle_spot_manipulation\")",
+  "stack": "foundry-1.8.3 / anvil",
+  "contracts": {
+    "AssetToken": "OpenZeppelin ERC20 v5.1.0 (stock, fixed-supply mint in constructor) - the borrow asset",
+    "CollateralToken": "OpenZeppelin ERC20 v5.1.0 (stock, fixed-supply mint in constructor) - the collateral",
+    "SimpleAMM": "Uniswap-V2-style constant-product pair (0.3% fee); getSpotPrice() = reserveAsset/reserveCollateral from current reserves (manipulable)",
+    "LendingPool": "naive: prices collateral via SimpleAMM.getSpotPrice() (the manipulable spot oracle), borrow bounded by collateral*LTV (vulnerable)",
+    "LendingPoolSafe": "fixed: maxBorrow rejects spot prices outside a deviation band of the reference price (the documented mitigation; negative test)",
+    "FlagVault": "claim(taskId,flag) gated on attacker asset balance >= profitThreshold AND keccak256(flag) == expectedHash"
+  }
+}

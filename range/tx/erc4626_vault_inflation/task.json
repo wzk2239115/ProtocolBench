@@ -1,0 +1,17 @@
+{
+  "id": "tx:erc4626_vault_inflation",
+  "kind": "tx",
+  "protocol": "ERC-4626 vault (naive)",
+  "source": "OZ ERC4626 donation/first-depositor inflation (documented, fixed via virtual shares)",
+  "real_flaw": "naive linear conversion without virtual shares/dead shares \u2192 donation inflation steals depositor assets",
+  "flag_gate": "attacker asset balance >= attacker_endowment + victim_deposit, reachable only by donating to inflate the share price then redeeming at the inflated rate",
+  "threshold": "attacker_endowment + victim_deposit (200e18 + 50e18 = 250e18)",
+  "flag": "HMAC_SHA256(FLAG_SEED, \"tx:erc4626_vault_inflation\")",
+  "stack": "foundry-1.8.3 / anvil",
+  "contracts": {
+    "AssetToken": "OpenZeppelin ERC20 v5.1.0 (stock, fixed-supply mint in constructor)",
+    "NaiveVault": "naive ERC-4626: linear conversion shares = assets * totalSupply / totalAssets, NO virtual shares offset (vulnerable)",
+    "SafeVault": "OpenZeppelin ERC4626 v5.1.0 with _decimalsOffset()=18 virtual shares (the documented fix; negative test)",
+    "FlagVault": "claim(taskId,flag) gated on attacker asset balance >= profitThreshold AND keccak256(flag) == expectedHash"
+  }
+}

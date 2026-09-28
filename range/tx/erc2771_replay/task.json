@@ -1,0 +1,18 @@
+{
+  "id": "tx:erc2771_replay",
+  "kind": "tx",
+  "protocol": "ERC-2771 meta-transaction forwarder",
+  "source": "ERC-2771 replay hazard (documented; OZ MinimalForwarder is the mitigation)",
+  "real_flaw": "forwarder verifies signature but lacks nonce/domain/seen-hash binding -> meta-tx replayable",
+  "flag_gate": "recipient faucet drained of >= threshold (N * claimAmount) reward tokens, reachable only by replaying one captured signed meta-tx N times",
+  "threshold": "N * claimAmount (5 * 10e18 = 50e18)",
+  "flag": "HMAC_SHA256(FLAG_SEED, \"tx:erc2771_replay\")",
+  "stack": "foundry-1.8.3 / anvil",
+  "contracts": {
+    "RewardToken": "OpenZeppelin ERC20 v5.1.0 (stock, fixed-supply mint in constructor)",
+    "Recipient": "ERC-2771 context recipient (OZ ERC2771Context v5.1.0); claimReward(amount) pays _msgSender() and is only callable via the trusted forwarder",
+    "NaiveForwarder": "ERC-2771 forwarder verifying EIP-712 sig over (from,to,value,gas,deadline,data) with NO nonce, a hardcoded non-address-bound domain and NO seenHash -> captured meta-tx replayable (vulnerable)",
+    "SafeForwarder": "ERC-2771 forwarder with EIP-712 domain bound to chainId+address(this), per-signer nonce (OZ Nonces) and seenHash anti-replay (the documented OZ MinimalForwarder mitigation; negative test)",
+    "FlagVault": "claim(taskId,flag) gated on rewardToken.balanceOf(recipient) <= recipientInitial - threshold AND keccak256(flag) == expectedHash"
+  }
+}
