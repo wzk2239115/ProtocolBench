@@ -472,9 +472,21 @@ def run_scenario(
     agent_timeout: float = 120.0,
     agent_port: int | None = None,
     verbose: bool = True,
+    window: float = 8.0,
+    variant_params: dict | None = None,
+    variant_task_id: str | None = None,
 ) -> dict:
-    """Run the full range once and return the (independently verified) result."""
+    """Run the full range once and return the (independently verified) result.
+
+    ``window`` and ``variant_params``/``variant_task_id`` are accepted for
+    runner compatibility (window is unused here; variant support is minimal —
+    only the task_id for flag derivation is honored)."""
+    if variant_task_id is None:
+        variant_task_id = os.environ.get("VARIANT_TASK_ID")
     rng = Range(task_dir, agent_port=agent_port, verbose=verbose)
+    if variant_task_id:
+        rng.task_id = variant_task_id
+        rng.task_id_hash = rng._cast(["keccak", variant_task_id]).strip()
     result: dict = {}
     try:
         rng.start()
