@@ -18,7 +18,9 @@ def test_fixed_protocol_defeats_attack(start_target, expected_flag, tmp_path):
 
     events = read_events(target.events)
     assert not any(e.get("event") == "flag_released" for e in events), events
-    assert any(e.get("event") == "s_rejected" for e in events), events
+    assert any(
+        e.get("event") in ("s_rejected", "a_rejected") for e in events
+    ), events
 
 
 def test_fixed_protocol_still_completes_an_honest_run(start_target, expected_flag):
@@ -31,14 +33,16 @@ def test_fixed_protocol_still_completes_an_honest_run(start_target, expected_fla
     wl1 = a.recv()
     assert wl1.get("type") == "wl1"
     assert wl1.get("a") == "A"
+    # In fixed mode A sends its own nonce NA; B must echo it in WL2.
+    a_na = wl1.get("na", "")
 
     b = woo_lam_lib.Conn(target.host, target.ports["b"])
-    b.send({"type": "wl1", "a": "A"})
+    b.send({"type": "wl1", "a": "A", "na": a_na})
     wl2 = b.recv()
     assert wl2.get("type") == "wl2"
     nb = wl2["nb"]
 
-    a.send({"type": "wl2", "nb": nb})
+    a.send({"type": "wl2", "nb": nb, "na": a_na})
     wl3 = a.recv()
     assert wl3.get("type") == "wl3", wl3
 

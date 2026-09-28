@@ -340,6 +340,11 @@ class BHandler(socketserver.StreamRequestHandler):
                 is_replay = seen_count > 0
                 STATE.b_seen_tickets[ticket_hash] = seen_count + 1
 
+            if STATE.fixed and is_replay:
+                _send_json(self.wfile, {"type": "error", "reason": "replayed ticket rejected"})
+                STATE.event(event="b_rejected", peer=peer, reason="replay in fixed mode")
+                continue
+
             nb = gen_nonce_int()
             nb_hex = nonce_hex(nb)
             with STATE.lock:

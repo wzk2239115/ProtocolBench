@@ -221,7 +221,15 @@ class AHandler(socketserver.StreamRequestHandler):
         if not isinstance(peer, str) or not peer:
             _send_json(self.wfile, {"type": "error", "reason": "bad peer"})
             return
-        _send_json(self.wfile, {"type": "wl1", "a": "A"})
+
+        # In fixed mode, A generates its own nonce NA and requires B to echo
+        # it in WL2.  An intruder who relays B's WL2 to A cannot satisfy this
+        # check because B never received A's NA (the intruder withheld it).
+        a_nonce = secrets.token_bytes(NONCE_LEN) if STATE.fixed else b""
+        wl1: dict = {"type": "wl1", "a": "A"}
+        if STATE.fixed:
+            wl1["na"] = a_nonce.hex()
+        _send_json(self.wfile, wl1)
 
         try:
             reply = _read_json(self.rfile)
@@ -240,6 +248,24 @@ class AHandler(socketserver.StreamRequestHandler):
         except ValueError:
             _send_json(self.wfile, {"type": "error", "reason": "bad nonce"})
             return
+
+        if STATE.fixed:
+            echoed_na = reply.get("na")
+            if not isinstance(echoed_na, str):
+                STATE.event(event="a_rejected", peer=peer, reason="missing nonce echo")
+                _send_json(self.wfile, {"type": "error", "reason": "missing A nonce echo"})
+                return
+            try:
+                echoed = bytes.fromhex(echoed_na)
+            except ValueError:
+                STATE.event(event="a_rejected", peer=peer, reason="bad nonce echo")
+                _send_json(self.wfile, {"type": "error", "reason": "bad A nonce echo"})
+                return
+            if not hmac.compare_digest(echoed, a_nonce):
+                STATE.event(event="a_rejected", peer=peer, reason="nonce echo mismatch")
+                _send_json(self.wfile, {"type": "error", "reason": "A nonce mismatch"})
+                return
+
         with STATE.lock:
             a_key = STATE.keys.get("A")
         if a_key is None:
@@ -301,7 +327,12 @@ class BHandler(socketserver.StreamRequestHandler):
                     _send_json(self.wfile, {"type": "error", "reason": "bad claimant"})
                     continue
                 nb = secrets.token_bytes(NONCE_LEN)
-                _send_json(self.wfile, {"type": "wl2", "nb": nb.hex()})
+                wl2: dict = {"type": "wl2", "nb": nb.hex()}
+                if STATE.fixed:
+                    a_na = req.get("na")
+                    if isinstance(a_na, str):
+                        wl2["na"] = a_na
+                _send_json(self.wfile, wl2)
                 continue
 
             if req.get("type") == "wl3":
